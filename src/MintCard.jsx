@@ -1,36 +1,52 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import { VersionedTransaction } from "@solana/web3.js";
 import { MINT } from "./config.js";
+import { useStatus, refreshStatus, setStatusLocally } from "./status.js";
 
 const fromBase64 = (b64) => Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+// Sends a signed transaction and waits until it's confirmed, re-sending it
+// every couple of seconds in case the network dropped it. Gives up once the
+// transaction can no longer land (then nothing was charged for it).
+async function sendAndConfirm(connection, raw, lastValidBlockHeight) {
+  const sig = await connection.sendRawTransaction(raw, { maxRetries: 0 });
+  for (let i = 0; ; i++) {
+    const { value } = await connection.getSignatureStatuses([sig]);
+    const st = value[0];
+    if (st?.err) {
+      const e = new Error(`On-chain error: ${JSON.stringify(st.err)}`);
+      e.sig = sig;
+      throw e;
+    }
+    if (st && (st.confirmationStatus === "confirmed" || st.confirmationStatus === "finalized")) return sig;
+    if (i % 3 === 2) {
+      const height = await connection.getBlockHeight("confirmed");
+      if (height > lastValidBlockHeight) throw new Error("It expired before confirming, so it wasn’t charged.");
+      connection.sendRawTransaction(raw, { skipPreflight: true, maxRetries: 0 }).catch(() => {});
+    }
+    await sleep(1000);
+  }
+}
 
 export default function MintCard() {
   const { connection } = useConnection();
   const { connected, publicKey, signAllTransactions, signTransaction } = useWallet();
   const { setVisible } = useWalletModal();
 
-  const [status, setStatus] = useState(null);
+  const status = useStatus();
   const [qty, setQty] = useState(1);
   const [agreed, setAgreed] = useState(false);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState(null); // { kind: "info" | "error" | "success", text }
   const [now, setNow] = useState(() => Date.now());
 
-  const loadStatus = useCallback(async () => {
-    try {
-      const r = await fetch("/api/status");
-      if (r.ok) setStatus(await r.json());
-    } catch { /* offline or local preview: fall back to config */ }
-  }, []);
-
   useEffect(() => {
-    loadStatus();
-    const a = setInterval(loadStatus, 20000);
     const b = setInterval(() => setNow(Date.now()), 30000);
-    return () => { clearInterval(a); clearInterval(b); };
-  }, [loadStatus]);
+    return () => clearInterval(b);
+  }, []);
 
   const price = status?.priceUsdc ?? MINT.priceUsdc;
   const supply = status?.supply ?? MINT.supply;
@@ -76,25 +92,24 @@ export default function MintCard() {
 
       for (const tx of signed) {
         setMessage({ kind: "info", text: `Confirming ${done + 1} of ${signed.length}…` });
-        let sig;
         try {
-          sig = await connection.sendRawTransaction(tx.serialize(), { maxRetries: 3 });
-          const res = await connection.confirmTransaction(
-            { signature: sig, blockhash: data.blockhash, lastValidBlockHeight: data.lastValidBlockHeight },
-            "confirmed",
-          );
-          if (res.value.err) throw new Error(JSON.stringify(res.value.err));
+          await sendAndConfirm(connection, tx.serialize(), data.lastValidBlockHeight);
         } catch (err) {
           const logs = err?.logs || err?.transactionLogs || [];
-          console.error("Mint transaction failed", { index: done + 1, sig, err, logs });
+          console.error("Mint transaction failed", { index: done + 1, sig: err?.sig, err, logs });
           const reason = logs.find((l) => /error|failed|insufficient/i.test(l)) || String(err?.message || err).split("\n")[0];
           throw new Error(`Transaction ${done + 1} of ${signed.length} failed${done ? ` (your first ${done * 3} entries went through)` : ""}. Reason: ${reason}`);
         }
         done++;
       }
       setMessage({ kind: "success", text: `Done! ${qty} Gold Frame${qty === 1 ? "" : "s"} minted to your wallet.` });
-      setStatus((s) => (s ? { ...s, minted: (s.minted ?? 0) + qty } : s)); // show it right away
-      setTimeout(loadStatus, 16000); // then confirm from the chain
+      fetch("/api/release", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ reservationId: reservation, buyer: publicKey.toBase58(), keep: qty }),
+      }).catch(() => {});
+      setStatusLocally((s) => ({ ...s, minted: (s.minted ?? 0) + qty })); // show it right away
+      setTimeout(refreshStatus, 16000); // then confirm from the chain
     } catch (e) {
       const text = /reject|cancel/i.test(e.message) ? "You cancelled in your wallet. Nothing was charged." : e.message;
       setMessage({ kind: "error", text });
@@ -105,7 +120,7 @@ export default function MintCard() {
           headers: { "content-type": "application/json" },
           body: JSON.stringify({ reservationId: reservation, buyer: publicKey.toBase58(), keep: kept }),
         }).catch(() => {});
-        if (kept) setStatus((s) => (s ? { ...s, minted: (s.minted ?? 0) + kept } : s));
+        if (kept) setStatusLocally((s) => ({ ...s, minted: (s.minted ?? 0) + kept }));
       }
     } finally {
       setBusy(false);
