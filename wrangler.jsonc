@@ -21,7 +21,7 @@
   "vars": {
     "NETWORK": "devnet",
     "MINT_LIVE": "true",
-    "OPENS_AT": "2026-11-05T00:00:00Z",
+    "OPENS_AT": "2026-11-04T06:00:00Z",
     "PRICE_USDC": "1",
     "SUPPLY": "20",
     "COLLECTION": "4NpwwABJmuenjBpa9WK4zg67rqvPKNfQ9JdsNDj11wvu",
