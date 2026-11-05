@@ -1,12 +1,13 @@
-import { NETWORK } from "./WalletProviders.jsx";
+import { useStatus } from "./status.js";
 import ConnectButton from "./ConnectButton.jsx";
 import MintCard from "./MintCard.jsx";
 import { MINT, PRIZES } from "./config.js";
 
 export default function App() {
+  const status = useStatus();
   return (
     <>
-      {NETWORK !== "mainnet-beta" && (
+      {status && status.live && status.network !== "mainnet-beta" && (
         <div className="testnet-banner">Test network (devnet). Nothing here uses real funds.</div>
       )}
 

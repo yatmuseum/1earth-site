@@ -16,14 +16,14 @@
   },
   "migrations": [{ "tag": "v1", "new_sqlite_classes": ["MintGate"] }],
 
-  // Public mint settings. These are DEVNET test values.
+  // Public mint settings. Currently: PRE-LAUNCH display (devnet, not live).
   // Secrets (HELIUS_API_KEY, MINTER_SECRET_KEY) are set in the Cloudflare dashboard, never here.
   "vars": {
     "NETWORK": "devnet",
-    "MINT_LIVE": "true",
-    "OPENS_AT": "2026-11-03T00:00:00Z",
-    "PRICE_USDC": "1",
-    "SUPPLY": "60",
+    "MINT_LIVE": "false",
+    "OPENS_AT": "2026-11-09T16:11:00Z",
+    "PRICE_USDC": "20",
+    "SUPPLY": "10000",
     "COLLECTION": "4NpwwABJmuenjBpa9WK4zg67rqvPKNfQ9JdsNDj11wvu",
     "MERKLE_TREE": "Ba2D6NAGfyk42wPiqUKAcQpKe5zYg2aBNLfZfqhqVCKG",
     "TREASURY": "43vjVKMpnTr7hj2L84rZ9pHtX2Nn2MeKG5KBWWjPHDNQ",

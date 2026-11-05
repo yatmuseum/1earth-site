@@ -2,7 +2,7 @@
 // /api/... requests are handled here; everything else is the website.
 import { PublicKey } from "@solana/web3.js";
 import { MintGate } from "./gate.js";
-import { buildMintTransactions, mintedSoFar, ownedBy, usdcBalance } from "./solana.js";
+import { buildMintTransactions, mintedSoFar, ownedBy, usdcBalance, rpcUrl } from "./solana.js";
 
 export { MintGate };
 
@@ -34,7 +34,9 @@ async function status(env) {
     opensAt: env.OPENS_AT,
     priceUsdc: Number(env.PRICE_USDC),
     supply: Number(env.SUPPLY),
-    minted: statusCache.minted,
+    // Before the mint opens nothing has been minted yet, so show 0 (this also
+    // hides any devnet test mints from public view).
+    minted: Date.now() < Date.parse(env.OPENS_AT) ? 0 : statusCache.minted,
     phaseMax: phaseMax(env),
   };
 }
@@ -94,6 +96,36 @@ async function release(request, env) {
   return json(await gate.release({ id: reservationId, buyer, keep }));
 }
 
+// The website's blockchain requests go through here to Helius, so the Helius
+// key stays secret. Only the few methods the site needs are allowed, and only
+// from 1-earth.io pages.
+const RPC_ALLOWED = new Set([
+  "sendTransaction", "getSignatureStatuses", "getBlockHeight", "getLatestBlockhash",
+  "getBalance", "getAccountInfo", "getTokenAccountBalance", "simulateTransaction",
+  "getMinimumBalanceForRentExemption", "getSlot", "getEpochInfo", "getVersion", "getGenesisHash",
+]);
+
+async function rpcRelay(request, env) {
+  if (request.method !== "POST") return json({ error: "Use POST" }, 405);
+  const origin = request.headers.get("origin");
+  if (origin && new URL(origin).host !== new URL(request.url).host) return json({ error: "Forbidden" }, 403);
+  const text = await request.text();
+  if (text.length > 20_000) return json({ error: "Too large" }, 413);
+  let body;
+  try { body = JSON.parse(text); } catch { return json({ error: "Bad request" }, 400); }
+  const calls = Array.isArray(body) ? body : [body];
+  if (calls.length > 10 || calls.some((c) => !RPC_ALLOWED.has(c?.method))) {
+    return json({ jsonrpc: "2.0", id: body?.id ?? null, error: { code: -32601, message: "Method not allowed" } }, 403);
+  }
+  const upstream = await fetch(rpcUrl(env), {
+    method: "POST", headers: { "content-type": "application/json" }, body: text,
+  });
+  return new Response(upstream.body, {
+    status: upstream.status,
+    headers: { "content-type": "application/json", "cache-control": "no-store" },
+  });
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -109,6 +141,7 @@ export default {
       if (url.pathname === "/api/status") return json(await status(env));
       if (url.pathname === "/api/mint") return await mint(request, env);
       if (url.pathname === "/api/release") return await release(request, env);
+      if (url.pathname === "/api/rpc") return await rpcRelay(request, env);
       if (url.pathname.startsWith("/api/")) return json({ error: "Not found" }, 404);
     } catch (e) {
       console.error(e);
