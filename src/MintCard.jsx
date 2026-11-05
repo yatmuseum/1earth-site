@@ -140,7 +140,8 @@ export default function MintCard() {
           <input type="checkbox" checked={agreed} onChange={(e) => setAgreed(e.target.checked)} disabled={busy} />
           <span>
             I confirm I’m 18 or older (or the age of majority where I live) and I’m not located in, or a
-            resident of, a restricted jurisdiction, including the United States and its territories.
+            resident of, a restricted jurisdiction, and that I’m solely responsible for any taxes on
+            winnings.
           </span>
         </label>
       )}
