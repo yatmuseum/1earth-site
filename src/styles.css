@@ -167,6 +167,16 @@ button { font: inherit; color: inherit; }
 .buy:hover:not(:disabled) { background: var(--ink); color: #fff; }
 .buy:disabled { cursor: not-allowed; border-color: var(--line); color: var(--muted); }
 .buy--live { background: var(--ink); color: #fff; }
+.mint__terms {
+  display: flex; gap: 0.7rem; align-items: flex-start;
+  font-size: 0.98rem; line-height: 1.4; color: var(--label);
+  margin: -1.6rem 0 1.4rem; cursor: pointer;
+}
+.mint__terms input { width: 20px; height: 20px; margin-top: 0.1rem; accent-color: var(--ink); flex-shrink: 0; }
+.mint__msg { margin-top: 1rem; padding: 0.8rem 1rem; border-radius: 12px; font-size: 1rem; text-align: center; }
+.mint__msg--info { background: #eef3ea; color: var(--label); }
+.mint__msg--error { background: #fbeaea; color: #8a1f1f; }
+.mint__msg--success { background: #e6f4dc; color: #245c0c; font-weight: 600; }
 .mint__fine { text-align: center; color: var(--muted); font-size: 1.1rem; margin-top: 3.4rem; }
 
 /* Right column */

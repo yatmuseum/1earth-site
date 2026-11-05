@@ -44,7 +44,7 @@ export default function App() {
                 </div>
               </div>
 
-              <MintCard minted={0} />
+              <MintCard />
             </section>
 
             <section className="col-right" aria-labelledby="prizes-title">
