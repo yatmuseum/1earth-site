@@ -28,16 +28,37 @@ export function rpcUrl(env) {
   return `https://${host}.helius-rpc.com/?api-key=${env.HELIUS_API_KEY}`;
 }
 
+export class BusyError extends Error {}
+const pause = (ms) => new Promise((r) => setTimeout(r, ms));
+
+// Calls Helius. If Helius says "too many requests", waits a moment and tries
+// again (up to 4 times, with a little randomness so retries don't all collide).
 async function rpc(env, method, params) {
-  const r = await fetch(rpcUrl(env), {
-    method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify({ jsonrpc: "2.0", id: 1, method, params }),
-  });
-  const j = await r.json();
-  if (j.error) throw new Error(`${method}: ${j.error.message}`);
-  return j.result;
+  for (let attempt = 0; ; attempt++) {
+    const r = await fetch(rpcUrl(env), {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ jsonrpc: "2.0", id: 1, method, params }),
+    });
+    const limited = r.status === 429;
+    let j = null;
+    if (!limited) {
+      j = await r.json();
+      if (!j.error) return j.result;
+    }
+    const msg = j?.error?.message || "";
+    if ((limited || /rate|too many/i.test(msg)) && attempt < 4) {
+      await pause(300 * 2 ** attempt + Math.random() * 300);
+      continue;
+    }
+    if (limited || /rate|too many/i.test(msg)) throw new BusyError(method);
+    throw new Error(`${method}: ${msg}`);
+  }
 }
+
+// Short-lived caches, so a rush of buyers doesn't repeat identical lookups.
+let mintedCache = { at: 0, value: null };
+let blockhashCache = { at: 0, value: null };
 
 export function ata(owner, mint) {
   return PublicKey.findProgramAddressSync(
@@ -46,10 +67,23 @@ export function ata(owner, mint) {
 }
 
 // How many entries the tree has minted so far (read straight from the chain).
-export async function mintedSoFar(env) {
+export async function mintedSoFar(env, maxAgeMs = 0) {
+  if (maxAgeMs && Date.now() - mintedCache.at < maxAgeMs && mintedCache.value !== null) return mintedCache.value;
   const umi = createUmi(rpcUrl(env)).use(mplBubblegum());
-  const cfg = await fetchTreeConfigFromSeeds(umi, { merkleTree: umiKey(env.MERKLE_TREE) });
-  return Number(cfg.numMinted);
+  for (let attempt = 0; ; attempt++) {
+    try {
+      const cfg = await fetchTreeConfigFromSeeds(umi, { merkleTree: umiKey(env.MERKLE_TREE) });
+      mintedCache = { at: Date.now(), value: Number(cfg.numMinted) };
+      return mintedCache.value;
+    } catch (e) {
+      if (/429|rate|too many/i.test(String(e?.message)) && attempt < 4) {
+        await pause(300 * 2 ** attempt + Math.random() * 300);
+        continue;
+      }
+      if (/429|rate|too many/i.test(String(e?.message))) throw new BusyError("treeConfig");
+      throw e;
+    }
+  }
 }
 
 // How many Gold Frames this wallet already owns (Helius DAS index).
@@ -69,7 +103,8 @@ export async function usdcBalance(env, owner) {
   try {
     const r = await rpc(env, "getTokenAccountBalance", [acct.toBase58(), { commitment: "confirmed" }]);
     return Number(r.value.uiAmount ?? 0);
-  } catch {
+  } catch (e) {
+    if (e instanceof BusyError) throw e;
     return 0; // no USDC account at all
   }
 }
@@ -95,7 +130,10 @@ function transferChecked(source, mint, dest, owner, amount) {
 // the Gold Frames it mints, so if a buyer stops halfway, every entry they got
 // was paid for and every payment got its entries.
 export async function latestBlockhash(env) {
+  // A blockhash is good for about a minute, so reusing one for 2 seconds is safe.
+  if (Date.now() - blockhashCache.at < 2_000 && blockhashCache.value) return blockhashCache.value;
   const { value } = await rpc(env, "getLatestBlockhash", [{ commitment: "confirmed" }]);
+  blockhashCache = { at: Date.now(), value };
   return value; // { blockhash, lastValidBlockHeight }
 }
 

@@ -2,7 +2,7 @@
 // /api/... requests are handled here; everything else is the website.
 import { PublicKey } from "@solana/web3.js";
 import { MintGate } from "./gate.js";
-import { buildMintTransactions, latestBlockhash, mintedSoFar, ownedBy, usdcBalance, rpcUrl } from "./solana.js";
+import { BusyError, buildMintTransactions, latestBlockhash, mintedSoFar, ownedBy, usdcBalance, rpcUrl } from "./solana.js";
 
 export { MintGate };
 
@@ -32,7 +32,7 @@ let statusCache = { at: 0, minted: null };
 
 async function status(env) {
   if (Date.now() - statusCache.at > 15_000) {
-    try { statusCache = { at: Date.now(), minted: await mintedSoFar(env) }; } catch { /* keep last */ }
+    try { statusCache = { at: Date.now(), minted: await mintedSoFar(env, 10_000) }; } catch { /* keep last */ }
   }
   return {
     network: env.NETWORK,
@@ -71,7 +71,7 @@ async function mint(request, env) {
 
   const price = Number(env.PRICE_USDC);
   const [owned, minted, balance] = await Promise.all([
-    ownedBy(env, buyer), mintedSoFar(env), usdcBalance(env, buyer),
+    ownedBy(env, buyer), mintedSoFar(env, 2_000), usdcBalance(env, buyer),
   ]);
   if (balance < qty * price) {
     return json({ error: `Not enough USDC. You need ${qty * price} USDC plus a little SOL for fees.` }, 400);
@@ -152,6 +152,9 @@ export default {
       if (url.pathname === "/api/rpc") return await rpcRelay(request, env);
       if (url.pathname.startsWith("/api/")) return json({ error: "Not found" }, 404);
     } catch (e) {
+      if (e instanceof BusyError) {
+        return json({ error: "The mint is very busy right now. Please try again in a few seconds.", busy: true }, 503);
+      }
       console.error(e);
       return json({ error: "Something went wrong. Please try again." }, 500);
     }
