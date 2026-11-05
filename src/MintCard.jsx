@@ -47,6 +47,8 @@ export default function MintCard() {
   const total = qty * price;
 
   async function buy() {
+    let reservation = null;
+    let done = 0;
     setBusy(true);
     setMessage({ kind: "info", text: "Preparing your Gold Frames…" });
     try {
@@ -57,6 +59,7 @@ export default function MintCard() {
       });
       const data = await r.json();
       if (!r.ok) throw new Error(data.error || "Couldn’t prepare the mint.");
+      reservation = data.reservationId;
 
       const txs = data.transactions.map((b) => VersionedTransaction.deserialize(fromBase64(b)));
       setMessage({ kind: "info", text: txs.length > 1
@@ -64,15 +67,22 @@ export default function MintCard() {
         : "Approve the transaction in your wallet…" });
       const signed = await signAllTransactions(txs);
 
-      let done = 0;
       for (const tx of signed) {
         setMessage({ kind: "info", text: `Confirming ${done + 1} of ${signed.length}…` });
-        const sig = await connection.sendRawTransaction(tx.serialize(), { maxRetries: 3 });
-        const res = await connection.confirmTransaction(
-          { signature: sig, blockhash: data.blockhash, lastValidBlockHeight: data.lastValidBlockHeight },
-          "confirmed",
-        );
-        if (res.value.err) throw new Error(`Transaction ${done + 1} failed. Entries before it are yours.`);
+        let sig;
+        try {
+          sig = await connection.sendRawTransaction(tx.serialize(), { maxRetries: 3 });
+          const res = await connection.confirmTransaction(
+            { signature: sig, blockhash: data.blockhash, lastValidBlockHeight: data.lastValidBlockHeight },
+            "confirmed",
+          );
+          if (res.value.err) throw new Error(JSON.stringify(res.value.err));
+        } catch (err) {
+          const logs = err?.logs || err?.transactionLogs || [];
+          console.error("Mint transaction failed", { index: done + 1, sig, err, logs });
+          const reason = logs.find((l) => /error|failed|insufficient/i.test(l)) || String(err?.message || err).split("\n")[0];
+          throw new Error(`Transaction ${done + 1} of ${signed.length} failed${done ? ` (your first ${done * 3} entries went through)` : ""}. Reason: ${reason}`);
+        }
         done++;
       }
       setMessage({ kind: "success", text: `Done! ${qty} Gold Frame${qty === 1 ? "" : "s"} minted to your wallet.` });
@@ -81,6 +91,15 @@ export default function MintCard() {
     } catch (e) {
       const text = /reject|cancel/i.test(e.message) ? "You cancelled in your wallet. Nothing was charged." : e.message;
       setMessage({ kind: "error", text });
+      if (reservation) {
+        const kept = Math.min(qty, done * 3);
+        fetch("/api/release", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ reservationId: reservation, buyer: publicKey.toBase58(), keep: kept }),
+        }).catch(() => {});
+        if (kept) setStatus((s) => (s ? { ...s, minted: (s.minted ?? 0) + kept } : s));
+      }
     } finally {
       setBusy(false);
     }

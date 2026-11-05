@@ -81,7 +81,17 @@ async function mint(request, env) {
   }
 
   const built = await buildMintTransactions(env, buyer, qty);
-  return json(built);
+  return json({ ...built, reservationId: r.id });
+}
+
+async function release(request, env) {
+  if (request.method !== "POST") return json({ error: "Use POST" }, 405);
+  let body;
+  try { body = await request.json(); } catch { return json({ error: "Bad request." }, 400); }
+  const { reservationId, buyer, keep } = body || {};
+  if (typeof reservationId !== "string" || typeof buyer !== "string") return json({ error: "Bad request." }, 400);
+  const gate = env.MINT_GATE.get(env.MINT_GATE.idFromName("global"));
+  return json(await gate.release({ id: reservationId, buyer, keep }));
 }
 
 export default {
@@ -98,6 +108,7 @@ export default {
       }
       if (url.pathname === "/api/status") return json(await status(env));
       if (url.pathname === "/api/mint") return await mint(request, env);
+      if (url.pathname === "/api/release") return await release(request, env);
       if (url.pathname.startsWith("/api/")) return json({ error: "Not found" }, 404);
     } catch (e) {
       console.error(e);
