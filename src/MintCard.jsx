@@ -8,7 +8,7 @@ const fromBase64 = (b64) => Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
 
 export default function MintCard() {
   const { connection } = useConnection();
-  const { connected, publicKey, signAllTransactions } = useWallet();
+  const { connected, publicKey, signAllTransactions, signTransaction } = useWallet();
   const { setVisible } = useWalletModal();
 
   const [status, setStatus] = useState(null);
@@ -65,7 +65,14 @@ export default function MintCard() {
       setMessage({ kind: "info", text: txs.length > 1
         ? `Approve ${txs.length} transactions in your wallet…`
         : "Approve the transaction in your wallet…" });
-      const signed = await signAllTransactions(txs);
+      // Most wallets approve all transactions in one popup. If a wallet can't,
+      // fall back to approving them one at a time.
+      let signed;
+      if (signAllTransactions) signed = await signAllTransactions(txs);
+      else if (signTransaction) {
+        signed = [];
+        for (const tx of txs) signed.push(await signTransaction(tx));
+      } else throw new Error("This wallet can’t sign transactions here. Try Phantom, Solflare or Backpack.");
 
       for (const tx of signed) {
         setMessage({ kind: "info", text: `Confirming ${done + 1} of ${signed.length}…` });
