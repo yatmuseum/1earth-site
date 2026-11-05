@@ -46,7 +46,7 @@ if (!state.collection) {
   console.log("Creating soulbound collection…");
   await createCollection(umi, {
     collection,
-    name: "1-Earth 50/50 Entries (Devnet)",
+    name: "1-Earth Gold Frames (Devnet)",
     uri: `${SITE}/metadata/collection.json`,
     plugins: [
       { type: "BubblegumV2" },

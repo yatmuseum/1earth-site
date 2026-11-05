@@ -61,12 +61,22 @@ export default function App() {
 
               <div className="card you-mint">
                 <span className="label">You mint</span>
-                <h3>50/50 Entry</h3>
+                <div className="you-mint__equation" aria-label="Gold Frame equals your 50/50 Entry">
+                  <span className="you-mint__frame">
+                    <img src="/gold-frame.webp" alt="" width="56" height="56" />
+                    Gold Frame
+                  </span>
+                  <span>
+                    <span className="you-mint__equals" aria-hidden="true">=</span> 50/50 Entry
+                  </span>
+                </div>
                 <p className="you-mint__tags">Soulbound · Non-transferable · Mint # = Entry #</p>
                 <p className="you-mint__body">
-                  Each entry includes 10,000 $ONE, to be distributed to your wallet at a later date
-                  (TBA), for use within the 1-Earth protocol. $ONE is not an investment and has no
-                  guaranteed value.
+                  Your Gold Frame is your entry in the draw. It lives in your wallet, can’t be
+                  transferred or sold, and its mint number is your entry number. Each entry also
+                  includes 10,000 $ONE, to be distributed to your wallet at a later date (TBA), for
+                  use within the 1-Earth protocol. $ONE is not an investment and has no guaranteed
+                  value.
                 </p>
               </div>
             </section>
