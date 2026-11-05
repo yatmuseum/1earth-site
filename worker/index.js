@@ -2,15 +2,21 @@
 // /api/... requests are handled here; everything else is the website.
 import { PublicKey } from "@solana/web3.js";
 import { MintGate } from "./gate.js";
-import { buildMintTransactions, mintedSoFar, ownedBy, usdcBalance, rpcUrl } from "./solana.js";
+import { buildMintTransactions, latestBlockhash, mintedSoFar, ownedBy, usdcBalance, rpcUrl } from "./solana.js";
 
 export { MintGate };
 
 const json = (body, status = 200) =>
   Response.json(body, { status, headers: { "cache-control": "no-store" } });
 
+// If OPENS_AT is ever mistyped, treat the mint as not open (never as open).
+function opensAtMs(env) {
+  const t = Date.parse(env.OPENS_AT);
+  return Number.isFinite(t) ? t : Infinity;
+}
+
 function phaseMax(env, now = Date.now()) {
-  const hours = (now - Date.parse(env.OPENS_AT)) / 36e5;
+  const hours = (now - opensAtMs(env)) / 36e5;
   if (hours < 24) return 1;
   if (hours < 48) return 10;
   return 100;
@@ -36,7 +42,7 @@ async function status(env) {
     supply: Number(env.SUPPLY),
     // Before the mint opens nothing has been minted yet, so show 0 (this also
     // hides any devnet test mints from public view).
-    minted: Date.now() < Date.parse(env.OPENS_AT) ? 0 : statusCache.minted,
+    minted: Date.now() < opensAtMs(env) ? 0 : statusCache.minted,
     phaseMax: phaseMax(env),
   };
 }
@@ -45,10 +51,14 @@ async function mint(request, env) {
   if (request.method !== "POST") return json({ error: "Use POST" }, 405);
   if (blocked(env, request)) return json({ error: "1-Earth isn’t available in your region." }, 403);
   if (env.MINT_LIVE !== "true") return json({ error: "Minting isn’t live yet." }, 403);
-  if (Date.now() < Date.parse(env.OPENS_AT)) return json({ error: "The mint hasn’t opened yet." }, 403);
+  if (Date.now() < opensAtMs(env)) return json({ error: "The mint hasn’t opened yet." }, 403);
 
   let body;
-  try { body = await request.json(); } catch { return json({ error: "Bad request." }, 400); }
+  try {
+    const text = await request.text();
+    if (text.length > 2_000) return json({ error: "Bad request." }, 400);
+    body = JSON.parse(text);
+  } catch { return json({ error: "Bad request." }, 400); }
   const { buyer, quantity, acceptedTerms } = body || {};
 
   if (acceptedTerms !== true) return json({ error: "Please confirm the eligibility checkbox." }, 400);
@@ -67,33 +77,32 @@ async function mint(request, env) {
     return json({ error: `Not enough USDC. You need ${qty * price} USDC plus a little SOL for fees.` }, 400);
   }
 
+  // The reservation lives exactly as long as these transactions could land.
+  const bh = await latestBlockhash(env);
   const gate = env.MINT_GATE.get(env.MINT_GATE.idFromName("global"));
   const r = await gate.reserve({
-    buyer, qty, owned, minted, phaseMax: max, supply: Number(env.SUPPLY), ttlMs: 180_000,
+    buyer, qty, owned, minted, phaseMax: max, supply: Number(env.SUPPLY),
+    blockHeight: bh.lastValidBlockHeight - 150, validUntil: bh.lastValidBlockHeight,
   });
   if (!r.ok) {
     if (r.reason === "wallet_limit") {
+      if (r.pendingBuyer > 0 && r.walletLeft < qty) {
+        return json({ error: r.walletLeft === 0
+          ? "Your last purchase is still settling. Try again in about a minute."
+          : `You can mint ${r.walletLeft} more right now (your last purchase is still settling).` }, 409);
+      }
       return json({ error: r.walletLeft === 0
         ? `You’ve reached the limit of ${max} for now.`
         : `You can mint ${r.walletLeft} more right now.` }, 409);
     }
-    return json({ error: r.supplyLeft === 0
-      ? "Sold out (or the last entries are being minted). Try again in a few minutes."
-      : `Only ${r.supplyLeft} left right now.` }, 409);
+    if (r.supplyLeft === 0 && r.pendingAll > 0) {
+      return json({ error: "The last entries are being minted. Try again in about a minute." }, 409);
+    }
+    return json({ error: r.supplyLeft === 0 ? "Sold out." : `Only ${r.supplyLeft} left right now.` }, 409);
   }
 
-  const built = await buildMintTransactions(env, buyer, qty);
-  return json({ ...built, reservationId: r.id });
-}
-
-async function release(request, env) {
-  if (request.method !== "POST") return json({ error: "Use POST" }, 405);
-  let body;
-  try { body = await request.json(); } catch { return json({ error: "Bad request." }, 400); }
-  const { reservationId, buyer, keep } = body || {};
-  if (typeof reservationId !== "string" || typeof buyer !== "string") return json({ error: "Bad request." }, 400);
-  const gate = env.MINT_GATE.get(env.MINT_GATE.idFromName("global"));
-  return json(await gate.release({ id: reservationId, buyer, keep }));
+  const built = await buildMintTransactions(env, buyer, qty, bh);
+  return json(built);
 }
 
 // The website's blockchain requests go through here to Helius, so the Helius
@@ -101,14 +110,14 @@ async function release(request, env) {
 // from 1-earth.io pages.
 const RPC_ALLOWED = new Set([
   "sendTransaction", "getSignatureStatuses", "getBlockHeight", "getLatestBlockhash",
-  "getBalance", "getAccountInfo", "getTokenAccountBalance", "simulateTransaction",
-  "getMinimumBalanceForRentExemption", "getSlot", "getEpochInfo", "getVersion", "getGenesisHash",
 ]);
 
 async function rpcRelay(request, env) {
   if (request.method !== "POST") return json({ error: "Use POST" }, 405);
   const origin = request.headers.get("origin");
-  if (origin && new URL(origin).host !== new URL(request.url).host) return json({ error: "Forbidden" }, 403);
+  let sameSite = false;
+  try { sameSite = new URL(origin).host === new URL(request.url).host; } catch { /* missing or bad */ }
+  if (!sameSite) return json({ error: "Forbidden" }, 403);
   const text = await request.text();
   if (text.length > 20_000) return json({ error: "Too large" }, 413);
   let body;
@@ -140,7 +149,6 @@ export default {
       }
       if (url.pathname === "/api/status") return json(await status(env));
       if (url.pathname === "/api/mint") return await mint(request, env);
-      if (url.pathname === "/api/release") return await release(request, env);
       if (url.pathname === "/api/rpc") return await rpcRelay(request, env);
       if (url.pathname.startsWith("/api/")) return json({ error: "Not found" }, 404);
     } catch (e) {

@@ -58,9 +58,9 @@ export async function ownedBy(env, owner) {
     ownerAddress: owner,
     grouping: ["collection", env.COLLECTION],
     page: 1,
-    limit: 1,
+    limit: 1000, // per-wallet maximum is 100, so one page always covers it
   });
-  return res.total ?? res.items?.length ?? 0;
+  return res.items?.length ?? 0;
 }
 
 // The buyer's USDC balance, in whole USDC.
@@ -94,7 +94,12 @@ function transferChecked(source, mint, dest, owner, amount) {
 // Builds the transactions for one purchase. Each transaction pays for exactly
 // the Gold Frames it mints, so if a buyer stops halfway, every entry they got
 // was paid for and every payment got its entries.
-export async function buildMintTransactions(env, buyerAddr, quantity) {
+export async function latestBlockhash(env) {
+  const { value } = await rpc(env, "getLatestBlockhash", [{ commitment: "confirmed" }]);
+  return value; // { blockhash, lastValidBlockHeight }
+}
+
+export async function buildMintTransactions(env, buyerAddr, quantity, value) {
   const buyer = new PublicKey(buyerAddr);
   const usdcMint = new PublicKey(env.USDC_MINT);
   const treasury = new PublicKey(env.TREASURY);
@@ -124,7 +129,6 @@ export async function buildMintTransactions(env, buyerAddr, quantity) {
       },
     }).getInstructions().map(toWeb3JsInstruction)[0];
 
-  const { value } = await rpc(env, "getLatestBlockhash", [{ commitment: "confirmed" }]);
   const buyerAta = ata(buyer, usdcMint);
   const treasuryAta = ata(treasury, usdcMint);
 
@@ -133,7 +137,7 @@ export async function buildMintTransactions(env, buyerAddr, quantity) {
     const n = Math.min(MINTS_PER_TX, left);
     const ixs = [
       ComputeBudgetProgram.setComputeUnitLimit({ units: 150_000 * n + 50_000 }),
-      ComputeBudgetProgram.setComputeUnitPrice({ microLamports: 10_000 }),
+      ComputeBudgetProgram.setComputeUnitPrice({ microLamports: Number(env.PRIORITY_MICROLAMPORTS || 10_000) }),
       transferChecked(buyerAta, usdcMint, treasuryAta, buyer, priceUnits * BigInt(n)),
       uniqueTag(),
     ];
