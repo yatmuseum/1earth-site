@@ -29,6 +29,6 @@
     "TREASURY": "43vjVKMpnTr7hj2L84rZ9pHtX2Nn2MeKG5KBWWjPHDNQ",
     "USDC_MINT": "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU",
     "METADATA_URI": "https://1-earth.io/metadata/entry.json",
-    "BLOCKED_COUNTRIES": "CR,IR,KP,CU,SY,US,PR,GU,VI,AS,MP,UM"
+    "BLOCKED_COUNTRIES": "CR,IR,KP,CU,SY"
   }
 }
