@@ -10,6 +10,16 @@ import { toWeb3JsInstruction } from "@metaplex-foundation/umi-web3js-adapters";
 
 const TOKEN_PROGRAM = new PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA");
 const ATA_PROGRAM = new PublicKey("ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL");
+const MEMO_PROGRAM = new PublicKey("MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr");
+
+// A short random tag makes every transaction unique. Without it, two
+// transactions with the same contents (e.g. 3 + 3 entries) are byte-for-byte
+// identical, and Solana rejects the second as a duplicate.
+function uniqueTag() {
+  const b = crypto.getRandomValues(new Uint8Array(8));
+  const hex = Array.from(b, (x) => x.toString(16).padStart(2, "0")).join("");
+  return new TransactionInstruction({ programId: MEMO_PROGRAM, keys: [], data: new TextEncoder().encode(`1E:${hex}`) });
+}
 export const MINTS_PER_TX = 3; // the most that fit in one Solana transaction
 const USDC_DECIMALS = 6;
 
@@ -125,6 +135,7 @@ export async function buildMintTransactions(env, buyerAddr, quantity) {
       ComputeBudgetProgram.setComputeUnitLimit({ units: 150_000 * n + 50_000 }),
       ComputeBudgetProgram.setComputeUnitPrice({ microLamports: 10_000 }),
       transferChecked(buyerAta, usdcMint, treasuryAta, buyer, priceUnits * BigInt(n)),
+      uniqueTag(),
     ];
     for (let i = 0; i < n; i++) ixs.push(mintIx());
     const msg = new TransactionMessage({
