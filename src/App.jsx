@@ -23,6 +23,7 @@ export default function App() {
           <div className="top-grid">
             <section className="col-left" aria-labelledby="title">
               <h1 id="title" className="mega">50/50</h1>
+              <p className="frame-tag">Gold Frame Mint</p>
               <p className="opens">
                 <span className="label">Mint opens</span>
                 <strong>{MINT.opensLabel}</strong>
