@@ -5,6 +5,8 @@
   "main": "worker/index.js",
   "compatibility_date": "2026-10-01",
   "compatibility_flags": ["nodejs_compat"],
+  // Keep request logs on, so errors can be looked up in the Cloudflare dashboard.
+  "observability": { "enabled": true },
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS",
