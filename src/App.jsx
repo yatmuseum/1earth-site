@@ -23,13 +23,16 @@ export default function App() {
         <main id="top">
           <div className="top-grid">
             <section className="col-left" aria-labelledby="title">
-              <h1 id="title" className="mega">50/50</h1>
-              <p className="frame-tag">Gold Frame Mint</p>
-              <p className="opens">
-                <span className="label">Mint opens</span>
-                <strong>{MINT.opensLabel}</strong>
-              </p>
+              <div className="hero-block">
+                <h1 id="title" className="mega">50/50</h1>
+                <p className="frame-tag">Gold Frame Mint</p>
+                <p className="opens">
+                  <span className="label">Mint opens</span>
+                  <strong>{MINT.opensLabel}</strong>
+                </p>
+              </div>
 
+              <div className="body-block">
               <div className="stats">
                 <div className="card stat">
                   <span className="label">Price</span>
@@ -46,12 +49,17 @@ export default function App() {
               </div>
 
               <MintCard />
+              </div>
             </section>
 
             <section className="col-right" aria-labelledby="prizes-title">
-              <img className="globe" src="/globe-gold.webp" alt="1-Earth globe" width="240" height="240" />
-              <h2 id="prizes-title" className="prizes-title">Prize Distribution</h2>
-              <p className="prizes-sub">10 winners · $10,000 each</p>
+              <div className="hero-block">
+                <img className="globe" src="/globe-gold.webp" alt="1-Earth globe" width="240" height="240" />
+                <h2 id="prizes-title" className="prizes-title">Prize Distribution</h2>
+                <p className="prizes-sub">10 winners · $10,000 each</p>
+              </div>
+
+              <div className="body-block">
               <ol className="prizes prizes--grid">
                 {PRIZES.map(([place, amount]) => (
                   <li key={place} className="card prize">
@@ -81,6 +89,7 @@ export default function App() {
                   wallet at a later date (TBA), for use within the 1-Earth protocol. $ONE is not an
                   investment and has no guaranteed value.
                 </p>
+              </div>
               </div>
             </section>
           </div>
