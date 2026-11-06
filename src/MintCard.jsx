@@ -81,6 +81,7 @@ export default function MintCard() {
 
   async function buy() {
     let done = 0;
+    let perTx = [];
     setBusy(true);
     setMessage({ kind: "info", text: "Preparing your Gold Frames…" });
     try {
@@ -99,6 +100,7 @@ export default function MintCard() {
       }
       if (!r.ok) throw new Error(data.error || "The mint is very busy. Please try again in a few seconds.");
 
+      perTx = data.perTx || [];
       const txs = data.transactions.map((b) => VersionedTransaction.deserialize(fromBase64(b)));
       setMessage({ kind: "info", text: txs.length > 1
         ? `Approve ${txs.length} transactions in your wallet…`
@@ -120,7 +122,8 @@ export default function MintCard() {
           const logs = err?.logs || err?.transactionLogs || [];
           console.error("Mint transaction failed", { index: done + 1, sig: err?.sig, err, logs });
           const reason = logs.find((l) => /error|failed|insufficient/i.test(l)) || String(err?.message || err).split("\n")[0];
-          throw new Error(`Transaction ${done + 1} of ${signed.length} failed${done ? ` (your first ${done * 3} entries went through)` : ""}. Reason: ${reason}`);
+          const through = perTx.slice(0, done).reduce((a, b) => a + b, 0);
+          throw new Error(`Transaction ${done + 1} of ${signed.length} failed${done ? ` (your first ${through} entries went through)` : ""}. Reason: ${reason}`);
         }
         done++;
       }
@@ -130,7 +133,7 @@ export default function MintCard() {
     } catch (e) {
       const text = /reject|cancel/i.test(e.message) ? "You cancelled in your wallet. Nothing was charged." : e.message;
       setMessage({ kind: "error", text });
-      const kept = Math.min(qty, done * 3);
+      const kept = Math.min(qty, perTx.slice(0, done).reduce((a, b) => a + b, 0));
       if (kept) setStatusLocally((s) => ({ ...s, minted: (s.minted ?? 0) + kept }));
     } finally {
       setBusy(false);

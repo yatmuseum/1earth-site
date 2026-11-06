@@ -1,7 +1,7 @@
 // Solana helpers for the mint function.
 import {
   PublicKey, Keypair, TransactionInstruction, TransactionMessage, VersionedTransaction,
-  ComputeBudgetProgram,
+  ComputeBudgetProgram, AddressLookupTableAccount,
 } from "@solana/web3.js";
 import { createUmi } from "@metaplex-foundation/umi-bundle-defaults";
 import { createNoopSigner, publicKey as umiKey, some } from "@metaplex-foundation/umi";
@@ -20,7 +20,8 @@ function uniqueTag() {
   const hex = Array.from(b, (x) => x.toString(16).padStart(2, "0")).join("");
   return new TransactionInstruction({ programId: MEMO_PROGRAM, keys: [], data: new TextEncoder().encode(`1E:${hex}`) });
 }
-export const MINTS_PER_TX = 3; // the most that fit in one Solana transaction
+export const MAX_MINTS_PER_TX = 5; // with the lookup table, up to 5 fit in one transaction
+const MAX_TX_BYTES = 1232;          // Solana's size limit for one transaction
 const USDC_DECIMALS = 6;
 
 // Devnet and mainnet use different minter keys, stored as separate secrets,
@@ -145,6 +146,23 @@ function transferChecked(source, mint, dest, owner, amount) {
   });
 }
 
+// The lookup table holds the long addresses every mint repeats (tree,
+// collection, programs, USDC, treasury), so more mints fit per transaction.
+let altCache = { key: null, value: null };
+async function lookupTable(env) {
+  if (!env.LOOKUP_TABLE) return null;
+  if (altCache.key === env.LOOKUP_TABLE) return altCache.value;
+  const r = await rpc(env, "getAccountInfo", [env.LOOKUP_TABLE, { encoding: "base64", commitment: "confirmed" }]);
+  if (!r?.value) throw new Error("Lookup table not found");
+  const data = Uint8Array.from(atob(r.value.data[0]), (c) => c.charCodeAt(0));
+  const value = new AddressLookupTableAccount({
+    key: new PublicKey(env.LOOKUP_TABLE),
+    state: AddressLookupTableAccount.deserialize(data),
+  });
+  altCache = { key: env.LOOKUP_TABLE, value };
+  return value;
+}
+
 // Builds the transactions for one purchase. Each transaction pays for exactly
 // the Gold Frames it mints, so if a buyer stops halfway, every entry they got
 // was paid for and every payment got its entries.
@@ -189,11 +207,10 @@ export async function buildMintTransactions(env, buyerAddr, quantity, value) {
   const buyerAta = ata(buyer, usdcMint);
   const treasuryAta = ata(treasury, usdcMint);
 
-  const txs = [];
-  for (let left = quantity; left > 0; left -= MINTS_PER_TX) {
-    const n = Math.min(MINTS_PER_TX, left);
+  const alt = await lookupTable(env);
+  const build = (n) => {
     const ixs = [
-      ComputeBudgetProgram.setComputeUnitLimit({ units: 150_000 * n + 50_000 }),
+      ComputeBudgetProgram.setComputeUnitLimit({ units: Math.min(1_400_000, 200_000 * n + 50_000) }),
       ComputeBudgetProgram.setComputeUnitPrice({ microLamports: Number(env.PRIORITY_MICROLAMPORTS || 10_000) }),
       transferChecked(buyerAta, usdcMint, treasuryAta, buyer, priceUnits * BigInt(n)),
       uniqueTag(),
@@ -201,10 +218,23 @@ export async function buildMintTransactions(env, buyerAddr, quantity, value) {
     for (let i = 0; i < n; i++) ixs.push(mintIx());
     const msg = new TransactionMessage({
       payerKey: buyer, recentBlockhash: value.blockhash, instructions: ixs,
-    }).compileToV0Message();
-    const tx = new VersionedTransaction(msg);
+    }).compileToV0Message(alt ? [alt] : []);
+    return new VersionedTransaction(msg);
+  };
+  // Put as many mints in each transaction as will fit (up to 5).
+  const fits = (tx) => { try { return tx.serialize().length <= MAX_TX_BYTES; } catch { return false; } };
+
+  const txs = [];
+  const perTx = [];
+  for (let left = quantity; left > 0; ) {
+    let n = Math.min(MAX_MINTS_PER_TX, left);
+    let tx = build(n);
+    while (n > 1 && !fits(tx)) tx = build(--n);
+    if (!fits(tx)) throw new Error("Transaction too large");
     tx.sign([minterKp]); // the buyer adds their signature in their wallet
     txs.push(btoa(String.fromCharCode(...tx.serialize())));
+    perTx.push(n);
+    left -= n;
   }
-  return { transactions: txs, blockhash: value.blockhash, lastValidBlockHeight: value.lastValidBlockHeight };
+  return { transactions: txs, perTx, blockhash: value.blockhash, lastValidBlockHeight: value.lastValidBlockHeight };
 }

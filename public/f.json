@@ -1,0 +1,30 @@
+{
+  "name": "1-Earth Gold Frame",
+  "symbol": "1EARTH",
+  "description": "A soulbound Gold Frame: your entry in the 1-Earth 50/50 draw, and a badge marking you as a founding member of the 1-Earth community. Non-transferable; its mint number is your entry number. Not an investment; no expectation of profit, resale or redemption value.",
+  "image": "https://1-earth.io/metadata/entry.png",
+  "external_url": "https://1-earth.io",
+  "attributes": [
+    {
+      "trait_type": "Type",
+      "value": "Gold Frame"
+    },
+    {
+      "trait_type": "Draw",
+      "value": "50/50"
+    },
+    {
+      "trait_type": "Transferable",
+      "value": "No"
+    }
+  ],
+  "properties": {
+    "category": "image",
+    "files": [
+      {
+        "uri": "https://1-earth.io/metadata/entry.png",
+        "type": "image/png"
+      }
+    ]
+  }
+}
