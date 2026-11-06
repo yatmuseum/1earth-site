@@ -17,7 +17,7 @@ function opensAtMs(env) {
 
 function phaseMax(env, now = Date.now()) {
   const hours = (now - opensAtMs(env)) / 36e5;
-  if (hours < 48) return 5;  // first 48 hours: max 5 per wallet
+  if (hours < 24) return 5;  // first 24 hours: max 5 per wallet
   return 50;                 // after that: max 50 per wallet
 }
 

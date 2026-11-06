@@ -11,12 +11,16 @@
 import { DurableObject } from "cloudflare:workers";
 
 const SAFETY_TTL_MS = 10 * 60_000; // backstop in case block heights ever look odd
+// Keep each hold ~30 seconds (about 75 blocks) past the point its transactions
+// could still land. This covers the wallet index catching up, and lets the
+// server reuse a wallet's Gold Frame count for up to 20 seconds safely.
+const GRACE_BLOCKS = 75;
 
 export class MintGate extends DurableObject {
   async reserve({ buyer, qty, owned, minted, phaseMax, supply, blockHeight, validUntil }) {
     const now = Date.now();
     let res = ((await this.ctx.storage.get("reservations")) || [])
-      .filter((r) => r.validUntil >= blockHeight && r.exp > now);
+      .filter((r) => r.validUntil + GRACE_BLOCKS >= blockHeight && r.exp > now);
 
     const pendingBuyer = res.filter((r) => r.buyer === buyer).reduce((a, r) => a + r.qty, 0);
     const pendingAll = res.reduce((a, r) => a + r.qty, 0);

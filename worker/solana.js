@@ -87,7 +87,20 @@ export async function mintedSoFar(env, maxAgeMs = 0) {
 }
 
 // How many Gold Frames this wallet already owns (Helius DAS index).
+// Remembered for 20 seconds per wallet, so a rush of clicks doesn't exceed the
+// DAS limit. This is safe because every purchase's hold lasts longer than that
+// (see GRACE_BLOCKS in gate.js), so nothing minted in the meantime is missed.
+const ownedCache = new Map();
 export async function ownedBy(env, owner) {
+  const hit = ownedCache.get(owner);
+  if (hit && Date.now() - hit.at < 20_000) return hit.value;
+  const value = await ownedByUncached(env, owner);
+  ownedCache.set(owner, { at: Date.now(), value });
+  if (ownedCache.size > 5000) ownedCache.clear();
+  return value;
+}
+
+async function ownedByUncached(env, owner) {
   const res = await rpc(env, "searchAssets", {
     ownerAddress: owner,
     grouping: ["collection", env.COLLECTION],
