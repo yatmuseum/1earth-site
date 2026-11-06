@@ -129,7 +129,7 @@ export default function App() {
             The drawing takes place {MINT.drawingLabel}, live on X, using Switchboard VRF
             (verifiable on-chain randomness). If all 10,000 entries are not sold by then, the drawing
             will be delayed until sold out, with the new date announced on X. Prizes will be sent in
-            USDC to the winning wallet as soon as possible, within 4 hours after the drawing; no
+            USDC to the winning wallet as soon as possible, within 1 hour after the drawing; no
             claim necessary. All sales final, no refunds. Winners are solely responsible for all
             applicable taxes. Must be 18+ or the age of majority where you live. Void where
             prohibited; residents of restricted jurisdictions may not participate. Solana network
