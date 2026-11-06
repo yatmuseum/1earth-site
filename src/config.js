@@ -6,27 +6,23 @@ export const MINT = {
   priceUsdc: 20,
   supply: 10000,
   oddsLabel: "1 in 1,000",
-  opensAt: new Date("2026-11-09T16:11:00Z"),
-  opensLabel: "November 9th @ 11:11 EST",
+  opensAt: new Date("2026-11-10T16:11:00Z"),
+  opensLabel: "November 10th @ 11:11 EST",
   drawingLabel: "November 14th @ 11:11 EST",
   // Per-wallet limits by phase, counted from the moment the mint opens.
   phases: [
-    { hours: 24, max: 1 },
-    { hours: 48, max: 10 },
-    { hours: Infinity, max: 100 },
+    { hours: 48, max: 5 },
+    { hours: Infinity, max: 50 },
   ],
   // Stays false until the mint program is built, tested and audited.
   // While false, the buy button can never send a transaction.
   live: false,
 };
 
-export const PRIZES = [
-  ["1st", "$25,000"],
-  ["2nd", "$20,000"],
-  ["3rd", "$15,000"],
-  ["4th", "$10,000"],
-  ["5th to 10th", "$5,000"],
-];
+// 10 winners, $10,000 each.
+export const PRIZES = ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th"].map(
+  (place) => [place, "$10,000"],
+);
 
 export function currentMax(now = new Date()) {
   const hoursIn = (now - MINT.opensAt) / 36e5;

@@ -51,7 +51,8 @@ export default function App() {
             <section className="col-right" aria-labelledby="prizes-title">
               <img className="globe" src="/globe-gold.webp" alt="1-Earth globe" width="240" height="240" />
               <h2 id="prizes-title" className="prizes-title">Prize Distribution</h2>
-              <ol className="prizes">
+              <p className="prizes-sub">10 winners · $10,000 each</p>
+              <ol className="prizes prizes--grid">
                 {PRIZES.map(([place, amount]) => (
                   <li key={place} className="card prize">
                     <span>{place}</span>
@@ -73,11 +74,12 @@ export default function App() {
                 </div>
                 <p className="you-mint__tags">Soulbound · Non-transferable · Mint # = Entry #</p>
                 <p className="you-mint__body">
-                  Your Gold Frame is your entry in the draw. It lives in your wallet, can’t be
-                  transferred or sold, and its mint number is your entry number. Each entry also
-                  includes 10,000 $ONE, to be distributed to your wallet at a later date (TBA), for
-                  use within the 1-Earth protocol. $ONE is not an investment and has no guaranteed
-                  value.
+                  Your Gold Frame is your entry in the draw, and your mint number is your entry
+                  number. It also marks you as a founding member of the 1-Earth community: a
+                  permanent badge in your wallet showing you were here from the start. It can’t be
+                  transferred or sold. Each entry also includes 10,000 $ONE, to be distributed to your
+                  wallet at a later date (TBA), for use within the 1-Earth protocol. $ONE is not an
+                  investment and has no guaranteed value.
                 </p>
               </div>
             </section>

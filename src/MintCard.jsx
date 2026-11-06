@@ -68,7 +68,7 @@ export default function MintCard() {
   const price = status?.priceUsdc ?? MINT.priceUsdc;
   const supply = status?.supply ?? MINT.supply;
   const minted = status?.minted ?? 0;
-  const max = status?.phaseMax ?? 1;
+  const max = status?.phaseMax ?? 5;
   const opensAt = status ? Date.parse(status.opensAt) : MINT.opensAt.getTime();
   const isOpen = now >= opensAt;
   const live = status?.live ?? false;
@@ -170,9 +170,9 @@ export default function MintCard() {
         <div>
           <span className="mint__label">Entries</span>
           <p className="mint__rule">
-            Max 1 for the first 24 hours,
+            Max 5 for the first 48 hours,
             <br />
-            10 for the next 24 hours, then 100
+            then 50 per wallet
           </p>
         </div>
         <div className="stepper">
