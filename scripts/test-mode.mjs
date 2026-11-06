@@ -25,11 +25,13 @@ function setVar(name, value) {
 if (mode === "on") {
   const extra = Number(process.argv[3] || 20);
   const umi = makeUmi("devnet", "devnet-deployer");
-  const { merkleTree } = loadState("devnet");
+  const { merkleTree, collection } = loadState("devnet");
   const cfg = await fetchTreeConfigFromSeeds(umi, { merkleTree: publicKey(merkleTree) });
   const minted = Number(cfg.numMinted);
   const opened = new Date(Date.now() - 60 * 60_000).toISOString().replace(/\.\d+Z$/, "Z"); // 1 hour ago
   setVar("NETWORK", "devnet");
+  setVar("COLLECTION", collection);
+  setVar("MERKLE_TREE", merkleTree);
   setVar("MINT_LIVE", "true");
   setVar("OPENS_AT", opened);
   setVar("PRICE_USDC", "1");

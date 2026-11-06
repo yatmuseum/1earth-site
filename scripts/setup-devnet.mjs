@@ -11,9 +11,14 @@
 //
 // Usage:  node scripts/setup-devnet.mjs           (shows the plan and cost)
 //         node scripts/setup-devnet.mjs --go      (actually does it)
+//
+// Clean-slate test collection (new collection + small, cheap tree; the old
+// devnet setup is kept as a backup file):
+//         node scripts/setup-devnet.mjs --fresh --small --go
 import { generateSigner, sol } from "@metaplex-foundation/umi";
 import { createCollection } from "@metaplex-foundation/mpl-core";
 import { createTreeV2, setTreeDelegate } from "@metaplex-foundation/mpl-bubblegum";
+import fs from "node:fs";
 import { makeUmi, publicKeyOf, loadState, saveState, stateFile } from "./lib.mjs";
 
 const NETWORK = "devnet";
@@ -21,18 +26,27 @@ const DEPLOYER = "devnet-deployer";
 const MINTER = "devnet-minter";
 const SITE = "https://1-earth.io";
 
-const TREE = { maxDepth: 14, maxBufferSize: 64, canopyDepth: 8 };
+const small = process.argv.includes("--small");
+// Small test tree: room for 32 entries, costs a tiny amount of devnet SOL.
+const TREE = small
+  ? { maxDepth: 5, maxBufferSize: 8, canopyDepth: 0 }
+  : { maxDepth: 14, maxBufferSize: 64, canopyDepth: 8 };
 
 const umi = makeUmi(NETWORK, DEPLOYER);
 const minter = publicKeyOf(umi, MINTER);
-const state = loadState(NETWORK);
 const go = process.argv.includes("--go");
+if (process.argv.includes("--fresh") && go && fs.existsSync(stateFile(NETWORK))) {
+  const backup = stateFile(NETWORK).replace(/\.json$/, `-backup-${Date.now()}.json`);
+  fs.renameSync(stateFile(NETWORK), backup);
+  console.log(`Old devnet setup saved as ${backup}`);
+}
+const state = loadState(NETWORK);
 
 const balance = await umi.rpc.getBalance(umi.identity.publicKey);
 console.log(`Network:   ${NETWORK}`);
 console.log(`Deployer:  ${umi.identity.publicKey}  (${Number(balance.basisPoints) / 1e9} SOL)`);
 console.log(`Minter:    ${minter}`);
-console.log(`Tree:      depth ${TREE.maxDepth}, buffer ${TREE.maxBufferSize}, canopy ${TREE.canopyDepth} (about 0.34 SOL rent)`);
+console.log(`Tree:      depth ${TREE.maxDepth}, buffer ${TREE.maxBufferSize}, canopy ${TREE.canopyDepth} ${small ? "(small test tree, tiny cost)" : "(about 0.34 SOL rent)"}`);
 console.log("");
 
 if (!go) {
