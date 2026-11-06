@@ -23,6 +23,12 @@ function uniqueTag() {
 export const MINTS_PER_TX = 3; // the most that fit in one Solana transaction
 const USDC_DECIMALS = 6;
 
+// Devnet and mainnet use different minter keys, stored as separate secrets,
+// so switching networks never mixes them up.
+export function minterSecret(env) {
+  return env.NETWORK === "mainnet-beta" ? env.MINTER_SECRET_KEY_MAINNET : env.MINTER_SECRET_KEY;
+}
+
 export function rpcUrl(env) {
   const host = env.NETWORK === "mainnet-beta" ? "mainnet" : "devnet";
   return `https://${host}.helius-rpc.com/?api-key=${env.HELIUS_API_KEY}`;
@@ -154,7 +160,7 @@ export async function buildMintTransactions(env, buyerAddr, quantity, value) {
   const buyer = new PublicKey(buyerAddr);
   const usdcMint = new PublicKey(env.USDC_MINT);
   const treasury = new PublicKey(env.TREASURY);
-  const minterKp = Keypair.fromSecretKey(Uint8Array.from(JSON.parse(env.MINTER_SECRET_KEY)));
+  const minterKp = Keypair.fromSecretKey(Uint8Array.from(JSON.parse(minterSecret(env))));
   const priceUnits = BigInt(Math.round(Number(env.PRICE_USDC) * 10 ** USDC_DECIMALS));
 
   const umi = createUmi(rpcUrl(env)).use(mplBubblegum());

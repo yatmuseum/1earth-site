@@ -2,7 +2,7 @@
 // /api/... requests are handled here; everything else is the website.
 import { PublicKey } from "@solana/web3.js";
 import { MintGate } from "./gate.js";
-import { BusyError, buildMintTransactions, latestBlockhash, mintedSoFar, ownedBy, usdcBalance, rpcUrl } from "./solana.js";
+import { BusyError, buildMintTransactions, latestBlockhash, mintedSoFar, minterSecret, ownedBy, usdcBalance, rpcUrl } from "./solana.js";
 
 export { MintGate };
 
@@ -62,6 +62,10 @@ async function mint(request, env) {
 
   if (acceptedTerms !== true) return json({ error: "Please confirm the eligibility checkbox." }, 400);
   try { new PublicKey(buyer); } catch { return json({ error: "Invalid wallet address." }, 400); }
+
+  // During a rehearsal, only the listed test wallets can mint.
+  const allow = (env.ALLOWLIST || "").split(",").map((a) => a.trim()).filter(Boolean);
+  if (allow.length && !allow.includes(buyer)) return json({ error: "Minting isn’t open yet." }, 403);
   const qty = Number(quantity);
   const max = phaseMax(env);
   if (!Number.isInteger(qty) || qty < 1 || qty > max) {
@@ -142,7 +146,8 @@ export default {
         return json({
           ok: true,
           heliusKeyConfigured: Boolean(env.HELIUS_API_KEY),
-          minterKeyConfigured: Boolean(env.MINTER_SECRET_KEY),
+          network: env.NETWORK,
+          minterKeyConfigured: Boolean(minterSecret(env)),
           country: request.cf?.country ?? null,
         });
       }
