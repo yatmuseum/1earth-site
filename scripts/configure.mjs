@@ -1,7 +1,7 @@
 // Points the site at MAINNET by updating wrangler.jsonc. Push afterwards.
 //
-//   node scripts/configure.mjs rehearsal --treasury <address> --allow <wallet1,wallet2>
-//       Small rehearsal collection, $0.01 each, 10 available, 5 per wallet,
+//   node scripts/configure.mjs rehearsal --treasury <address> --allow <wallet1,wallet2> [--supply 20]
+//       Small rehearsal collection, $0.01 each, 10 available (or --supply), 5 per wallet,
 //       and ONLY the listed wallets can mint (everyone else is told it isn't open).
 //
 //   node scripts/configure.mjs launch --treasury <address> --metadata <entry metadata url>
@@ -39,14 +39,16 @@ if (mode === "rehearsal") {
   setVar("MINT_LIVE", "true");
   setVar("OPENS_AT", new Date(Date.now() - 60 * 60_000).toISOString().replace(/\.\d+Z$/, "Z"));
   setVar("PRICE_USDC", "0.01");
-  setVar("SUPPLY", "10");
+  const supply = Number(arg("--supply") || 10);
+  if (!Number.isInteger(supply) || supply < 1 || supply > 32) { console.error("--supply must be 1 to 32 for the rehearsal tree."); process.exit(1); }
+  setVar("SUPPLY", String(supply));
   setVar("COLLECTION", st.collection);
   setVar("MERKLE_TREE", st.merkleTree);
   setVar("TREASURY", treasury);
   setVar("USDC_MINT", USDC_MAINNET);
   setVar("ALLOWLIST", allow.join(","));
   fs.writeFileSync(file, text);
-  console.log(`MAINNET REHEARSAL: $0.01 each, 10 available, max 5 per wallet, only ${allow.length} test wallet(s) can mint.`);
+  console.log(`MAINNET REHEARSAL: $0.01 each, total supply ${supply}, max 5 per wallet, only ${allow.length} test wallet(s) can mint.`);
 } else if (mode === "launch") {
   const metadata = arg("--metadata");
   if (!metadata || !/^https:\/\//.test(metadata)) { console.error("Give the entry metadata link: --metadata <https://...>"); process.exit(1); }
