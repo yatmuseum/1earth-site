@@ -20,10 +20,10 @@
   // Secrets (HELIUS_API_KEY, MINTER_SECRET_KEY) are set in the Cloudflare dashboard, never here.
   "vars": {
     "NETWORK": "devnet",
-    "MINT_LIVE": "true",
-    "OPENS_AT": "2026-11-06T16:03:01Z",
-    "PRICE_USDC": "1",
-    "SUPPLY": "10",
+    "MINT_LIVE": "false",
+    "OPENS_AT": "2026-11-10T16:11:00Z",
+    "PRICE_USDC": "20",
+    "SUPPLY": "10000",
     "COLLECTION": "5rqDs866fh6bzFfMHRNVDnJWUAtADXhsRQQyaQoxzqUm",
     "MERKLE_TREE": "DtzfTevzRcpu8oh3891eyoKRY44np8GpGNQAsS6gfok8",
     "TREASURY": "43vjVKMpnTr7hj2L84rZ9pHtX2Nn2MeKG5KBWWjPHDNQ",
