@@ -50,7 +50,7 @@ async function sendAndConfirm(connection, raw, lastValidBlockHeight) {
 
 export default function MintCard() {
   const { connection } = useConnection();
-  const { connected, publicKey, signAllTransactions, signTransaction } = useWallet();
+  const { connected, publicKey, signAllTransactions, signTransaction, wallet } = useWallet();
   const { setVisible } = useWalletModal();
 
   const status = useStatus();
@@ -91,7 +91,9 @@ export default function MintCard() {
         r = await fetch("/api/mint", {
           method: "POST",
           headers: { "content-type": "application/json" },
-          body: JSON.stringify({ buyer: publicKey.toBase58(), quantity: qty, acceptedTerms: agreed }),
+          body: JSON.stringify({
+            buyer: publicKey.toBase58(), quantity: qty, acceptedTerms: agreed, wallet: wallet?.adapter?.name || "",
+          }),
         });
         data = await r.json().catch(() => ({}));
         if (r.status !== 503 && r.status !== 429) break;

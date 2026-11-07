@@ -221,7 +221,7 @@ function loadedDataLimit(bytes) {
 // first; the minter signs afterwards in cosignTransaction). Each transaction
 // pays for exactly the Gold Frames it mints, and each is test-run (simulated)
 // before it's handed to the wallet, so wallets never see one that would fail.
-export async function buildMintTransactions(env, buyerAddr, quantity, value) {
+export async function buildMintTransactions(env, buyerAddr, quantity, value, maxPerTx = MAX_MINTS_PER_TX) {
   const p = await mintParts(env, buyerAddr);
   // Draft limits are generous; after the test run they're tightened to what
   // each transaction actually uses (Phantom asks for explicit, accurate limits).
@@ -245,7 +245,7 @@ export async function buildMintTransactions(env, buyerAddr, quantity, value) {
 
   const chunks = [];
   for (let left = quantity; left > 0; ) {
-    let n = Math.min(MAX_MINTS_PER_TX, left);
+    let n = Math.min(maxPerTx, MAX_MINTS_PER_TX, left);
     while (n > 1 && !fits(build(n))) n--;
     if (!fits(build(n))) throw new Error("Transaction too large");
     chunks.push(n);

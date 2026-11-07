@@ -59,7 +59,7 @@ async function mint(request, env) {
     if (text.length > 2_000) return json({ error: "Bad request." }, 400);
     body = JSON.parse(text);
   } catch { return json({ error: "Bad request." }, 400); }
-  const { buyer, quantity, acceptedTerms } = body || {};
+  const { buyer, quantity, acceptedTerms, wallet } = body || {};
 
   if (acceptedTerms !== true) return json({ error: "Please confirm the eligibility checkbox." }, 400);
   try { new PublicKey(buyer); } catch { return json({ error: "Invalid wallet address." }, 400); }
@@ -106,7 +106,12 @@ async function mint(request, env) {
   }
 
   let built;
-  try { built = await buildMintTransactions(env, buyer, qty, bh); }
+  // Phantom's safety scanner currently accepts up to 3 Gold Frames per
+  // transaction, so Phantom purchases are split 3 + 2 (still one approval in
+  // Phantom). Other wallets get up to 5 per transaction. This only changes how
+  // a purchase is split, never what's paid or minted.
+  const perTxMax = /phantom/i.test(String(wallet || "")) ? 3 : 5;
+  try { built = await buildMintTransactions(env, buyer, qty, bh, perTxMax); }
   catch (e) {
     if (e.message === "SIMULATION_FAILED") {
       return json({ error: "Couldn’t prepare your mint. Check you have enough USDC and a little SOL, then try again." }, 400);
