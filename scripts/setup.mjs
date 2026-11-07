@@ -2,6 +2,7 @@
 //
 //   node scripts/setup.mjs mainnet-beta --rehearsal          plan for the small $0.01 rehearsal
 //   node scripts/setup.mjs mainnet-beta --rehearsal --go     create it
+//   node scripts/setup.mjs mainnet-beta --rehearsal --fresh --go   start a NEW rehearsal (counts reset)
 //   node scripts/setup.mjs mainnet-beta --uri <collection metadata url> --go
 //                                                            create the REAL collection + full tree
 //
@@ -12,6 +13,7 @@
 import { generateSigner } from "@metaplex-foundation/umi";
 import { createCollection } from "@metaplex-foundation/mpl-core";
 import { createTreeV2, setTreeDelegate } from "@metaplex-foundation/mpl-bubblegum";
+import fs from "node:fs";
 import { makeUmi, publicKeyOf, loadState, saveState, stateFile } from "./lib.mjs";
 
 const network = process.argv[2];
@@ -33,6 +35,16 @@ const name = rehearsal ? "1-Earth Gold Frames (Rehearsal)" : "1-Earth Gold Frame
 
 const umi = makeUmi(network, `${prefix}-deployer`);
 const minter = publicKeyOf(umi, `${prefix}-minter`);
+// --fresh (rehearsal only): start a brand-new rehearsal collection + tree, so
+// counts and per-wallet limits start from zero. The old one is kept as a backup file.
+if (process.argv.includes("--fresh") && go) {
+  if (!rehearsal) { console.error("--fresh is only for the rehearsal."); process.exit(1); }
+  if (fs.existsSync(stateFile(stateName))) {
+    const backup = stateFile(stateName).replace(/\.json$/, `-backup-${Date.now()}.json`);
+    fs.renameSync(stateFile(stateName), backup);
+    console.log(`Old rehearsal setup saved as ${backup}`);
+  }
+}
 const state = loadState(stateName);
 
 const balance = Number((await umi.rpc.getBalance(umi.identity.publicKey)).basisPoints) / 1e9;

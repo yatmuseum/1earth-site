@@ -23,16 +23,16 @@
   "vars": {
     "NETWORK": "mainnet-beta",
     "MINT_LIVE": "true",
-    "OPENS_AT": "2026-11-05T23:48:06Z",
+    "OPENS_AT": "2026-11-06T23:57:00Z",
     "PRICE_USDC": "0.01",
-    "SUPPLY": "30",
-    "COLLECTION": "HdGnBEjGs3wKTmL5cGkWwTS8hSX36qDjQ2yX69Brt5RJ",
-    "MERKLE_TREE": "HoWo4Jt3Djjm3Vr4crBWimRoEGBBFdUnVoxTC6fpg7C6",
+    "SUPPLY": "32",
+    "COLLECTION": "AUqmMQYa2bQRX6GYeYLhW7VqzMp4LjCojeKS7ZRx41Cp",
+    "MERKLE_TREE": "6bJ9uAHsUoThhbAowLtZzxgkTCMmUUMs4Gf26GAq8H6N",
     "TREASURY": "HvPMmCHju5niMUKkGhJNruY8fGbzHT1caELqSjefSBeM",
     "USDC_MINT": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
     "METADATA_URI": "https://1-earth.io/f.json",
     "BLOCKED_COUNTRIES": "CR,IR,KP,CU,SY",
-    "ALLOWLIST": "Hcam3n4fm27Rh4BFZBngym7oxGGdP99jzE3WbaesRyfh,BnE8WFXzFAgJ4XGNhmb14y4svNGHy5UCXkkmZbvWw5Ee",
-    "LOOKUP_TABLE": "9RKujdosw8ZepoW5UPrypPfbbqDaZr9oFdu71pdhoXrr"
+    "ALLOWLIST": "5aiehK38cf8xtXapGv2XtBWBcCC4xqwyMZV4vu9WKTDX,BnE8WFXzFAgJ4XGNhmb14y4svNGHy5UCXkkmZbvWw5Ee,Hcam3n4fm27Rh4BFZBngym7oxGGdP99jzE3WbaesRyfh",
+    "LOOKUP_TABLE": "3qn2TVMbRWpsujSgiayKN8gDsVQQJLZ9dStoyDaTzCwK"
   }
 }
