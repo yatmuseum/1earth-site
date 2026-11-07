@@ -268,7 +268,11 @@ export async function buildMintTransactions(env, buyerAddr, quantity, value, max
       }
       const used = Number(sim.value.unitsConsumed || 0);
       const loaded = Number(sim.value.loadedAccountsDataSize || 0);
-      const cuLimit = used ? Math.min(1_400_000, Math.ceil(used * 1.2) + 10_000) : undefined;
+      // Headroom matters: every transaction is test-run against the tree as it
+      // is NOW, but a purchase's later transactions run after the earlier ones
+      // have added Gold Frames, and adding at a later tree position can take
+      // more processing. 50% plus 30,000 per Gold Frame covers that.
+      const cuLimit = used ? Math.min(1_400_000, Math.ceil(used * 1.5) + 30_000 * n) : undefined;
       const loadedLimit = loaded ? Math.min(DRAFT_LOADED, Math.ceil(loaded * 1.25) + 64 * 1024) : undefined;
       console.log(`Mint tx: ${n} frames, used ${used} CU, loaded ${loaded} bytes -> limits ${cuLimit} CU, ${loadedLimit} bytes`);
       tx = build(n, cuLimit, loadedLimit);
