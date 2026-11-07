@@ -84,8 +84,9 @@ async function mint(request, env) {
   // The reservation lives exactly as long as these transactions could land.
   const bh = await latestBlockhash(env);
   const gate = env.MINT_GATE.get(env.MINT_GATE.idFromName("global"));
+  const purchase = crypto.randomUUID();
   const r = await gate.reserve({
-    buyer, qty, owned, minted, phaseMax: max, supply: Number(env.SUPPLY),
+    id: purchase, buyer, qty, owned, minted, phaseMax: max, supply: Number(env.SUPPLY),
     blockHeight: bh.lastValidBlockHeight - 150, validUntil: bh.lastValidBlockHeight,
   });
   if (!r.ok) {
@@ -118,11 +119,50 @@ async function mint(request, env) {
     }
     throw e;
   }
-  const purchase = crypto.randomUUID();
   const tickets = await Promise.all(built.perTx.map((n, i) => makeTicket(minterSecret(env), {
-    id: `${purchase}:${i}`, b: buyer, n, bh: built.blockhash,
+    id: `${purchase}:${i}`, p: purchase, b: buyer, n, bh: built.blockhash,
   })));
   return json({ ...built, tickets });
+}
+
+// For purchases with several transactions: just before the buyer approves the
+// next one, rebuild it with a fresh blockhash (they expire after about a
+// minute) and extend the purchase's reservation to match.
+async function nextTx(request, env) {
+  if (request.method !== "POST") return json({ error: "Use POST" }, 405);
+  let body;
+  try {
+    const text = await request.text();
+    if (text.length > 2_000) return json({ error: "Bad request." }, 400);
+    body = JSON.parse(text);
+  } catch { return json({ error: "Bad request." }, 400); }
+  const t = await readTicket(minterSecret(env), body?.ticket);
+  if (!t || !t.p) return json({ error: "Invalid ticket." }, 400);
+
+  let bh;
+  try { bh = await latestBlockhash(env); }
+  catch (e) { if (e instanceof BusyError) return json({ error: "busy" }, 503); throw e; }
+  const gate = env.MINT_GATE.get(env.MINT_GATE.idFromName("global"));
+  const ext = await gate.extend({
+    purchase: t.p, ticketId: t.id,
+    blockHeight: bh.lastValidBlockHeight - 150, validUntil: bh.lastValidBlockHeight,
+  });
+  if (!ext.ok) {
+    return json({ error: ext.reason === "used"
+      ? "This transaction was already processed."
+      : "This purchase timed out. Anything already confirmed is in your wallet; please buy the rest again." }, 409);
+  }
+  let built;
+  try { built = await buildMintTransactions(env, t.b, t.n, bh, t.n); }
+  catch (e) {
+    if (e.message === "SIMULATION_FAILED") {
+      return json({ error: "Couldn’t prepare the next transaction. Check you have enough USDC and a little SOL." }, 400);
+    }
+    throw e;
+  }
+  if (built.transactions.length !== 1) return json({ error: "Couldn’t prepare the next transaction." }, 500);
+  const ticket = await makeTicket(minterSecret(env), { id: t.id, p: t.p, b: t.b, n: t.n, bh: built.blockhash });
+  return json({ tx: built.transactions[0], ticket, lastValidBlockHeight: built.lastValidBlockHeight });
 }
 
 // Step 2 of a purchase: the wallet has signed; check it and add the minter's signature.
@@ -197,6 +237,7 @@ export default {
       if (url.pathname === "/api/mint") return await mint(request, env);
       if (url.pathname === "/api/rpc") return await rpcRelay(request, env);
       if (url.pathname === "/api/cosign") return await cosign(request, env);
+      if (url.pathname === "/api/next") return await nextTx(request, env);
       if (url.pathname.startsWith("/api/")) return json({ error: "Not found" }, 404);
     } catch (e) {
       if (e instanceof BusyError) {

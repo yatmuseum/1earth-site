@@ -111,13 +111,15 @@ export default function MintCard() {
 
       perTx = data.perTx || [];
       const txs = data.transactions.map((b) => VersionedTransaction.deserialize(fromBase64(b)));
+      const validUntil = txs.map(() => data.lastValidBlockHeight);
       // Phantom's safety scanner prefers one signing request at a time, so for
       // Phantom each transaction is approved, then sent, before the next one.
       // Other wallets approve the whole purchase in a single popup.
-      // Phantom and Solflare add their own safety checks based on the wallet's
-      // current balance, so their transactions are approved one at a time,
-      // each after the previous one has landed.
-      const oneAtATime = /phantom|solflare/i.test(wallet?.adapter?.name || "") || !signAllTransactions;
+      // Every wallet approves one transaction at a time, each after the previous
+      // one has landed. Wallets check each transaction against the current
+      // balance, so approving several together can make the later ones fail.
+      // (Purchases of up to 5 are a single transaction, so still one approval.)
+      const oneAtATime = Boolean(signTransaction);
       if (!signTransaction && !signAllTransactions) {
         throw new Error("This wallet can’t sign transactions here. Try MetaMask, Phantom, Solflare or Backpack.");
       }
@@ -132,6 +134,27 @@ export default function MintCard() {
       for (let i = 0; i < txs.length; i++) {
         let signedTx;
         if (oneAtATime) {
+          if (i > 0) {
+            // Get a fresh copy of the next transaction (they expire after about a minute).
+            setMessage({ kind: "info", text: `Preparing transaction ${i + 1} of ${txs.length}…` });
+            const nx = await withRetry(async () => {
+              const res = await fetch("/api/next", {
+                method: "POST",
+                headers: { "content-type": "application/json" },
+                body: JSON.stringify({ ticket: data.tickets[i] }),
+              });
+              const out = await res.json().catch(() => ({}));
+              if (res.status === 429 || res.status === 503) throw new Error("busy");
+              if (!res.ok) {
+                const through = perTx.slice(0, done).reduce((a, b) => a + b, 0);
+                throw new Error(`${out.error || "Couldn’t prepare the next transaction."} (${through} Gold Frame${through === 1 ? "" : "s"} already in your wallet.)`);
+              }
+              return out;
+            });
+            txs[i] = VersionedTransaction.deserialize(fromBase64(nx.tx));
+            data.tickets[i] = nx.ticket;
+            validUntil[i] = nx.lastValidBlockHeight;
+          }
           setMessage({ kind: "info", text: txs.length > 1
             ? `Approve transaction ${i + 1} of ${txs.length} in your wallet…`
             : "Approve the transaction in your wallet…" });
@@ -162,7 +185,7 @@ export default function MintCard() {
             if (!res.ok) throw new Error(out.error || "Couldn’t finish the transaction.");
             return out;
           });
-          await sendAndConfirm(connection, fromBase64(c.tx), data.lastValidBlockHeight);
+          await sendAndConfirm(connection, fromBase64(c.tx), validUntil[i]);
         } catch (err) {
           const logs = err?.logs || err?.transactionLogs || [];
           console.error("Mint transaction failed", { index: done + 1, sig: err?.sig, err, logs });
