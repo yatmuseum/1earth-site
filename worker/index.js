@@ -2,7 +2,8 @@
 // /api/... requests are handled here; everything else is the website.
 import { PublicKey } from "@solana/web3.js";
 import { MintGate } from "./gate.js";
-import { BusyError, buildMintTransactions, latestBlockhash, mintedSoFar, minterSecret, ownedBy, usdcBalance, rpcUrl } from "./solana.js";
+import { BusyError, buildMintTransactions, expectedFor, latestBlockhash, mintedSoFar, minterSecret, ownedBy, usdcBalance, rpcUrl } from "./solana.js";
+import { makeTicket, readTicket, validateAndCosign } from "./cosign.js";
 
 export { MintGate };
 
@@ -104,8 +105,44 @@ async function mint(request, env) {
     return json({ error: r.supplyLeft === 0 ? "Sold out." : `Only ${r.supplyLeft} left right now.` }, 409);
   }
 
-  const built = await buildMintTransactions(env, buyer, qty, bh);
-  return json(built);
+  let built;
+  try { built = await buildMintTransactions(env, buyer, qty, bh); }
+  catch (e) {
+    if (e.message === "SIMULATION_FAILED") {
+      return json({ error: "Couldn’t prepare your mint. Check you have enough USDC and a little SOL, then try again." }, 400);
+    }
+    throw e;
+  }
+  const purchase = crypto.randomUUID();
+  const tickets = await Promise.all(built.perTx.map((n, i) => makeTicket(minterSecret(env), {
+    id: `${purchase}:${i}`, b: buyer, n, bh: built.blockhash,
+  })));
+  return json({ ...built, tickets });
+}
+
+// Step 2 of a purchase: the wallet has signed; check it and add the minter's signature.
+async function cosign(request, env) {
+  if (request.method !== "POST") return json({ error: "Use POST" }, 405);
+  let body;
+  try {
+    const text = await request.text();
+    if (text.length > 8_000) return json({ error: "Bad request." }, 400);
+    body = JSON.parse(text);
+  } catch { return json({ error: "Bad request." }, 400); }
+  const t = await readTicket(minterSecret(env), body?.ticket);
+  if (!t) return json({ error: "Invalid ticket." }, 400);
+
+  const expected = await expectedFor(env, t.b, t.n, t.bh);
+  const result = validateAndCosign(String(body.tx || ""), expected);
+  if (result.error) {
+    console.error("Cosign refused:", result.error, t.b);
+    return json({ error: `Transaction check failed: ${result.error}` }, 400);
+  }
+  // Only after the transaction passes every check is the ticket used up.
+  const gate = env.MINT_GATE.get(env.MINT_GATE.idFromName("global"));
+  const use = await gate.useTicket({ id: t.id, ttlMs: 10 * 60_000 });
+  if (!use.ok) return json({ error: "This transaction was already processed." }, 409);
+  return json({ tx: result.tx });
 }
 
 // The website's blockchain requests go through here to Helius, so the Helius
@@ -154,6 +191,7 @@ export default {
       if (url.pathname === "/api/status") return json(await status(env));
       if (url.pathname === "/api/mint") return await mint(request, env);
       if (url.pathname === "/api/rpc") return await rpcRelay(request, env);
+      if (url.pathname === "/api/cosign") return await cosign(request, env);
       if (url.pathname.startsWith("/api/")) return json({ error: "Not found" }, 404);
     } catch (e) {
       if (e instanceof BusyError) {

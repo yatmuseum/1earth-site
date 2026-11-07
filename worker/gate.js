@@ -40,4 +40,15 @@ export class MintGate extends DurableObject {
     await this.ctx.storage.put("reservations", res);
     return { ok: true };
   }
+
+  // Each co-signing ticket works only once, so one approved purchase can never
+  // be turned into extra mints.
+  async useTicket({ id, ttlMs }) {
+    const now = Date.now();
+    const used = ((await this.ctx.storage.get("tickets")) || []).filter((t) => t.exp > now);
+    if (used.some((t) => t.id === id)) return { ok: false };
+    used.push({ id, exp: now + ttlMs });
+    await this.ctx.storage.put("tickets", used);
+    return { ok: true };
+  }
 }

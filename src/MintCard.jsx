@@ -26,7 +26,7 @@ async function withRetry(fn, tries = 6) {
 // seconds, re-sends about every 6 seconds in case the network dropped it, and
 // gives up once the transaction can no longer land (then nothing was charged).
 async function sendAndConfirm(connection, raw, lastValidBlockHeight) {
-  const sig = await withRetry(() => connection.sendRawTransaction(raw, { maxRetries: 2 }));
+  const sig = await withRetry(() => connection.sendRawTransaction(raw, { skipPreflight: false, maxRetries: 2 }));
   for (let i = 0; ; i++) {
     await sleep(2000);
     let st;
@@ -114,10 +114,24 @@ export default function MintCard() {
         for (const tx of txs) signed.push(await signTransaction(tx));
       } else throw new Error("This wallet can’t sign transactions here. Try Phantom, Solflare or Backpack.");
 
-      for (const tx of signed) {
+      for (let i = 0; i < signed.length; i++) {
         setMessage({ kind: "info", text: `Confirming ${done + 1} of ${signed.length}…` });
         try {
-          await sendAndConfirm(connection, tx.serialize(), data.lastValidBlockHeight);
+          // Your wallet signed first; now the server checks the transaction and
+          // adds its own signature before it's sent.
+          const signedB64 = btoa(String.fromCharCode(...signed[i].serialize()));
+          const c = await withRetry(async () => {
+            const res = await fetch("/api/cosign", {
+              method: "POST",
+              headers: { "content-type": "application/json" },
+              body: JSON.stringify({ tx: signedB64, ticket: data.tickets[i] }),
+            });
+            const out = await res.json().catch(() => ({}));
+            if (res.status === 429 || res.status === 503) throw new Error("busy");
+            if (!res.ok) throw new Error(out.error || "Couldn’t finish the transaction.");
+            return out;
+          });
+          await sendAndConfirm(connection, fromBase64(c.tx), data.lastValidBlockHeight);
         } catch (err) {
           const logs = err?.logs || err?.transactionLogs || [];
           console.error("Mint transaction failed", { index: done + 1, sig: err?.sig, err, logs });

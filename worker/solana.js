@@ -163,9 +163,6 @@ async function lookupTable(env) {
   return value;
 }
 
-// Builds the transactions for one purchase. Each transaction pays for exactly
-// the Gold Frames it mints, so if a buyer stops halfway, every entry they got
-// was paid for and every payment got its entries.
 export async function latestBlockhash(env) {
   // A blockhash is good for about a minute, so reusing one for 2 seconds is safe.
   if (Date.now() - blockhashCache.at < 2_000 && blockhashCache.value) return blockhashCache.value;
@@ -174,18 +171,17 @@ export async function latestBlockhash(env) {
   return value; // { blockhash, lastValidBlockHeight }
 }
 
-export async function buildMintTransactions(env, buyerAddr, quantity, value) {
+// Everything needed to build (and later check) one buyer's mint transactions.
+async function mintParts(env, buyerAddr) {
   const buyer = new PublicKey(buyerAddr);
   const usdcMint = new PublicKey(env.USDC_MINT);
   const treasury = new PublicKey(env.TREASURY);
   const minterKp = Keypair.fromSecretKey(Uint8Array.from(JSON.parse(minterSecret(env))));
   const priceUnits = BigInt(Math.round(Number(env.PRICE_USDC) * 10 ** USDC_DECIMALS));
-
   const umi = createUmi(rpcUrl(env)).use(mplBubblegum());
   const buyerSigner = createNoopSigner(umiKey(buyerAddr));
   const minterSigner = createNoopSigner(umiKey(minterKp.publicKey.toBase58()));
   const collection = umiKey(env.COLLECTION);
-
   const mintIx = () =>
     mintV2(umi, {
       payer: buyerSigner,
@@ -203,25 +199,40 @@ export async function buildMintTransactions(env, buyerAddr, quantity, value) {
         creators: [],
       },
     }).getInstructions().map(toWeb3JsInstruction)[0];
-
   const buyerAta = ata(buyer, usdcMint);
   const treasuryAta = ata(treasury, usdcMint);
+  const transferIx = (n) => transferChecked(buyerAta, usdcMint, treasuryAta, buyer, priceUnits * BigInt(n));
+  return { buyer, minterKp, mintIx, transferIx, alt: await lookupTable(env) };
+}
 
-  const alt = await lookupTable(env);
+// Phantom asks sites to set these limits explicitly.
+function loadedDataLimit(bytes) {
+  const data = new Uint8Array(5);
+  data[0] = 4; // SetLoadedAccountsDataSizeLimit
+  new DataView(data.buffer).setUint32(1, bytes, true);
+  return new TransactionInstruction({ programId: ComputeBudgetProgram.programId, keys: [], data });
+}
+
+// Builds the UNSIGNED transactions for one purchase (the buyer's wallet signs
+// first; the minter signs afterwards in cosignTransaction). Each transaction
+// pays for exactly the Gold Frames it mints, and each is test-run (simulated)
+// before it's handed to the wallet, so wallets never see one that would fail.
+export async function buildMintTransactions(env, buyerAddr, quantity, value) {
+  const p = await mintParts(env, buyerAddr);
   const build = (n) => {
     const ixs = [
       ComputeBudgetProgram.setComputeUnitLimit({ units: Math.min(1_400_000, 200_000 * n + 50_000) }),
       ComputeBudgetProgram.setComputeUnitPrice({ microLamports: Number(env.PRIORITY_MICROLAMPORTS || 10_000) }),
-      transferChecked(buyerAta, usdcMint, treasuryAta, buyer, priceUnits * BigInt(n)),
+      loadedDataLimit(32 * 1024 * 1024),
+      p.transferIx(n),
       uniqueTag(),
     ];
-    for (let i = 0; i < n; i++) ixs.push(mintIx());
+    for (let i = 0; i < n; i++) ixs.push(p.mintIx());
     const msg = new TransactionMessage({
-      payerKey: buyer, recentBlockhash: value.blockhash, instructions: ixs,
-    }).compileToV0Message(alt ? [alt] : []);
+      payerKey: p.buyer, recentBlockhash: value.blockhash, instructions: ixs,
+    }).compileToV0Message(p.alt ? [p.alt] : []);
     return new VersionedTransaction(msg);
   };
-  // Put as many mints in each transaction as will fit (up to 5).
   const fits = (tx) => { try { return tx.serialize().length <= MAX_TX_BYTES; } catch { return false; } };
 
   const txs = [];
@@ -231,10 +242,50 @@ export async function buildMintTransactions(env, buyerAddr, quantity, value) {
     let tx = build(n);
     while (n > 1 && !fits(tx)) tx = build(--n);
     if (!fits(tx)) throw new Error("Transaction too large");
-    tx.sign([minterKp]); // the buyer adds their signature in their wallet
-    txs.push(btoa(String.fromCharCode(...tx.serialize())));
+    txs.push(tx);
     perTx.push(n);
     left -= n;
   }
-  return { transactions: txs, perTx, blockhash: value.blockhash, lastValidBlockHeight: value.lastValidBlockHeight };
+
+  // Test-run each transaction (without signatures) before anyone signs it.
+  if (env.SKIP_SIMULATION !== "true") {
+    for (const tx of txs) {
+      const b64 = btoa(String.fromCharCode(...tx.serialize()));
+      const sim = await rpc(env, "simulateTransaction", [b64, {
+        encoding: "base64", sigVerify: false, replaceRecentBlockhash: false, commitment: "confirmed",
+      }]);
+      if (sim?.value?.err) {
+        console.error("Simulation failed", JSON.stringify(sim.value.err), sim.value.logs?.slice(-8));
+        throw new Error("SIMULATION_FAILED");
+      }
+    }
+  }
+
+  return {
+    transactions: txs.map((tx) => btoa(String.fromCharCode(...tx.serialize()))),
+    perTx,
+    blockhash: value.blockhash,
+    lastValidBlockHeight: value.lastValidBlockHeight,
+  };
+}
+
+// What a valid signed transaction for this buyer must contain (see cosign.js).
+export async function expectedFor(env, buyerAddr, n, blockhash) {
+  const p = await mintParts(env, buyerAddr);
+  const mint = p.mintIx();
+  const transfer = p.transferIx(n);
+  return {
+    buyer: buyerAddr,
+    minterKp: p.minterKp,
+    alt: p.alt,
+    blockhash,
+    n,
+    bubblegumProgram: mint.programId.toBase58(),
+    coreProgram: "CoREENxT6tW1HoK8ypY1SxRMZTcVPm7R94rH4PZNhX7d",
+    tokenProgram: TOKEN_PROGRAM.toBase58(),
+    mintData: Uint8Array.from(mint.data),
+    mintAccounts: mint.keys.map((k) => k.pubkey.toBase58()),
+    transferData: Uint8Array.from(transfer.data),
+    transferAccounts: transfer.keys.map((k) => k.pubkey.toBase58()),
+  };
 }
