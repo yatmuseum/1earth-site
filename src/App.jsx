@@ -110,12 +110,12 @@ export default function App() {
           <div className="card drawing">
             <span className="label label--lg">The drawing</span>
             <p className="drawing__main">
-              Takes place {MINT.drawingLabel}, live on X. If all 10,000 entries aren’t sold by then,
-              the drawing will be delayed until sold out, with the new date announced on X.
+              Takes place {MINT.drawingLabel}. If all 10,000 entries aren’t sold by then, the drawing
+              will be delayed until sold out, with the new date announced on X.
             </p>
             <p className="drawing__sub">
-              Winners are picked with ORAO VRF, verifiable on-chain randomness anyone can
-              check. Prizes are paid in USDC to the winning wallet.
+              Winners are selected with ORAO VRF, verifiable on-chain randomness. Results are posted
+              on X with a link anyone can use to verify them. Prizes are paid in USDC to the winning wallets.
             </p>
           </div>
         </main>
@@ -135,8 +135,8 @@ export default function App() {
             solicitation of an offer to buy, any security or investment. 1-Earth is a protocol based
             in Costa Rica. Soulbound tokens are non-transferable entries with no expectation of
             profit, resale or redemption value. Odds: 10 winning entries out of 10,000 (1 in 1,000).
-            The drawing takes place {MINT.drawingLabel}, live on X, using ORAO VRF
-            (verifiable on-chain randomness). If all 10,000 entries are not sold by then, the drawing
+            The drawing takes place {MINT.drawingLabel} using ORAO VRF (verifiable on-chain
+            randomness), with results posted on X along with a link to verify them on-chain. If all 10,000 entries are not sold by then, the drawing
             will be delayed until sold out, with the new date announced on X. Prizes will be sent in
             USDC to the winning wallet as soon as possible, within 1 hour after the drawing; no
             claim necessary. All sales final, no refunds. Winners are solely responsible for all

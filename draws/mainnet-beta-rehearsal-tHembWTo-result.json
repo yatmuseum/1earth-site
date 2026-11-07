@@ -1,0 +1,73 @@
+{
+  "collection": "tHembWTobSrGyFJ2UhNcpZg6pZThyxwxH9YVoK7MiD7",
+  "entries": 32,
+  "snapshotSha256": "2d17d1b7d77c142d18b78905f723ddf9f977ea0d82af480fe4e5d54a4e316a4b",
+  "oraoProgram": "VRFzZoJdhFWL8rkvu87LpKM3RbcVezpMEc6X5GVDr7y",
+  "requestSeed": "eba5b23ee18534d44b00b9c80c9f15138c559c7b3bc073395b4c3c597b431404",
+  "requestAccount": "BkeRFLaJ55HEC59qsE2NbeuDr9jP41LBRh61iVf9jonE",
+  "requestTx": "2HgyuMo2jBxRE1H9WRdvGqMx4traocZYYS2y23C2niPiFTtPsF1ajcDumNRVmRLTgbfeoj8x2wAjUuWArVmKrtcd",
+  "randomness": "a03f62eee01274118bb106bb978d648e842f5edbb022938ce2716705248dbf0df0e9684ead7279371c18503cf068e609f12e0f4d92127e7a1cf2305b3ed51b00",
+  "winners": [
+    {
+      "place": 1,
+      "entry": 28,
+      "wallet": "Hcam3n4fm27Rh4BFZBngym7oxGGdP99jzE3WbaesRyfh",
+      "asset": "6AfrDpsri72CndYqK6YMQvyut2q84khsQLGhpTPeTcgd"
+    },
+    {
+      "place": 2,
+      "entry": 17,
+      "wallet": "Hcam3n4fm27Rh4BFZBngym7oxGGdP99jzE3WbaesRyfh",
+      "asset": "GrR6jF9WwKRJBfARC2Cbu41gRPtVz2oaZuoYaeVBE8mp"
+    },
+    {
+      "place": 3,
+      "entry": 11,
+      "wallet": "Hcam3n4fm27Rh4BFZBngym7oxGGdP99jzE3WbaesRyfh",
+      "asset": "3erNmFT3E139A51Hcc4BKDKUodyc7Jt7XL7FWMuzZsVi"
+    },
+    {
+      "place": 4,
+      "entry": 21,
+      "wallet": "Hcam3n4fm27Rh4BFZBngym7oxGGdP99jzE3WbaesRyfh",
+      "asset": "G61Y3bbt8DW1NtTjERmXnD2WcWADwwY5ireUHZTocYmP"
+    },
+    {
+      "place": 5,
+      "entry": 5,
+      "wallet": "BnE8WFXzFAgJ4XGNhmb14y4svNGHy5UCXkkmZbvWw5Ee",
+      "asset": "yeH5UBHxfjkkDptxVSUqeLxdMR8FbEjXp4yf9fKUoLr"
+    },
+    {
+      "place": 6,
+      "entry": 16,
+      "wallet": "Hcam3n4fm27Rh4BFZBngym7oxGGdP99jzE3WbaesRyfh",
+      "asset": "DrFfaPaD5WwTJUL3995rbeGoak9zRqdU7DE7i7i5tYoE"
+    },
+    {
+      "place": 7,
+      "entry": 7,
+      "wallet": "BnE8WFXzFAgJ4XGNhmb14y4svNGHy5UCXkkmZbvWw5Ee",
+      "asset": "CkEP7HFUKUM98WpjxrFwa6pkfJE2RH58ogg1kNY3mDX8"
+    },
+    {
+      "place": 8,
+      "entry": 13,
+      "wallet": "Hcam3n4fm27Rh4BFZBngym7oxGGdP99jzE3WbaesRyfh",
+      "asset": "9fntLp4sopHm47xyQwAjAegkWeJjZDbtXCRUboVQ52bQ"
+    },
+    {
+      "place": 9,
+      "entry": 1,
+      "wallet": "BnE8WFXzFAgJ4XGNhmb14y4svNGHy5UCXkkmZbvWw5Ee",
+      "asset": "HV6cYvGf13jKbYJUMZvoQPcGJQRgZbFajQX5qv3kWTCB"
+    },
+    {
+      "place": 10,
+      "entry": 15,
+      "wallet": "Hcam3n4fm27Rh4BFZBngym7oxGGdP99jzE3WbaesRyfh",
+      "asset": "FQdm86VnrXhDBCcPgsgzAA2yQQ2tDHr9a6jG64KQQZqd"
+    }
+  ],
+  "drawnAt": "2026-11-07T20:45:20.413Z"
+}
