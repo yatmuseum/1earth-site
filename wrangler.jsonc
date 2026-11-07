@@ -21,18 +21,18 @@
   // Public mint settings. Currently: PRE-LAUNCH display (devnet, not live).
   // Secrets (HELIUS_API_KEY, MINTER_SECRET_KEY) are set in the Cloudflare dashboard, never here.
   "vars": {
-    "NETWORK": "devnet",
-    "MINT_LIVE": "false",
-    "OPENS_AT": "2026-11-11T16:11:00Z",
-    "PRICE_USDC": "20",
-    "SUPPLY": "10000",
-    "COLLECTION": "4NpwwABJmuenjBpa9WK4zg67rqvPKNfQ9JdsNDj11wvu",
-    "MERKLE_TREE": "Ba2D6NAGfyk42wPiqUKAcQpKe5zYg2aBNLfZfqhqVCKG",
-    "TREASURY": "43vjVKMpnTr7hj2L84rZ9pHtX2Nn2MeKG5KBWWjPHDNQ",
-    "USDC_MINT": "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU",
-    "METADATA_URI": "https://1-earth.io/metadata/entry.json",
+    "NETWORK": "mainnet-beta",
+    "MINT_LIVE": "true",
+    "OPENS_AT": "2026-11-05T23:48:06Z",
+    "PRICE_USDC": "0.01",
+    "SUPPLY": "30",
+    "COLLECTION": "HdGnBEjGs3wKTmL5cGkWwTS8hSX36qDjQ2yX69Brt5RJ",
+    "MERKLE_TREE": "HoWo4Jt3Djjm3Vr4crBWimRoEGBBFdUnVoxTC6fpg7C6",
+    "TREASURY": "HvPMmCHju5niMUKkGhJNruY8fGbzHT1caELqSjefSBeM",
+    "USDC_MINT": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+    "METADATA_URI": "https://1-earth.io/f.json",
     "BLOCKED_COUNTRIES": "CR,IR,KP,CU,SY",
-    "ALLOWLIST": "",
-    "LOOKUP_TABLE": ""
+    "ALLOWLIST": "Hcam3n4fm27Rh4BFZBngym7oxGGdP99jzE3WbaesRyfh,BnE8WFXzFAgJ4XGNhmb14y4svNGHy5UCXkkmZbvWw5Ee",
+    "LOOKUP_TABLE": "9RKujdosw8ZepoW5UPrypPfbbqDaZr9oFdu71pdhoXrr"
   }
 }
