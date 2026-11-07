@@ -352,7 +352,11 @@ button { font: inherit; color: inherit; }
   .body-block .stats { margin-bottom: 1.4vh; }
   .body-block .prizes { margin-bottom: 1.4vh; }
   .body-block .mint { flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
-  .body-block .you-mint { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+  /* Prize boxes grow to fill the column; the Gold Frame card sits at the
+     bottom, its last line level with the "Paid in USDC" line on the left. */
+  .body-block .prizes--grid { flex: 1; grid-auto-rows: 1fr; }
+  .body-block .prizes--grid .prize { height: auto; min-height: clamp(38px, 5.4vh, 56px); }
+  .body-block .you-mint { flex: none; display: flex; flex-direction: column; justify-content: flex-end; padding-top: 2vh; padding-bottom: 2vh; }
   .stats .stat { min-height: clamp(42px, 5.4vh * 2 + 0.6vh, 120px); }
 }
 

@@ -70,7 +70,6 @@ export default function App() {
               </ol>
 
               <div className="card you-mint">
-                <span className="label">You mint</span>
                 <div className="you-mint__equation" aria-label="Gold Frame equals your 50/50 Entry">
                   <span className="you-mint__frame">
                     <img src="/gold-frame.webp" alt="" width="56" height="56" />
