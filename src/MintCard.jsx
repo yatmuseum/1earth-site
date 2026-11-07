@@ -114,8 +114,10 @@ export default function MintCard() {
       // Phantom's safety scanner prefers one signing request at a time, so for
       // Phantom each transaction is approved, then sent, before the next one.
       // Other wallets approve the whole purchase in a single popup.
-      const isPhantom = /phantom/i.test(wallet?.adapter?.name || "");
-      const oneAtATime = isPhantom || !signAllTransactions;
+      // Phantom and Solflare add their own safety checks based on the wallet's
+      // current balance, so their transactions are approved one at a time,
+      // each after the previous one has landed.
+      const oneAtATime = /phantom|solflare/i.test(wallet?.adapter?.name || "") || !signAllTransactions;
       if (!signTransaction && !signAllTransactions) {
         throw new Error("This wallet can’t sign transactions here. Try MetaMask, Phantom, Solflare or Backpack.");
       }
