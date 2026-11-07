@@ -23,7 +23,7 @@
   "vars": {
     "NETWORK": "mainnet-beta",
     "MINT_LIVE": "true",
-    "OPENS_AT": "2026-11-06T23:57:00Z",
+    "OPENS_AT": "2026-11-06T00:38:19Z",
     "PRICE_USDC": "0.01",
     "SUPPLY": "32",
     "COLLECTION": "AUqmMQYa2bQRX6GYeYLhW7VqzMp4LjCojeKS7ZRx41Cp",
@@ -32,7 +32,7 @@
     "USDC_MINT": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
     "METADATA_URI": "https://1-earth.io/f.json",
     "BLOCKED_COUNTRIES": "CR,IR,KP,CU,SY",
-    "ALLOWLIST": "5aiehK38cf8xtXapGv2XtBWBcCC4xqwyMZV4vu9WKTDX,BnE8WFXzFAgJ4XGNhmb14y4svNGHy5UCXkkmZbvWw5Ee,Hcam3n4fm27Rh4BFZBngym7oxGGdP99jzE3WbaesRyfh",
+    "ALLOWLIST": "5aiehK38cf8xtXapGv2XtBWBcCC4xqwyMZV4vu9WKTD,BnE8WFXzFAgJ4XGNhmb14y4svNGHy5UCXkkmZbvWw5Ee,Hcam3n4fm27Rh4BFZBngym7oxGGdP99jzE3WbaesRyfh",
     "LOOKUP_TABLE": "3qn2TVMbRWpsujSgiayKN8gDsVQQJLZ9dStoyDaTzCwK"
   }
 }
