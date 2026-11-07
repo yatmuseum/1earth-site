@@ -48,6 +48,13 @@ async function sendAndConfirm(connection, raw, lastValidBlockHeight) {
   }
 }
 
+// Opens X with a ready-to-post message (the buyer can edit it before posting).
+function shareUrl() {
+  const text = "I just minted my 1-Earth 🌍 Gold Frame 🖼️ and became a founding member of the @1earthh community. " +
+    "Join me in the 50/50 draw on November 14th @ 11:11 EST.";
+  return `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent("https://1-earth.io")}`;
+}
+
 export default function MintCard() {
   const { connection } = useConnection();
   const { connected, publicKey, signAllTransactions, signTransaction, wallet } = useWallet();
@@ -163,7 +170,7 @@ export default function MintCard() {
         }
         done++;
       }
-      setMessage({ kind: "success", text: `Done! ${qty} Gold Frame${qty === 1 ? "" : "s"} minted to your wallet.` });
+      setMessage({ kind: "success", count: qty, text: `Done! ${qty} Gold Frame${qty === 1 ? "" : "s"} minted to your wallet.` });
       setStatusLocally((s) => ({ ...s, minted: (s.minted ?? 0) + qty })); // show it right away
       setTimeout(refreshStatus, 16000); // then confirm from the chain
     } catch (e) {
@@ -240,6 +247,14 @@ export default function MintCard() {
       {button}
 
       {message && <p className={`mint__msg mint__msg--${message.kind}`} role="status">{message.text}</p>}
+      {message?.kind === "success" && (
+        <a className="mint__share" href={shareUrl()} target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+            <path fill="currentColor" d="M18.9 2H22l-6.8 7.8L23 22h-6.2l-4.9-6.4L6.3 22H3.2l7.3-8.3L1 2h6.3l4.4 5.8L18.9 2Zm-1.1 18h1.7L6.3 3.9H4.5L17.8 20Z"/>
+          </svg>
+          Share on X
+        </a>
+      )}
 
       <p className="mint__fine">Paid in USDC on Solana · Network fees not included · All sales final</p>
     </div>

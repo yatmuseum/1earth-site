@@ -406,3 +406,11 @@ button { font: inherit; color: inherit; }
 .wallet-adapter-modal-list { display: flex; flex-direction: column; }
 .wallet-adapter-modal-list li:has(img[alt^="MetaMask"]) { order: -1; }
 .wallet-adapter-modal-list li:has(img[alt^="Phantom"]) { order: 99; }
+
+/* "Share on X" button shown after a successful mint */
+.mint__share {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  width: 100%; margin-top: 10px; padding: 12px 16px; border-radius: 12px;
+  background: #000; color: #fff; font-weight: 700; text-decoration: none;
+}
+.mint__share:hover { opacity: 0.85; }
