@@ -223,14 +223,16 @@ function loadedDataLimit(bytes) {
 // before it's handed to the wallet, so wallets never see one that would fail.
 export async function buildMintTransactions(env, buyerAddr, quantity, value) {
   const p = await mintParts(env, buyerAddr);
-  const build = (n) => {
+  // Draft limits are generous; after the test run they're tightened to what
+  // each transaction actually uses (Phantom asks for explicit, accurate limits).
+  const DRAFT_LOADED = 32 * 1024 * 1024;
+  const build = (n, cuLimit, loadedLimit) => {
     const ixs = [
-      ComputeBudgetProgram.setComputeUnitLimit({ units: Math.min(1_400_000, 200_000 * n + 50_000) }),
+      ComputeBudgetProgram.setComputeUnitLimit({ units: cuLimit ?? Math.min(1_400_000, 200_000 * n + 50_000) }),
       // A slightly randomized priority fee keeps every transaction unique (two
-      // identical transactions would be rejected as duplicates). This replaces
-      // the old memo tag and saves ~57 bytes, so 5 mints fit comfortably.
+      // identical transactions would be rejected as duplicates).
       ComputeBudgetProgram.setComputeUnitPrice({ microLamports: Number(env.PRIORITY_MICROLAMPORTS || 10_000) + 1 + randomInt(9_999) }),
-      loadedDataLimit(32 * 1024 * 1024),
+      loadedDataLimit(loadedLimit ?? DRAFT_LOADED),
       p.transferIx(n),
     ];
     for (let i = 0; i < n; i++) ixs.push(p.mintIx());
@@ -241,21 +243,21 @@ export async function buildMintTransactions(env, buyerAddr, quantity, value) {
   };
   const fits = (tx) => { try { return tx.serialize().length <= MAX_TX_BYTES; } catch { return false; } };
 
-  const txs = [];
-  const perTx = [];
+  const chunks = [];
   for (let left = quantity; left > 0; ) {
     let n = Math.min(MAX_MINTS_PER_TX, left);
-    let tx = build(n);
-    while (n > 1 && !fits(tx)) tx = build(--n);
-    if (!fits(tx)) throw new Error("Transaction too large");
-    txs.push(tx);
-    perTx.push(n);
+    while (n > 1 && !fits(build(n))) n--;
+    if (!fits(build(n))) throw new Error("Transaction too large");
+    chunks.push(n);
     left -= n;
   }
 
-  // Test-run each transaction (without signatures) before anyone signs it.
-  if (env.SKIP_SIMULATION !== "true") {
-    for (const tx of txs) {
+  // Test-run each transaction (without signatures) before anyone signs it,
+  // then rebuild it with limits matched to what it really used.
+  const txs = [];
+  for (const n of chunks) {
+    let tx = build(n);
+    if (env.SKIP_SIMULATION !== "true") {
       const b64 = btoa(String.fromCharCode(...tx.serialize()));
       const sim = await rpc(env, "simulateTransaction", [b64, {
         encoding: "base64", sigVerify: false, replaceRecentBlockhash: false, commitment: "confirmed",
@@ -264,8 +266,16 @@ export async function buildMintTransactions(env, buyerAddr, quantity, value) {
         console.error("Simulation failed", JSON.stringify(sim.value.err), sim.value.logs?.slice(-8));
         throw new Error("SIMULATION_FAILED");
       }
+      const used = Number(sim.value.unitsConsumed || 0);
+      const loaded = Number(sim.value.loadedAccountsDataSize || 0);
+      const cuLimit = used ? Math.min(1_400_000, Math.ceil(used * 1.2) + 10_000) : undefined;
+      const loadedLimit = loaded ? Math.min(DRAFT_LOADED, Math.ceil(loaded * 1.25) + 64 * 1024) : undefined;
+      console.log(`Mint tx: ${n} frames, used ${used} CU, loaded ${loaded} bytes -> limits ${cuLimit} CU, ${loadedLimit} bytes`);
+      tx = build(n, cuLimit, loadedLimit);
     }
+    txs.push(tx);
   }
+  const perTx = chunks;
 
   return {
     transactions: txs.map((tx) => btoa(String.fromCharCode(...tx.serialize()))),
