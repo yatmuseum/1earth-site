@@ -104,24 +104,44 @@ export default function MintCard() {
 
       perTx = data.perTx || [];
       const txs = data.transactions.map((b) => VersionedTransaction.deserialize(fromBase64(b)));
-      setMessage({ kind: "info", text: txs.length > 1
-        ? `Approve ${txs.length} transactions in your wallet…`
-        : "Approve the transaction in your wallet…" });
-      // Most wallets approve all transactions in one popup. If a wallet can't,
-      // fall back to approving them one at a time.
-      let signed;
-      if (signAllTransactions) signed = await signAllTransactions(txs);
-      else if (signTransaction) {
-        signed = [];
-        for (const tx of txs) signed.push(await signTransaction(tx));
-      } else throw new Error("This wallet can’t sign transactions here. Try Phantom, Solflare or Backpack.");
+      // Phantom's safety scanner prefers one signing request at a time, so for
+      // Phantom each transaction is approved, then sent, before the next one.
+      // Other wallets approve the whole purchase in a single popup.
+      const isPhantom = /phantom/i.test(wallet?.adapter?.name || "");
+      const oneAtATime = isPhantom || !signAllTransactions;
+      if (!signTransaction && !signAllTransactions) {
+        throw new Error("This wallet can’t sign transactions here. Try MetaMask, Phantom, Solflare or Backpack.");
+      }
+      let signedAll = null;
+      if (!oneAtATime) {
+        setMessage({ kind: "info", text: txs.length > 1
+          ? `Approve ${txs.length} transactions in your wallet…`
+          : "Approve the transaction in your wallet…" });
+        signedAll = await signAllTransactions(txs);
+      }
 
-      for (let i = 0; i < signed.length; i++) {
-        setMessage({ kind: "info", text: `Confirming ${done + 1} of ${signed.length}…` });
+      for (let i = 0; i < txs.length; i++) {
+        let signedTx;
+        if (oneAtATime) {
+          setMessage({ kind: "info", text: txs.length > 1
+            ? `Approve transaction ${i + 1} of ${txs.length} in your wallet…`
+            : "Approve the transaction in your wallet…" });
+          try { signedTx = await signTransaction(txs[i]); }
+          catch (e) {
+            if (done > 0) {
+              const through = perTx.slice(0, done).reduce((a, b) => a + b, 0);
+              throw new Error(`Stopped after ${through} Gold Frame${through === 1 ? "" : "s"}; those are in your wallet and the rest weren’t charged.`);
+            }
+            throw e;
+          }
+        } else {
+          signedTx = signedAll[i];
+        }
+        setMessage({ kind: "info", text: `Confirming ${done + 1} of ${txs.length}…` });
         try {
           // Your wallet signed first; now the server checks the transaction and
           // adds its own signature before it's sent.
-          const signedB64 = btoa(String.fromCharCode(...signed[i].serialize()));
+          const signedB64 = btoa(String.fromCharCode(...signedTx.serialize()));
           const c = await withRetry(async () => {
             const res = await fetch("/api/cosign", {
               method: "POST",
@@ -139,7 +159,7 @@ export default function MintCard() {
           console.error("Mint transaction failed", { index: done + 1, sig: err?.sig, err, logs });
           const reason = logs.find((l) => /error|failed|insufficient/i.test(l)) || String(err?.message || err).split("\n")[0];
           const through = perTx.slice(0, done).reduce((a, b) => a + b, 0);
-          throw new Error(`Transaction ${done + 1} of ${signed.length} failed${done ? ` (your first ${through} entries went through)` : ""}. Reason: ${reason}`);
+          throw new Error(`Transaction ${done + 1} of ${txs.length} failed${done ? ` (your first ${through} entries went through)` : ""}. Reason: ${reason}`);
         }
         done++;
       }
