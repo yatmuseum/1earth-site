@@ -205,6 +205,10 @@ async function mintParts(env, buyerAddr) {
   return { buyer, minterKp, mintIx, transferIx, alt: await lookupTable(env) };
 }
 
+function randomInt(max) {
+  return crypto.getRandomValues(new Uint32Array(1))[0] % max;
+}
+
 // Phantom asks sites to set these limits explicitly.
 function loadedDataLimit(bytes) {
   const data = new Uint8Array(5);
@@ -222,10 +226,12 @@ export async function buildMintTransactions(env, buyerAddr, quantity, value) {
   const build = (n) => {
     const ixs = [
       ComputeBudgetProgram.setComputeUnitLimit({ units: Math.min(1_400_000, 200_000 * n + 50_000) }),
-      ComputeBudgetProgram.setComputeUnitPrice({ microLamports: Number(env.PRIORITY_MICROLAMPORTS || 10_000) }),
+      // A slightly randomized priority fee keeps every transaction unique (two
+      // identical transactions would be rejected as duplicates). This replaces
+      // the old memo tag and saves ~57 bytes, so 5 mints fit comfortably.
+      ComputeBudgetProgram.setComputeUnitPrice({ microLamports: Number(env.PRIORITY_MICROLAMPORTS || 10_000) + 1 + randomInt(9_999) }),
       loadedDataLimit(32 * 1024 * 1024),
       p.transferIx(n),
-      uniqueTag(),
     ];
     for (let i = 0; i < n; i++) ixs.push(p.mintIx());
     const msg = new TransactionMessage({
