@@ -401,3 +401,8 @@ button { font: inherit; color: inherit; }
   .buy { min-height: 46px; }
   .mint__fine { margin-top: 0.5rem; }
 }
+
+/* Wallet picker order: MetaMask first, Phantom last (others in between). */
+.wallet-adapter-modal-list { display: flex; flex-direction: column; }
+.wallet-adapter-modal-list li:has(img[alt^="MetaMask"]) { order: -1; }
+.wallet-adapter-modal-list li:has(img[alt^="Phantom"]) { order: 99; }
