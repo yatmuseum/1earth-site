@@ -114,7 +114,7 @@ export default function App() {
               the drawing will be delayed until sold out, with the new date announced on X.
             </p>
             <p className="drawing__sub">
-              Winners are picked with Switchboard VRF, verifiable on-chain randomness anyone can
+              Winners are picked with ORAO VRF, verifiable on-chain randomness anyone can
               check. Prizes are paid in USDC to the winning wallet.
             </p>
           </div>
@@ -135,7 +135,7 @@ export default function App() {
             solicitation of an offer to buy, any security or investment. 1-Earth is a protocol based
             in Costa Rica. Soulbound tokens are non-transferable entries with no expectation of
             profit, resale or redemption value. Odds: 10 winning entries out of 10,000 (1 in 1,000).
-            The drawing takes place {MINT.drawingLabel}, live on X, using Switchboard VRF
+            The drawing takes place {MINT.drawingLabel}, live on X, using ORAO VRF
             (verifiable on-chain randomness). If all 10,000 entries are not sold by then, the drawing
             will be delayed until sold out, with the new date announced on X. Prizes will be sent in
             USDC to the winning wallet as soon as possible, within 1 hour after the drawing; no
