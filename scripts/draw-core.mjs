@@ -1,6 +1,6 @@
 // The drawing math, kept separate so anyone can read and re-run it.
 //
-// Given the 32-byte random value from Switchboard and the number of entries N,
+// Given a 32-byte random value (SHA-256 of ORAO VRF's answer) and the number of entries N,
 // winners are picked like this:
 //   for k = 0, 1, 2, ...:
 //     h = SHA-256( seed || "1-Earth 50/50 draw" || k as 4-byte big-endian )
