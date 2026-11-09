@@ -418,3 +418,27 @@ button { font: inherit; color: inherit; }
   background: #000; color: #fff; font-weight: 700; text-decoration: none;
 }
 .mint__share:hover { opacity: 0.85; }
+
+/* ------------------------------------------------------------------
+   Desktop: two clean "pages". Screen 1 = the mint (exactly one screen).
+   Screen 2 = prize pool, operations, the drawing and the disclaimer,
+   sized to fit exactly one more screen. Scrolling settles on each.
+   ------------------------------------------------------------------ */
+@media (min-width: 961px) {
+  html { scroll-snap-type: y proximity; }
+  .screen1 { min-height: 100svh; display: flex; flex-direction: column; scroll-snap-align: start; }
+  .screen1 > main { flex: 1; display: flex; flex-direction: column; }
+  .screen1 .top-grid { flex: 1; min-height: 0; }
+
+  .screen2 { min-height: 100svh; display: flex; flex-direction: column; scroll-snap-align: start; }
+  .screen2__body { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; padding-top: 6vh; padding-bottom: 4.5vh; }
+  .screen2 .split { margin-top: 0; gap: 1.6rem; }
+  .screen2 .big-figure { padding: 4vh 1.5rem; }
+  .screen2 .big-figure strong { font-size: clamp(3rem, 8.5vh, 5.6rem); }
+  .screen2 .big-figure p { font-size: clamp(0.95rem, 1.9vh, 1.2rem); }
+  .screen2 .drawing { margin: 2.4vh 0 0; padding: 3.8vh clamp(1.25rem, 4vw, 3.5rem); }
+  .screen2 .drawing__main { font-size: clamp(1rem, 2.1vh, 1.4rem); margin-top: 1.4vh; }
+  .screen2 .drawing__sub { font-size: clamp(0.9rem, 1.7vh, 1.1rem); }
+  .screen2 .footer { padding: 2vh 0 2.6vh; }
+  .screen2 .legal { margin-top: 1.4vh; font-size: clamp(0.78rem, 1.45vh, 0.95rem); line-height: 1.5; }
+}

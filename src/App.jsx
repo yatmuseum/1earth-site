@@ -11,7 +11,7 @@ export default function App() {
         <div className="testnet-banner">Test network (devnet). Nothing here uses real funds.</div>
       )}
 
-      <div className="page">
+      <div className="page screen1">
         <header className="topbar">
           <a href="#top" className="brand">
             <img src="/globe.webp" alt="" width="46" height="46" />
@@ -90,6 +90,11 @@ export default function App() {
             </section>
           </div>
 
+        </main>
+      </div>
+
+      <div className="screen2">
+        <div className="page screen2__body">
           <div className="split">
             <div className="card big-figure">
               <span className="label label--lg">Prize pool</span>
@@ -114,8 +119,7 @@ export default function App() {
               on X with a link anyone can use to verify them. Prizes are paid in USDC to the winning wallets.
             </p>
           </div>
-        </main>
-      </div>
+        </div>
 
       <footer className="footer">
         <div className="page">
@@ -143,6 +147,7 @@ export default function App() {
           </p>
         </div>
       </footer>
+      </div>
     </>
   );
 }
