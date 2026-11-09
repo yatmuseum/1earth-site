@@ -11,7 +11,8 @@ export const MINT = {
   drawingLabel: "November 18th @ 11:11 EST",
   // Per-wallet limits by phase, counted from the moment the mint opens.
   phases: [
-    { hours: 72, max: 5 },
+    { hours: 24, max: 1 },
+    { hours: 48, max: 5 },
     { hours: Infinity, max: 50 },
   ],
   // Stays false until the mint program is built, tested and audited.
