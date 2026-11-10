@@ -98,10 +98,10 @@ export default function PastDraws() {
       <section className="card pd-how">
         <h2>How to verify a drawing</h2>
         <ol>
-          <li><strong>Minting is sealed on-chain first.</strong> After the mint closes, the collection is handed to Solana’s incinerator address, so no entries can be added. Check the collection’s authority on any Solana explorer.</li>
+          <li><strong>Minting is sealed on-chain first.</strong> After the mint closes, the collection’s control key is handed to Solana’s incinerator address, so no entries can be added. Check the collection’s authority on any Solana explorer.</li>
           <li><strong>The entry list is fingerprinted.</strong> Download the entry list and compute its SHA-256. It must match the fingerprint posted before the drawing.</li>
           <li><strong>The randomness request is tied to that list.</strong> The ORAO VRF request seed is SHA-256 of “1-Earth 50/50 draw|collection|fingerprint”, so there’s exactly one possible drawing per entry list.</li>
-          <li><strong>Recompute the winners.</strong> Our open-source script reads the randomness from Solana and recomputes the winners: <code>node scripts/draw.mjs verify mainnet-beta</code></li>
+          <li><strong>Recompute the winners.</strong> Our open-source script reads the randomness from Solana and recomputes the winners.</li>
           <li><strong>Check the payments.</strong> Each “Paid ✓” opens the transfer on Solana: the prize leaving our treasury and arriving in the winning wallet.</li>
         </ol>
       </section>
