@@ -542,3 +542,7 @@ button { font: inherit; color: inherit; }
   .fr-stage { max-width: 340px; margin: 0 auto; }
   .fr-controls { max-width: none; }
 }
+.fr-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+.fr-actions .fr-download { min-height: 54px; font-size: 1rem; }
+.fr-primary { background: var(--ink); color: #fff; }
+.fr-msg { margin-top: 1rem; font-weight: 700; color: var(--ink); }

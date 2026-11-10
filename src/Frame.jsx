@@ -1,14 +1,16 @@
 // /Frame: put the 1-Earth gold frame around your profile picture.
 // Everything happens in the browser; the image never leaves the device.
+// Note: images are loaded without temporary blob: links, because the site's
+// security policy (public/_headers) only allows 'self', data: and https: images.
 import { useCallback, useEffect, useRef, useState } from "react";
 
 const SIZE = 1000;      // output: 1000 x 1000 PNG (X shows profile pictures as circles)
 const RING = 0.055;     // ring thickness, as a share of the size
+const FILE_NAME = "1-earth-gold-frame-pfp.png";
 
 function drawRing(ctx, s) {
   const r = s / 2;
   const w = s * RING;
-  // Gold gradient, matching the flyer and site.
   const g = ctx.createLinearGradient(0, 0, s, s);
   g.addColorStop(0.0, "#8a5f12");
   g.addColorStop(0.28, "#d9ad48");
@@ -21,7 +23,6 @@ function drawRing(ctx, s) {
   ctx.lineWidth = w;
   ctx.strokeStyle = g;
   ctx.stroke();
-  // Thin inner edge for depth.
   ctx.beginPath();
   ctx.arc(r, r, r - w, 0, Math.PI * 2);
   ctx.lineWidth = s * 0.004;
@@ -34,27 +35,57 @@ export default function Frame() {
   const [img, setImg] = useState(null);
   const [zoom, setZoom] = useState(1);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
+  const [msg, setMsg] = useState("");
   const drag = useRef(null);
 
   useEffect(() => { document.title = "Gold Frame PFP · 1-Earth"; }, []);
 
-  const loadFile = useCallback((file) => {
-    if (!file || !file.type.startsWith("image/")) return;
-    const url = URL.createObjectURL(file);
-    const im = new Image();
-    im.onload = () => { setImg(im); setZoom(1); setOffset({ x: 0, y: 0 }); };
-    im.src = url;
+  const useImage = (im) => { setImg(im); setZoom(1); setOffset({ x: 0, y: 0 }); setMsg(""); };
+
+  const loadFile = useCallback(async (file) => {
+    if (!file || !file.type?.startsWith("image/")) {
+      setMsg("That isn’t an image. Copy or choose a picture and try again.");
+      return;
+    }
+    try {
+      useImage(await createImageBitmap(file));
+    } catch {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const im = new Image();
+        im.onload = () => useImage(im);
+        im.onerror = () => setMsg("Couldn’t read that image. Try saving it first, then upload it.");
+        im.src = reader.result; // a data: URL, which the security policy allows
+      };
+      reader.readAsDataURL(file);
+    }
   }, []);
 
-  // Paste (Ctrl+V / Cmd+V) anywhere on the page.
+  // Ctrl+V / Cmd+V anywhere on the page.
   useEffect(() => {
     const onPaste = (e) => {
-      const item = [...(e.clipboardData?.items || [])].find((i) => i.type.startsWith("image/"));
-      if (item) loadFile(item.getAsFile());
+      const file = [...(e.clipboardData?.files || [])].find((f) => f.type.startsWith("image/"))
+        || [...(e.clipboardData?.items || [])].find((i) => i.type.startsWith("image/"))?.getAsFile();
+      if (file) { e.preventDefault(); loadFile(file); }
+      else setMsg("No image found in what you pasted. Copy the picture itself (“Copy image”), not its link.");
     };
     window.addEventListener("paste", onPaste);
     return () => window.removeEventListener("paste", onPaste);
   }, [loadFile]);
+
+  // The "Paste image" button reads the clipboard directly.
+  const pasteFromClipboard = async () => {
+    try {
+      const items = await navigator.clipboard.read();
+      for (const item of items) {
+        const type = item.types.find((t) => t.startsWith("image/"));
+        if (type) { const blob = await item.getType(type); return loadFile(new File([blob], "pfp", { type })); }
+      }
+      setMsg("No image found. Right-click (or long-press) your picture, choose “Copy image”, then try again.");
+    } catch {
+      setMsg("Your browser blocked clipboard access. Press Ctrl+V (Cmd+V on Mac), or tap the circle to upload instead.");
+    }
+  };
 
   // Draw the photo (cropped to a circle) and the ring.
   useEffect(() => {
@@ -89,14 +120,30 @@ export default function Frame() {
   };
   const onUp = () => { drag.current = null; };
 
-  const download = () => {
-    canvasRef.current.toBlob((blob) => {
-      const a = document.createElement("a");
-      a.href = URL.createObjectURL(blob);
-      a.download = "1-earth-gold-frame-pfp.png";
-      a.click();
-      setTimeout(() => URL.revokeObjectURL(a.href), 2000);
-    }, "image/png");
+  const getBlob = () => new Promise((res) => canvasRef.current.toBlob(res, "image/png"));
+
+  // Save: phones get the share sheet ("Save Image"), computers download a PNG.
+  const save = async () => {
+    const blob = await getBlob();
+    const file = new File([blob], FILE_NAME, { type: "image/png" });
+    if (/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) && navigator.canShare?.({ files: [file] })) {
+      try { await navigator.share({ files: [file] }); } catch { /* cancelled */ }
+      return;
+    }
+    const a = document.createElement("a");
+    a.href = canvasRef.current.toDataURL("image/png");
+    a.download = FILE_NAME;
+    document.body.appendChild(a); a.click(); a.remove();
+    setMsg("Saved. Now set it as your profile picture on X.");
+  };
+
+  const copy = async () => {
+    try {
+      await navigator.clipboard.write([new ClipboardItem({ "image/png": getBlob() })]);
+      setMsg("Copied! Paste it wherever you need it.");
+    } catch {
+      setMsg("Your browser doesn’t allow copying images. Use Save image instead.");
+    }
   };
 
   return (
@@ -110,7 +157,7 @@ export default function Frame() {
       </header>
 
       <h1 className="pd-title">Gold Frame PFP</h1>
-      <p className="pd-intro">Paste, drop or upload your profile picture, then download it with the gold frame.</p>
+      <p className="pd-intro">Paste, drop or upload your profile picture, then save it with the gold frame.</p>
 
       <div className="fr-box">
         <label
@@ -123,17 +170,28 @@ export default function Frame() {
             onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={onUp}
             aria-label="Your profile picture with the gold frame"
           />
-          {!img && <span className="fr-hint">Tap to upload<br />or paste / drop an image</span>}
+          {!img && <span className="fr-hint">Tap to upload<br />or drop an image here</span>}
           {!img && <input type="file" accept="image/*" onChange={(e) => loadFile(e.target.files?.[0])} />}
         </label>
 
-        {img && (
+        {!img ? (
+          <div className="fr-controls">
+            <button type="button" className="buy fr-download fr-primary" onClick={pasteFromClipboard}>Paste image</button>
+            <p className="pd-muted fr-tip">
+              Copy your profile picture first (right-click or long-press it, then “Copy image”), then tap Paste.
+              Or press Ctrl+V / Cmd+V, or tap the circle to upload.
+            </p>
+          </div>
+        ) : (
           <div className="fr-controls">
             <label className="fr-zoom">Zoom
               <input type="range" min="1" max="3" step="0.01" value={zoom} onChange={(e) => setZoom(Number(e.target.value))} />
             </label>
             <p className="pd-muted fr-tip">Drag the photo to reposition.</p>
-            <button className="buy fr-download" onClick={download}>Download PNG</button>
+            <div className="fr-actions">
+              <button type="button" className="buy fr-download fr-primary" onClick={save}>Save image</button>
+              <button type="button" className="buy fr-download" onClick={copy}>Copy image</button>
+            </div>
             <label className="fr-change">Use a different image
               <input type="file" accept="image/*" onChange={(e) => loadFile(e.target.files?.[0])} />
             </label>
@@ -141,6 +199,7 @@ export default function Frame() {
         )}
       </div>
 
+      {msg && <p className="fr-msg" role="status">{msg}</p>}
       <p className="pd-muted fr-note">Your image never leaves your device. Then set it as your profile picture on X.</p>
     </div>
   );
