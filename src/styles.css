@@ -485,3 +485,39 @@ button { font: inherit; color: inherit; }
   .pd-table th:nth-child(4), .pd-table td:nth-child(4) { display: none; }
   .pd-prize-note { display: block; }
 }
+
+/* ------------------------------------------------------------------
+   Phones: nothing wider than the screen. Every column is allowed to
+   shrink, and the stat/prize text scales with the screen width.
+   ------------------------------------------------------------------ */
+@media (max-width: 960px) {
+  .top-grid, .split { grid-template-columns: minmax(0, 1fr); }
+  .col-left, .col-right, .hero-block, .body-block { min-width: 0; }
+}
+@media (max-width: 560px) {
+  .stats { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.4rem; }
+  .stat { min-width: 0; padding-left: 0.15rem; padding-right: 0.15rem; }
+  .stat .label { font-size: clamp(0.62rem, 2.6vw, 0.8rem); letter-spacing: 0.1em; }
+  .stat strong { font-size: clamp(1rem, 5.4vw, 1.35rem); white-space: nowrap; }
+  .stat__odds { font-size: clamp(0.95rem, 4.6vw, 1.2rem) !important; }
+  .opens { flex-wrap: wrap; justify-content: center; text-align: center; }
+  .opens strong { font-size: clamp(1rem, 4.8vw, 1.15rem); }
+  .mint__row { gap: 0.5rem; }
+  .mint__count { font-size: clamp(1.05rem, 5vw, 1.3rem); white-space: nowrap; }
+  .mint__entries { gap: 0.5rem; }
+  .mint__entries > div:first-child { min-width: 0; }
+  .mint__rule { font-size: clamp(0.7rem, 3.2vw, 0.82rem); }
+  .prizes-sub { font-size: clamp(0.7rem, 3.3vw, 0.9rem); letter-spacing: 0.12em; }
+  .stepper { flex-shrink: 0; gap: 0.4rem; }
+  .stepper button { width: 38px; height: 38px; }
+  .prizes--grid, .prizes { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem; }
+  .prizes--grid .prize, .prize { min-width: 0; padding: 0 0.7rem; }
+  .prize span { font-size: clamp(0.85rem, 3.8vw, 1rem); }
+  .prize strong { font-size: clamp(1rem, 5vw, 1.4rem) !important; white-space: nowrap; }
+  .big-figure strong { font-size: clamp(2.4rem, 13vw, 3.6rem); white-space: nowrap; }
+  .big-figure p { font-size: clamp(0.9rem, 4vw, 1.05rem); }
+  .you-mint__equation { flex-wrap: wrap; justify-content: center; }
+  .pill { font-size: clamp(0.7rem, 3.2vw, 0.85rem); }
+  .footer .page { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .pill--link { margin-left: 0; }
+}
