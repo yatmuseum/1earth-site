@@ -255,7 +255,7 @@ export default function MintCard() {
 
       <div className="mint__total">
         <span>Total</span>
-        <strong>${total.toLocaleString()} USDC</strong>
+        <strong>{total.toLocaleString()}<small className="usdc">USDC</small></strong>
       </div>
 
       {canBuyNow && (

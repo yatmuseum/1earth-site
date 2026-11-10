@@ -19,9 +19,9 @@ export const MINT = {
   live: false,
 };
 
-// 10 winners, $10,000 each.
+// 10 winners, 10,000 USDC each.
 export const PRIZES = ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th"].map(
-  (place) => [place, "$10,000"],
+  (place) => [place, "10,000"],
 );
 
 export function currentMax(now = new Date()) {

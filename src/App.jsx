@@ -36,7 +36,7 @@ export default function App() {
               <div className="stats">
                 <div className="card stat">
                   <span className="label">Price</span>
-                  <strong>${MINT.priceUsdc} <small>USDC</small></strong>
+                  <strong>{MINT.priceUsdc} <small>USDC</small></strong>
                 </div>
                 <div className="card stat">
                   <span className="label">Supply</span>
@@ -56,7 +56,7 @@ export default function App() {
               <div className="hero-block">
                 <img className="globe" src="/globe-gold.webp" alt="1-Earth globe" width="240" height="240" />
                 <h2 id="prizes-title" className="prizes-title">Prize Distribution</h2>
-                <p className="prizes-sub">10 winners · $10,000 each</p>
+                <p className="prizes-sub">10 winners · 10,000 USDC each</p>
               </div>
 
               <div className="body-block">
@@ -64,7 +64,7 @@ export default function App() {
                 {PRIZES.map(([place, amount]) => (
                   <li key={place} className="card prize">
                     <span>{place}</span>
-                    <strong>{amount}</strong>
+                    <strong>{amount}<small className="usdc">USDC</small></strong>
                   </li>
                 ))}
               </ol>
@@ -98,13 +98,13 @@ export default function App() {
           <div className="split">
             <div className="card big-figure">
               <span className="label label--lg">Prize pool</span>
-              <strong>$100,000</strong>
-              <p>$10 of every mint goes to the prize pool</p>
+              <strong>100,000<small className="usdc">USDC</small></strong>
+              <p>10 USDC of every mint goes to the prize pool</p>
             </div>
             <div className="card big-figure">
               <span className="label label--lg">Operations &amp; development</span>
-              <strong>$100,000</strong>
-              <p>$10 of every mint supports the 1-Earth protocol</p>
+              <strong>100,000<small className="usdc">USDC</small></strong>
+              <p>10 USDC of every mint supports the 1-Earth protocol</p>
             </div>
           </div>
 
