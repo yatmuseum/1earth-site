@@ -451,7 +451,9 @@ button { font: inherit; color: inherit; }
 .usdc { font-size: 0.44em; font-weight: 800; letter-spacing: 0.02em; margin-left: 0.22em; color: var(--ink); }
 
 /* ---------- /PastDraws ---------- */
-.pill--link { margin-left: 0.6rem; text-decoration: none; color: var(--ink); }
+.pill--link { margin-left: 0; text-decoration: none; color: var(--ink); justify-content: center; }
+/* Footer links: same size, side by side, starting at the left edge. */
+.footer-links { display: inline-grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 0.6rem; align-items: stretch; }
 .pill--link:hover { border-color: var(--green); }
 .pd { padding-bottom: 4rem; }
 .pd-back { font-weight: 700; color: var(--ink); text-decoration: none; }
@@ -518,8 +520,8 @@ button { font: inherit; color: inherit; }
   .big-figure p { font-size: clamp(0.9rem, 4vw, 1.05rem); }
   .you-mint__equation { flex-wrap: wrap; justify-content: center; }
   .pill { font-size: clamp(0.7rem, 3.2vw, 0.85rem); }
-  .footer .page { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-  .pill--link { margin-left: 0; }
+  .footer-links { gap: 0.5rem; }
+  .pill--link { white-space: nowrap; letter-spacing: 0.06em; padding: 0.6rem 0.7rem; font-size: clamp(0.66rem, 3vw, 0.82rem); }
 }
 
 /* ---------- /Frame ---------- */

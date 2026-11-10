@@ -123,15 +123,10 @@ export default function App() {
 
       <footer className="footer">
         <div className="page">
-          <span className="pill">
-            <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
-              <path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12Z" fill="none" stroke="currentColor" strokeWidth="2" />
-              <circle cx="12" cy="10" r="2.5" fill="none" stroke="currentColor" strokeWidth="2" />
-            </svg>
-            Costa Rica–based protocol
-          </span>
-          <a href="/PastDraws" className="pill pill--link">Past Draws →</a>
-          <a href="/Frame" className="pill pill--link">Gold Frame PFP →</a>
+          <nav className="footer-links" aria-label="More">
+            <a href="/PastDraws" className="pill pill--link">Past Draws →</a>
+            <a href="/Frame" className="pill pill--link">Gold Frame PFP →</a>
+          </nav>
           <p className="legal">
             <strong>Important:</strong> For informational purposes only. Not an offer to sell, or a
             solicitation of an offer to buy, any security or investment. 1-Earth is a protocol based
