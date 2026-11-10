@@ -85,6 +85,9 @@ export default function App() {
                   community: a permanent badge in your wallet showing you were here from the start, and
                   a voice in what we build next. It can’t be transferred or sold.
                 </p>
+                <p className="you-mint__cta">
+                  Every digital PFP deserves a frame. <a href="/Frame">Frame yours →</a>
+                </p>
               </div>
               </div>
             </section>
