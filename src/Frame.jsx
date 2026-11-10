@@ -61,32 +61,6 @@ export default function Frame() {
     }
   }, []);
 
-  // Ctrl+V / Cmd+V anywhere on the page.
-  useEffect(() => {
-    const onPaste = (e) => {
-      const file = [...(e.clipboardData?.files || [])].find((f) => f.type.startsWith("image/"))
-        || [...(e.clipboardData?.items || [])].find((i) => i.type.startsWith("image/"))?.getAsFile();
-      if (file) { e.preventDefault(); loadFile(file); }
-      else setMsg("No image found in what you pasted. Copy the picture itself (“Copy image”), not its link.");
-    };
-    window.addEventListener("paste", onPaste);
-    return () => window.removeEventListener("paste", onPaste);
-  }, [loadFile]);
-
-  // The "Paste image" button reads the clipboard directly.
-  const pasteFromClipboard = async () => {
-    try {
-      const items = await navigator.clipboard.read();
-      for (const item of items) {
-        const type = item.types.find((t) => t.startsWith("image/"));
-        if (type) { const blob = await item.getType(type); return loadFile(new File([blob], "pfp", { type })); }
-      }
-      setMsg("No image found. Right-click (or long-press) your picture, choose “Copy image”, then try again.");
-    } catch {
-      setMsg("Your browser blocked clipboard access. Press Ctrl+V (Cmd+V on Mac), or tap the circle to upload instead.");
-    }
-  };
-
   // Draw the photo (cropped to a circle) and the ring.
   useEffect(() => {
     const c = canvasRef.current;
@@ -157,7 +131,7 @@ export default function Frame() {
       </header>
 
       <h1 className="pd-title">Gold Frame PFP</h1>
-      <p className="pd-intro">Paste, drop or upload your profile picture, then save it with the gold frame.</p>
+      <p className="pd-intro">Drag in or upload your profile picture, then save it with the gold frame.</p>
 
       <div className="fr-box">
         <label
@@ -170,16 +144,18 @@ export default function Frame() {
             onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={onUp}
             aria-label="Your profile picture with the gold frame"
           />
-          {!img && <span className="fr-hint">Tap to upload<br />or drop an image here</span>}
+          {!img && <span className="fr-hint">Drag your image here<br />or tap to upload</span>}
           {!img && <input type="file" accept="image/*" onChange={(e) => loadFile(e.target.files?.[0])} />}
         </label>
 
         {!img ? (
           <div className="fr-controls">
-            <button type="button" className="buy fr-download fr-primary" onClick={pasteFromClipboard}>Paste image</button>
+            <label className="buy fr-download fr-primary fr-upload">
+              Upload image
+              <input type="file" accept="image/*" onChange={(e) => loadFile(e.target.files?.[0])} />
+            </label>
             <p className="pd-muted fr-tip">
-              Copy your profile picture first (right-click or long-press it, then “Copy image”), then tap Paste.
-              Or press Ctrl+V / Cmd+V, or tap the circle to upload.
+              Save your profile picture to your device first, then drag it into the circle or tap Upload image.
             </p>
           </div>
         ) : (
