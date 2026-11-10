@@ -7,8 +7,8 @@ export const MINT = {
   supply: 10000,
   oddsLabel: "1 in 1,000",
   opensAt: new Date("2026-11-11T16:11:00Z"),
-  opensLabel: "November 11th @ 11:11 EST",
-  drawingLabel: "November 18th @ 11:11 EST",
+  opensLabel: "November 11th @ 11:11 AM EST",
+  drawingLabel: "November 18th @ 11:11 AM EST",
   // Per-wallet limits by phase, counted from the moment the mint opens.
   phases: [
     { hours: 120, max: 5 },

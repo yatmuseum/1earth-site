@@ -51,7 +51,7 @@ async function sendAndConfirm(connection, raw, lastValidBlockHeight) {
 // Opens X with a ready-to-post message (the buyer can edit it before posting).
 function shareUrl() {
   const text = "I just minted my 1-Earth 🌍 Gold Frame 🖼️ and became a founding member of the @1earthh community. " +
-    "Join me in the 50/50 draw on November 18th @ 11:11 EST.";
+    "Join me in the 50/50 draw on November 18th @ 11:11 AM EST.";
   return `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent("https://1-earth.io")}`;
 }
 
