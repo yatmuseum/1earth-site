@@ -130,6 +130,7 @@ export default function App() {
             </svg>
             Costa Rica–based protocol
           </span>
+          <a href="/PastDraws" className="pill pill--link">Past Draws →</a>
           <p className="legal">
             <strong>Important:</strong> For informational purposes only. Not an offer to sell, or a
             solicitation of an offer to buy, any security or investment. 1-Earth is a protocol based

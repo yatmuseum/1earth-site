@@ -449,3 +449,39 @@ button { font: inherit; color: inherit; }
 /* "USDC" after amounts: a small label, the same proportion everywhere
    (prizes, totals, prize pool), matching the flyer. */
 .usdc { font-size: 0.44em; font-weight: 800; letter-spacing: 0.02em; margin-left: 0.22em; color: var(--ink); }
+
+/* ---------- /PastDraws ---------- */
+.pill--link { margin-left: 0.6rem; text-decoration: none; color: var(--ink); }
+.pill--link:hover { border-color: var(--green); }
+.pd { padding-bottom: 4rem; }
+.pd-back { font-weight: 700; color: var(--ink); text-decoration: none; }
+.pd-title { font-family: var(--display); font-weight: 800; font-size: clamp(2.4rem, 5vw, 3.6rem); letter-spacing: -0.03em; margin-top: 1.6rem; }
+.pd-intro { color: var(--label); max-width: 60ch; margin: 0.6rem 0 1.8rem; line-height: 1.55; }
+.pd-muted { color: var(--muted); }
+.pd-empty, .pd-draw, .pd-how { padding: 1.6rem 1.8rem; margin-bottom: 1.4rem; }
+.pd-empty h2, .pd-draw h2, .pd-how h2 { font-family: var(--display); font-weight: 800; font-size: 1.5rem; margin-bottom: 0.4rem; }
+.pd-draw__head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; flex-wrap: wrap; }
+.pd-links { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+.pd-links a { border: 2px solid var(--line); border-radius: 999px; padding: 0.35rem 0.9rem; font-weight: 700; font-size: 0.9rem; color: var(--ink); text-decoration: none; }
+.pd-table { width: 100%; border-collapse: collapse; margin: 1.2rem 0; font-size: 0.98rem; }
+.pd-table th { text-align: left; color: var(--label); font-weight: 700; font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.4rem 0.5rem; border-bottom: 2px solid var(--line); }
+.pd-table td { padding: 0.55rem 0.5rem; border-bottom: 1px solid var(--line); }
+.pd-table a, .pd-proof a { color: var(--green); font-weight: 700; }
+.pd-proof a { word-break: break-all; }
+.pd-table td { white-space: nowrap; }
+.pd-scroll { overflow-x: auto; }
+.pd-prize-note { display: none; color: var(--label); font-size: 0.9rem; margin-top: 0.8rem; }
+.pd-proof { display: grid; grid-template-columns: max-content 1fr; gap: 0.45rem 1.2rem; font-size: 0.92rem; }
+.pd-proof dt { color: var(--label); font-weight: 700; }
+.pd-proof dd { margin: 0; word-break: break-all; }
+.pd-proof code, .pd-how code { font-size: 0.85em; background: var(--bg, #f1f5ee); padding: 0.1rem 0.35rem; border-radius: 6px; word-break: break-all; }
+.pd-how ol { margin: 0.6rem 0 0 1.2rem; display: grid; gap: 0.6rem; line-height: 1.55; color: var(--label); }
+.pd-how strong { color: var(--ink); }
+@media (max-width: 640px) {
+  .pd-proof { grid-template-columns: 1fr; }
+  .pd-proof dt { margin-top: 0.5rem; }
+  .pd-table { font-size: 0.86rem; }
+  .pd-table th, .pd-table td { padding-left: 0.3rem; padding-right: 0.3rem; }
+  .pd-table th:nth-child(4), .pd-table td:nth-child(4) { display: none; }
+  .pd-prize-note { display: block; }
+}
