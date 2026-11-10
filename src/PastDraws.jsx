@@ -6,6 +6,13 @@ import { MINT } from "./config.js";
 const short = (a) => (a && a.length > 12 ? `${a.slice(0, 4)}…${a.slice(-4)}` : a);
 const solscan = (kind, id) => `https://solscan.io/${kind}/${id}`;
 
+function paidLine(d) {
+  const paid = d.winners.filter((w) => w.payoutTx).length;
+  if (paid === d.winners.length) return `All ${paid} prizes paid. Tap “Paid ✓” to see each transfer on Solana.`;
+  if (paid === 0) return "Prize payments will appear here as they’re sent.";
+  return `${paid} of ${d.winners.length} prizes paid so far.`;
+}
+
 function Draw({ d }) {
   return (
     <article className="card pd-draw">
@@ -21,8 +28,9 @@ function Draw({ d }) {
       </header>
 
       <p className="pd-prize-note">Each winner receives {d.prizeLabel}.</p>
+      <p className="pd-paid">{paidLine(d)}</p>
       <div className="pd-scroll"><table className="pd-table">
-        <thead><tr><th>Place</th><th>Entry #</th><th>Winning wallet</th><th>Prize</th></tr></thead>
+        <thead><tr><th>Place</th><th>Entry #</th><th>Winning wallet</th><th>Prize</th><th>Payment</th></tr></thead>
         <tbody>
           {d.winners.map((w) => (
             <tr key={w.place}>
@@ -30,6 +38,11 @@ function Draw({ d }) {
               <td>#{w.entry}</td>
               <td><a href={solscan("account", w.wallet)} target="_blank" rel="noopener noreferrer">{short(w.wallet)}</a></td>
               <td>{d.prizeLabel}</td>
+              <td>
+                {w.payoutTx
+                  ? <a href={solscan("tx", w.payoutTx)} target="_blank" rel="noopener noreferrer" className="pd-pay">Paid ✓</a>
+                  : <span className="pd-pending">Pending</span>}
+              </td>
             </tr>
           ))}
         </tbody>
@@ -89,6 +102,7 @@ export default function PastDraws() {
           <li><strong>The entry list is fingerprinted.</strong> Download the entry list and compute its SHA-256. It must match the fingerprint posted before the drawing.</li>
           <li><strong>The randomness request is tied to that list.</strong> The ORAO VRF request seed is SHA-256 of “1-Earth 50/50 draw|collection|fingerprint”, so there’s exactly one possible drawing per entry list.</li>
           <li><strong>Recompute the winners.</strong> Our open-source script reads the randomness from Solana and recomputes the winners: <code>node scripts/draw.mjs verify mainnet-beta</code></li>
+          <li><strong>Check the payments.</strong> Each “Paid ✓” opens the transfer on Solana: the prize leaving our treasury and arriving in the winning wallet.</li>
         </ol>
       </section>
     </div>

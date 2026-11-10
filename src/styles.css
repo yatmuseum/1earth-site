@@ -558,3 +558,9 @@ button { font: inherit; color: inherit; }
 }
 .fr-upload { position: relative; display: flex; align-items: center; justify-content: center; cursor: pointer; }
 .fr-upload input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+
+/* Past Draws: payments */
+.pd-paid { margin-top: 0.8rem; font-weight: 700; color: var(--ink); }
+.pd-pay { color: var(--green); font-weight: 800; text-decoration: none; }
+.pd-pay:hover { text-decoration: underline; }
+.pd-pending { color: var(--muted); font-weight: 600; }
