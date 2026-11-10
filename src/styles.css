@@ -521,3 +521,24 @@ button { font: inherit; color: inherit; }
   .footer .page { display: flex; flex-wrap: wrap; gap: 0.5rem; }
   .pill--link { margin-left: 0; }
 }
+
+/* ---------- /Frame ---------- */
+.fr-box { display: grid; grid-template-columns: minmax(0, 420px) minmax(0, 1fr); gap: 2rem; align-items: center; }
+.fr-stage { position: relative; display: block; width: 100%; aspect-ratio: 1; border-radius: 50%; cursor: pointer; }
+.fr-stage.has-img { cursor: grab; }
+.fr-stage canvas { width: 100%; height: 100%; display: block; border-radius: 50%; touch-action: none; }
+.fr-stage input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.fr-hint { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; color: var(--label); font-weight: 700; pointer-events: none; }
+.fr-controls { display: grid; gap: 0.9rem; max-width: 360px; }
+.fr-zoom { display: grid; gap: 0.4rem; font-weight: 700; color: var(--label); font-size: 0.9rem; }
+.fr-zoom input { width: 100%; accent-color: var(--green); }
+.fr-tip { font-size: 0.9rem; margin: 0; }
+.fr-download { width: 100%; }
+.fr-change { position: relative; text-align: center; font-weight: 700; color: var(--ink); text-decoration: underline; cursor: pointer; font-size: 0.92rem; }
+.fr-change input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.fr-note { margin-top: 1.6rem; font-size: 0.92rem; }
+@media (max-width: 720px) {
+  .fr-box { grid-template-columns: minmax(0, 1fr); gap: 1.2rem; }
+  .fr-stage { max-width: 340px; margin: 0 auto; }
+  .fr-controls { max-width: none; }
+}
