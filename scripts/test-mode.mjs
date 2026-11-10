@@ -38,7 +38,7 @@ if (mode === "on") {
   setVar("SUPPLY", String(minted + extra));
   fs.writeFileSync(file, text);
   console.log(`TEST MODE: ${minted} already minted on devnet, supply set to ${minted + extra} (${extra} available).`);
-  console.log("Price 1 USDC, max 1 per wallet (first 24 hours). Now run: git add . ; git commit -m \"Test mode on\" ; git push");
+  console.log("Price 1 USDC, max 5 per wallet (first 5 days). Now run: git add . ; git commit -m \"Test mode on\" ; git push");
 } else if (mode === "off") {
   setVar("MINT_LIVE", "false");
   setVar("OPENS_AT", "2026-11-11T16:11:00Z");

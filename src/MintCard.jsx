@@ -241,9 +241,9 @@ export default function MintCard() {
         <div>
           <span className="mint__label">Entries</span>
           <p className="mint__rule">
-            Max 1 per wallet first 24 hrs,
+            Max 5 per wallet first 5 days,
             <br />
-            5 next 72 hrs, 50 thereafter
+            100 thereafter
           </p>
         </div>
         <div className="stepper">
