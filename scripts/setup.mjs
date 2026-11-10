@@ -3,6 +3,7 @@
 //   node scripts/setup.mjs mainnet-beta --rehearsal          plan for the small $0.01 rehearsal
 //   node scripts/setup.mjs mainnet-beta --rehearsal --go     create it
 //   node scripts/setup.mjs mainnet-beta --rehearsal --fresh --go   start a NEW rehearsal (counts reset)
+//   add --big for a rehearsal tree that holds 16,384 (~0.13 SOL) instead of 32
 //   node scripts/setup.mjs mainnet-beta --uri <collection metadata url> --go
 //                                                            create the REAL collection + full tree
 //
@@ -28,9 +29,12 @@ const collectionUri = uriAt > 0 ? process.argv[uriAt + 1] : "https://1-earth.io/
 
 const prefix = network === "devnet" ? "devnet" : "mainnet";
 const stateName = rehearsal ? `${network}-rehearsal` : network;
+const big = process.argv.includes("--big");
 const TREE = rehearsal
-  ? { maxDepth: 5, maxBufferSize: 8, canopyDepth: 0 }     // 32 entries, tiny cost
-  : { maxDepth: 14, maxBufferSize: 64, canopyDepth: 8 };   // 16,384 entries, ~0.34 SOL
+  ? (big
+      ? { maxDepth: 14, maxBufferSize: 64, canopyDepth: 0 }  // 16,384 entries, ~0.13 SOL (for testing 50 per wallet)
+      : { maxDepth: 5, maxBufferSize: 8, canopyDepth: 0 })   // 32 entries, tiny cost
+  : { maxDepth: 14, maxBufferSize: 64, canopyDepth: 8 };     // 16,384 entries, ~0.34 SOL
 const name = rehearsal ? "1-Earth Gold Frames (Rehearsal)" : "1-Earth Gold Frames";
 
 const umi = makeUmi(network, `${prefix}-deployer`);
@@ -52,7 +56,7 @@ console.log(`Network:     ${network}${rehearsal ? " (REHEARSAL)" : ""}`);
 console.log(`Deployer:    ${umi.identity.publicKey}  (${balance} SOL)`);
 console.log(`Minter:      ${minter}`);
 console.log(`Collection:  "${name}"  metadata: ${collectionUri}`);
-console.log(`Tree:        depth ${TREE.maxDepth}, buffer ${TREE.maxBufferSize}, canopy ${TREE.canopyDepth} (${rehearsal ? "~0.02 SOL" : "~0.35 SOL"})`);
+console.log(`Tree:        depth ${TREE.maxDepth}, buffer ${TREE.maxBufferSize}, canopy ${TREE.canopyDepth} (holds ${2 ** TREE.maxDepth})`);
 console.log("");
 if (!go) { console.log("Nothing done yet. Run again with --go to create it."); process.exit(0); }
 if (!rehearsal && balance < 0.37) { console.error("The deployer needs at least ~0.37 SOL for the real setup."); process.exit(1); }
@@ -78,6 +82,7 @@ if (!state.merkleTree) {
   console.log("2) Creating the Merkle tree…");
   await (await createTreeV2(umi, { merkleTree, ...TREE, public: false })).sendAndConfirm(umi);
   state.merkleTree = merkleTree.publicKey.toString();
+  state.capacity = 2 ** TREE.maxDepth;
   saveState(stateName, state);
   console.log(`   Merkle tree: ${state.merkleTree}`);
 } else console.log(`2) Merkle tree already created: ${state.merkleTree}`);
