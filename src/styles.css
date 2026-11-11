@@ -564,3 +564,18 @@ button { font: inherit; color: inherit; }
 .pd-pay { color: var(--green); font-weight: 800; text-decoration: none; }
 .pd-pay:hover { text-decoration: underline; }
 .pd-pending { color: var(--muted); font-weight: 600; }
+
+/* Desktop: purchase messages (and "Share on X") take the place of the small
+   print, side by side on one line, so the first screen never grows. */
+@media (min-width: 961px) {
+  .mint__status { display: flex; gap: 0.6rem; align-items: stretch; margin-top: 1.6vh; }
+  .mint__status .mint__msg { flex: 1; margin: 0; padding: 0.55rem 0.8rem; font-size: clamp(0.82rem, 1.5vh, 0.95rem); display: flex; align-items: center; justify-content: center; }
+  .mint__status .mint__share { width: auto; margin: 0; padding: 0.55rem 1rem; white-space: nowrap; font-size: clamp(0.82rem, 1.5vh, 0.95rem); }
+  .mint.has-msg .mint__fine { display: none; }
+}
+@media (min-width: 961px) {
+  /* While a message shows, tighten the total row a little so short screens still fit. */
+  .mint.has-msg .mint__total { padding-top: 1vh; padding-bottom: 1.2vh; }
+  .mint.has-msg .mint__status { margin-top: 1.2vh; }
+  .mint__status .mint__msg { line-height: 1.3; }
+}

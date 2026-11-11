@@ -228,7 +228,7 @@ export default function MintCard() {
   const canBuyNow = connected && isOpen && live && !soldOut;
 
   return (
-    <div className="card mint">
+    <div className={`card mint ${message ? "has-msg" : ""}`}>
       <div className="mint__row">
         <span className="mint__label">Minted</span>
         <span className="mint__count">{minted.toLocaleString()} / {supply.toLocaleString()}</span>
@@ -271,14 +271,18 @@ export default function MintCard() {
 
       {button}
 
-      {message && <p className={`mint__msg mint__msg--${message.kind}`} role="status">{message.text}</p>}
-      {message?.kind === "success" && (
-        <a className="mint__share" href={shareUrl()} target="_blank" rel="noopener noreferrer">
-          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
-            <path fill="currentColor" d="M18.9 2H22l-6.8 7.8L23 22h-6.2l-4.9-6.4L6.3 22H3.2l7.3-8.3L1 2h6.3l4.4 5.8L18.9 2Zm-1.1 18h1.7L6.3 3.9H4.5L17.8 20Z"/>
-          </svg>
-          Share on X
-        </a>
+      {message && (
+        <div className="mint__status">
+          <p className={`mint__msg mint__msg--${message.kind}`} role="status">{message.text}</p>
+          {message.kind === "success" && (
+            <a className="mint__share" href={shareUrl()} target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+                <path fill="currentColor" d="M18.9 2H22l-6.8 7.8L23 22h-6.2l-4.9-6.4L6.3 22H3.2l7.3-8.3L1 2h6.3l4.4 5.8L18.9 2Zm-1.1 18h1.7L6.3 3.9H4.5L17.8 20Z"/>
+              </svg>
+              Share on X
+            </a>
+          )}
+        </div>
       )}
 
       <p className="mint__fine">Paid in USDC on Solana · Network fees not included · All sales final</p>
