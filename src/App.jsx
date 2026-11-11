@@ -81,9 +81,8 @@ export default function App() {
                 </div>
                 <p className="you-mint__tags">Soulbound · Non-transferable · Mint # = Entry #</p>
                 <p className="you-mint__body">
-                  More than an entry, your Gold Frame marks you as a founding member of the 1-Earth
-                  community: a permanent badge in your wallet showing you were here from the start, and
-                  a voice in what we build next. It can’t be transferred or sold.
+                  More than an entry, each Gold Frame comes with 10,000 $ONE to be distributed to your
+                  wallet at a later date + a voice in what we build next. It can’t be transferred or sold.
                 </p>
                 <p className="you-mint__cta">
                   Every digital PFP deserves a frame. <a href="/Frame">Frame yours →</a>
