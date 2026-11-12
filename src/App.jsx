@@ -77,8 +77,9 @@ export default function App() {
                 </div>
                 <p className="you-mint__tags">Soulbound · Non-transferable · Mint # = Entry #</p>
                 <p className="you-mint__body">
-                  More than an entry, each Gold Frame comes with 10,000 $ONE to be distributed to your
-                  wallet at a later date + a voice in what we build next.
+                  More than an entry, each Gold Frame makes you a founding member of the{" "}
+                  <span className="nowrap">1-Earth</span> community, with surprises along the way + a voice
+                  in what we build next.
                 </p>
                 <p className="you-mint__cta">
                   Every digital PFP deserves a frame. <a href="/Frame">Frame yours →</a>

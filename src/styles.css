@@ -588,3 +588,5 @@ button { font: inherit; color: inherit; }
 @media (max-width: 960px) {
   .col-left .hero-block .frame-tag { margin-bottom: 0.9rem; }
 }
+
+.nowrap { white-space: nowrap; }
