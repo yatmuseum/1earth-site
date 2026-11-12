@@ -33,7 +33,7 @@ export default function App() {
               <div className="stats">
                 <div className="card stat">
                   <span className="label">Price</span>
-                  <strong className="price-val">{MINT.priceUsdc} <small className="price-unit"><span>USDC</span><span>ON SOL</span></small></strong>
+                  <strong className="price-val">{MINT.priceUsdc} <small className="price-unit"><span>USDC</span><span>ON SOLANA</span></small></strong>
                 </div>
                 <div className="card stat">
                   <span className="label">Supply</span>
