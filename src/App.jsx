@@ -78,7 +78,7 @@ export default function App() {
                 <p className="you-mint__tags">Soulbound · Non-transferable · Mint # = Entry #</p>
                 <p className="you-mint__body">
                   More than an entry, each Gold Frame makes you a founding member of the{" "}
-                  <span className="nowrap">1-Earth</span> community, with surprises along the way + a voice
+                  <span className="nowrap">1-Earth</span> community, with surprises along the way and a voice
                   in what we build next.
                 </p>
                 <p className="you-mint__cta">
