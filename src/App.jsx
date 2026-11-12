@@ -24,15 +24,16 @@ export default function App() {
           <div className="top-grid">
             <section className="col-left" aria-labelledby="title">
               <div className="hero-block">
-                <h1 id="title" className="mega">50/50</h1>
-                <p className="frame-tag">Gold Frame Mint</p>
+                <div className="mega-box"><h1 id="title" className="mega">50/50</h1></div>
+                <div className="tag-row"><p className="frame-tag">Gold Frame Mint</p></div>
+                <p className="prizes-sub hero-ghost" aria-hidden="true">&nbsp;</p>
               </div>
 
               <div className="body-block">
               <div className="stats">
                 <div className="card stat">
                   <span className="label">Price</span>
-                  <strong className="price-val">{MINT.priceUsdc} <small className="price-unit"><span>USDC</span><span>on SOL</span></small></strong>
+                  <strong className="price-val">{MINT.priceUsdc} <small className="price-unit"><span>USDC</span><span>ON SOL</span></small></strong>
                 </div>
                 <div className="card stat">
                   <span className="label">Supply</span>
