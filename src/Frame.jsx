@@ -77,7 +77,8 @@ export default function Frame() {
       const w = img.width * cover, h = img.height * cover;
       ctx.drawImage(img, (s - w) / 2 + offset.x, (s - h) / 2 + offset.y, w, h);
     } else {
-      ctx.fillStyle = "#e7ece3";
+      // Empty-circle color follows the site theme (--frame-empty), light by default.
+      ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue("--frame-empty").trim() || "#e7ece3";
       ctx.fillRect(0, 0, s, s);
     }
     ctx.restore();

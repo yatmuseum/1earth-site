@@ -9,6 +9,7 @@ import PastDraws from "./PastDraws.jsx";
 import Frame from "./Frame.jsx";
 import "@solana/wallet-adapter-react-ui/styles.css";
 import "./styles.css";
+import "./theme-solana.css"; // remove this line to go back to the light theme
 
 const path = window.location.pathname;
 const isPastDraws = /^\/pastdraws\/?$/i.test(path);

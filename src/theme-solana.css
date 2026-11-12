@@ -1,0 +1,65 @@
+/* ==================================================================
+   SOLANA THEME (dark, purple-to-green), matching the pitch graphics.
+   To go back to the original light theme, remove the line
+   import "./theme-solana.css";  from src/main.jsx. Nothing else changes.
+   ================================================================== */
+:root {
+  --bg: #0c0b16;
+  --card: #15142a;
+  --line: #2b2950;
+  --ink: #ecebff;
+  --green: #14f195;
+  --label: #c9c6ee;
+  --muted: #a9a6cf;
+  --sol-purple: #9945ff;
+  --sol-green: #14f195;
+  --sol-grad: linear-gradient(90deg, #9945ff, #14f195);
+  --frame-empty: #1d1b38;
+  color-scheme: dark;
+}
+body {
+  background:
+    radial-gradient(900px 600px at 0% 0%, rgba(153, 69, 255, 0.26), transparent 70%),
+    radial-gradient(900px 600px at 100% 100%, rgba(20, 241, 149, 0.16), transparent 70%),
+    var(--bg);
+  background-attachment: fixed;
+}
+.card { border-width: 1.5px; }
+
+/* Gradient headline text */
+.mega, .pd-title {
+  background: var(--sol-grad);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+
+/* Buttons */
+.wallet-adapter-button-trigger,
+.wallet-adapter-button-trigger:not([disabled]):hover { background: var(--sol-grad); color: #0c0b16; }
+.wallet-adapter-button-trigger:not([disabled]):hover { filter: brightness(1.08); }
+.buy { background: transparent; border: 2px solid transparent;
+  background-image: linear-gradient(var(--card), var(--card)), var(--sol-grad);
+  background-origin: border-box; background-clip: padding-box, border-box; color: var(--ink); }
+.buy:hover:not(:disabled), .buy--live, .fr-primary {
+  background-image: var(--sol-grad); background-clip: border-box; color: #0c0b16; }
+.buy:disabled { background-image: none; background: var(--card); border: 2px solid var(--line); color: var(--muted); }
+.mint__terms input { accent-color: var(--sol-green); }
+
+/* Progress bar */
+.progress span { background: var(--sol-grad); }
+
+/* Messages */
+.mint__msg--info { background: #1d1b38; color: var(--label); }
+.mint__msg--error { background: #3a1626; color: #ffb3c4; }
+.mint__msg--success { background: #0f2e25; color: var(--sol-green); }
+.mint__share { background: #000; color: #fff; border: 1.5px solid var(--line); }
+
+/* Gold Frame details keep their gold */
+.you-mint__equals { color: #d9ad48; }
+
+/* Globe shadow on dark */
+.globe { box-shadow: 0 14px 40px rgba(153, 69, 255, 0.25); }
+
+/* Past Draws / Frame pages */
+.pd-proof code, .pd-how code { background: #0f0e20; }
+.pd-links a { border-color: var(--line); }
+.fr-zoom input { accent-color: var(--sol-green); }
