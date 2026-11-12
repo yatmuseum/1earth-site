@@ -593,7 +593,7 @@ button { font: inherit; color: inherit; }
 
 /* Price card: "USDC" with "on SOL" stacked beneath it, beside the number */
 .price-val { display: inline-flex; align-items: center; gap: 0.3em; }
-.price-unit { display: inline-flex; flex-direction: column; align-items: flex-start; line-height: 1.05; }
+.price-unit { display: inline-flex; flex-direction: column; align-items: center; line-height: 1.05; }
 .price-unit span { font-weight: 700; letter-spacing: 0; color: var(--ink); }
 
 /* Hero: on desktop, "50/50" is centered on the globe, and "GOLD FRAME MINT"
