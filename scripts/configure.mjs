@@ -1,13 +1,13 @@
 // Points the site at MAINNET by updating wrangler.jsonc. Push afterwards.
 //
-//   node scripts/configure.mjs rehearsal --treasury <address> --allow <wallet1,wallet2> [--supply 20] [--limit100]
-//       (--limit100 acts like the mint opened over 5 days ago, so each wallet can mint up to 100)
+//   node scripts/configure.mjs rehearsal --treasury <address> --allow <wallet1,wallet2> [--supply 20] [--limit10 | --limit100]
+//       (--limit10 acts like it is after Nov 20 (10 per wallet); --limit100 after Nov 25 (100 per wallet))
 //       Small rehearsal collection, $0.01 each, 10 available (or --supply), 5 per wallet,
 //       and ONLY the listed wallets can mint (everyone else is told it isn't open).
 //
 //   node scripts/configure.mjs launch --treasury <address> [--metadata <entry metadata url>]
 //       The real thing: real collection, $20, 10,000, opens November 11th @ 11:11 EST
-//       (nobody can mint before then), 5 per wallet for the first 5 days, then 100.
+//       (nobody can mint before then), 5 per wallet until Nov 20, 10 until Nov 25, then 100.
 //
 // Before switching, add the mainnet minter key as the Cloudflare secret
 // MINTER_SECRET_KEY_MAINNET (see the instructions in chat).
@@ -38,7 +38,7 @@ if (mode === "rehearsal") {
   if (!st.collection || !st.merkleTree) { console.error("Run: node scripts/setup.mjs mainnet-beta --rehearsal --go"); process.exit(1); }
   setVar("NETWORK", "mainnet-beta");
   setVar("MINT_LIVE", "true");
-  const hoursAgo = (process.argv.includes("--limit100") || process.argv.includes("--limit50")) ? 121 : 1;
+  const hoursAgo = (process.argv.includes("--limit100") || process.argv.includes("--limit50")) ? 337 : process.argv.includes("--limit10") ? 217 : 1;
   setVar("OPENS_AT", new Date(Date.now() - hoursAgo * 60 * 60_000).toISOString().replace(/\.\d+Z$/, "Z"));
   setVar("PRICE_USDC", "0.01");
   const supply = Number(arg("--supply") || 10);
@@ -56,7 +56,7 @@ if (mode === "rehearsal") {
     console.log("Note: no lookup table for this treasury yet, so purchases will use up to 3 per transaction.");
   }
   fs.writeFileSync(file, text);
-  console.log(`MAINNET REHEARSAL: $0.01 each, total supply ${supply}, max ${hoursAgo > 120 ? 100 : 5} per wallet, only ${allow.length} test wallet(s) can mint.`);
+  console.log(`MAINNET REHEARSAL: $0.01 each, total supply ${supply}, max ${hoursAgo > 336 ? 100 : hoursAgo > 216 ? 10 : 5} per wallet, only ${allow.length} test wallet(s) can mint.`);
 } else if (mode === "launch") {
   const metadata = arg("--metadata") || "https://1-earth.io/f.json";
   if (!/^https:\/\//.test(metadata)) { console.error("The metadata link must start with https://"); process.exit(1); }
@@ -79,7 +79,7 @@ if (mode === "rehearsal") {
   }
   setVar("LOOKUP_TABLE", st.lookupTable);
   fs.writeFileSync(file, text);
-  console.log("LAUNCH SETTINGS: mainnet, $20, 10,000, opens November 11th @ 11:11 EST, 5 per wallet for the first 5 days, then 100.");
+  console.log("LAUNCH SETTINGS: mainnet, $20, 10,000, opens November 11th @ 11:11 EST, 5 per wallet until Nov 20, 10 until Nov 25, then 100.");
 } else {
   console.error("Usage: node scripts/configure.mjs rehearsal|launch --treasury <address> ...");
   process.exit(1);
