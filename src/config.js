@@ -4,7 +4,7 @@
 
 export const MINT = {
   priceUsdc: 20,
-  supply: 10000,
+  supply: 1000,
   oddsLabel: "1 in 1,000",
   opensAt: new Date("2026-11-11T16:11:00Z"),
   opensLabel: "November 11th @ 11:11 AM EST",
@@ -20,10 +20,8 @@ export const MINT = {
   live: false,
 };
 
-// 10 winners, 10,000 USDC each.
-export const PRIZES = ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th"].map(
-  (place) => [place, "10,000"],
-);
+// 1 winner, 10,000 USDC.
+export const PRIZES = [["Grand prize", "10,000"]];
 
 export function currentMax(now = new Date()) {
   const hoursIn = (now - MINT.opensAt) / 36e5;

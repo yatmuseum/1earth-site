@@ -39,7 +39,7 @@ const [cmd, network] = process.argv.slice(2);
 const rehearsal = process.argv.includes("--rehearsal");
 const go = process.argv.includes("--go");
 const wi = process.argv.indexOf("--winners");
-const WINNERS = wi > 0 ? Number(process.argv[wi + 1]) : 10;
+const WINNERS = wi > 0 ? Number(process.argv[wi + 1]) : 1; // 1 winner of 10,000 USDC
 if (!["snapshot", "draw", "verify"].includes(cmd) || !["devnet", "mainnet-beta"].includes(network)) {
   console.error("Usage: node scripts/draw.mjs snapshot|draw|verify mainnet-beta [--rehearsal] [--go] [--winners 10]");
   process.exit(1);

@@ -66,7 +66,7 @@ if (mode === "rehearsal") {
   setVar("MINT_LIVE", "true");
   setVar("OPENS_AT", "2026-11-11T16:11:00Z");
   setVar("PRICE_USDC", "20");
-  setVar("SUPPLY", "10000");
+  setVar("SUPPLY", "1000");
   setVar("COLLECTION", st.collection);
   setVar("MERKLE_TREE", st.merkleTree);
   setVar("TREASURY", treasury);
@@ -79,7 +79,7 @@ if (mode === "rehearsal") {
   }
   setVar("LOOKUP_TABLE", st.lookupTable);
   fs.writeFileSync(file, text);
-  console.log("LAUNCH SETTINGS: mainnet, $20, 10,000, opens November 11th @ 11:11 EST, 5 per wallet until Nov 20, 10 until Nov 25, then 100.");
+  console.log("LAUNCH SETTINGS: mainnet, 20 USDC, 1,000 entries, 1 winner of 10,000 USDC, opens November 11th @ 11:11 EST, 5 per wallet until Nov 20, 10 until Nov 25, then 100.");
 } else {
   console.error("Usage: node scripts/configure.mjs rehearsal|launch --treasury <address> ...");
   process.exit(1);
