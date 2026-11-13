@@ -857,3 +857,9 @@ button { font: inherit; color: inherit; }
   .onescreen .col-right .prizes-title { display: none; }
   .onescreen .globe { width: calc(var(--mega-h) + var(--tag-h)) !important; height: calc(var(--mega-h) + var(--tag-h)) !important; }
 }
+/* Right-side amounts: white like the left boxes, with "USDC" sitting on the
+   number's baseline (bottom) instead of centered. */
+.col-right .grand > strong,
+.col-right .mini-figure > strong { color: var(--ink) !important; align-items: baseline !important; }
+.col-right .grand > strong .usdc,
+.col-right .mini-figure > strong .usdc { align-self: baseline; line-height: 1; }
