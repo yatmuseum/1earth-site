@@ -863,3 +863,6 @@ button { font: inherit; color: inherit; }
 .col-right .mini-figure > strong { color: var(--ink) !important; align-items: baseline !important; }
 .col-right .grand > strong .usdc,
 .col-right .mini-figure > strong .usdc { align-self: baseline; line-height: 1; }
+/* Grand prize amount back in Solana green (the label stays as is). */
+.col-right .grand > strong { color: var(--green) !important; }
+.col-right .grand > strong .usdc { color: var(--green); }
