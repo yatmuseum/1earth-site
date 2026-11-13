@@ -826,3 +826,34 @@ button { font: inherit; color: inherit; }
   .col-right .mini-split { align-items: stretch; }
 }
 @media (min-width: 961px) { .onescreen .col-right .mini-figure .label { letter-spacing: 0.1em; } }
+
+/* The Drawing: same format as the boxes above (label, then the date in the
+   same number style), with the details in small text beneath. */
+.drawing--compact { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.drawing--compact .label { margin: 0; line-height: 1.2; letter-spacing: 0.16em; }
+.drawing--compact .drawing__date {
+  display: block; font-family: var(--display); font-weight: 800; color: var(--ink);
+  letter-spacing: -0.02em; line-height: 1.1; white-space: nowrap;
+  font-size: clamp(1.15rem, 5vw, 1.6rem);
+}
+.drawing--compact .drawing__sub { color: var(--label); line-height: 1.45; margin: 0; }
+@media (min-width: 961px) {
+  .onescreen .col-right .drawing--compact { gap: 0.5vh; }
+  .onescreen .col-right .drawing--compact .label { font-size: clamp(0.78rem, 1.6vh, 1rem); }
+  .onescreen .col-right .drawing--compact .drawing__date { font-size: clamp(1.25rem, 3.7vh, 2.25rem); }
+  .onescreen .col-right .drawing--compact .drawing__sub { font-size: clamp(0.66rem, 1.3vh, 0.88rem); margin-top: 0.4vh; max-width: 46em; }
+}
+@media (max-width: 560px) {
+  .col-right .drawing--compact .label { font-size: clamp(0.62rem, 2.6vw, 0.8rem); letter-spacing: 0.1em; }
+  .col-right .drawing--compact .drawing__date { font-size: clamp(0.95rem, 4.6vw, 1.2rem); }
+  .col-right .drawing--compact .drawing__sub { font-size: 0.8rem; margin-top: 0.3rem; }
+}
+
+/* Globe = the same height as "50/50" + "GOLD FRAME MINT" together. */
+@media (min-width: 961px) {
+  .onescreen { --mega-h: clamp(80px, 10.5vh, 150px); --tag-h: clamp(30px, 4.4vh, 54px); }
+  .onescreen .mega-box { height: var(--mega-h); }
+  .onescreen .tag-row { height: var(--tag-h); margin: 0 !important; }
+  .onescreen .col-right .prizes-title { display: none; }
+  .onescreen .globe { width: calc(var(--mega-h) + var(--tag-h)) !important; height: calc(var(--mega-h) + var(--tag-h)) !important; }
+}

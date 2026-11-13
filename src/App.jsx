@@ -76,13 +76,11 @@ export default function App() {
 
               <div className="card drawing drawing--compact">
                 <span className="label">The drawing</span>
-                <p className="drawing__main">
-                  {MINT.drawingLabel}. If all 1,000 entries aren’t sold by then, the drawing is delayed
-                  until sold out, with the new date announced on X.
-                </p>
+                <strong className="drawing__date">{MINT.drawingLabel}</strong>
                 <p className="drawing__sub">
-                  The winner is picked with ORAO VRF, verifiable on-chain randomness, and paid in USDC
-                  straight to the winning wallet.
+                  Winner picked with ORAO VRF, verifiable on-chain randomness, and paid in USDC straight
+                  to the winning wallet. If all 1,000 entries aren’t sold by then, the drawing is delayed
+                  until sold out, with the new date announced on X.
                 </p>
               </div>
 
