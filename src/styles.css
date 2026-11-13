@@ -753,3 +753,30 @@ button { font: inherit; color: inherit; }
   .onescreen .drawing--compact { flex: 1 1 0 !important; min-height: 0; margin-top: var(--g) !important; display: flex; flex-direction: column; justify-content: center; padding: 0.6vh 1.2rem !important; }
   .onescreen .col-right .body-block > .you-mint { flex: 1 1 0 !important; min-height: 0; margin-top: var(--g) !important; justify-content: center !important; padding: 0.6vh 1rem !important; }
 }
+
+/* ==================================================================
+   Price / Supply / Odds: one identical format for all three boxes.
+   Same label style, same number font, size, weight and color, and the
+   same vertical position. (Price's "USDC / ON SOLANA" sits beside the 20
+   without changing the line height.)
+   ================================================================== */
+.stats .stat { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.stats .stat .label { margin: 0; line-height: 1.2; }
+.stats .stat > strong,
+.stats .stat > strong.stat__odds,
+.stats .stat > strong.price-val {
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--display); font-weight: 800; color: var(--ink);
+  letter-spacing: -0.02em; line-height: 1.1; height: 1.1em; white-space: nowrap;
+  font-size: clamp(1.6rem, 2.6vw, 2.3rem) !important;
+}
+.stats .stat .price-unit { font-size: 0.4em; line-height: 1.1; gap: 0; }
+.stats .stat .price-unit span { font-weight: 800; letter-spacing: 0.02em; }
+@media (min-width: 961px) {
+  .stats .stat { gap: 0.5vh; }
+  .stats .stat > strong, .stats .stat > strong.stat__odds, .stats .stat > strong.price-val { font-size: clamp(1.25rem, 3.7vh, 2.25rem) !important; }
+}
+@media (max-width: 560px) {
+  .stats .stat { gap: 0.25rem; }
+  .stats .stat > strong, .stats .stat > strong.stat__odds, .stats .stat > strong.price-val { font-size: clamp(0.95rem, 4.6vw, 1.2rem) !important; }
+}
