@@ -24,7 +24,7 @@
 //   randomness  = ORAO's 64-byte answer for that seed (on-chain)
 //   winner seed = SHA-256(randomness)  ->  pickWinners() in draw-core.mjs
 //
-// Add --rehearsal for the rehearsal collection, --winners N to change the count (default 10).
+// Add --rehearsal for the rehearsal collection, --winners N to change the count (default 1).
 import fs from "node:fs";
 import path from "node:path";
 import { createHash } from "node:crypto";
@@ -175,7 +175,17 @@ if (cmd === "verify") {
   const winners = winnersFrom(randomness, snap.rows);
   print(winners);
   if (published?.winners) {
-    const same = JSON.stringify(winners.map((w) => w.entry)) === JSON.stringify(published.winners.map((w) => w.entry));
-    console.log(same ? "\n✅ Matches the published winners." : "\n❌ Does NOT match the published winners.");
+    const mine = winners.map((w) => w.entry);
+    const theirs = published.winners.map((w) => w.entry);
+    if (mine.length === theirs.length) {
+      const same = JSON.stringify(mine) === JSON.stringify(theirs);
+      console.log(same ? "\n✅ Matches the published winners." : "\n❌ Does NOT match the published winners.");
+    } else {
+      // Winners are picked in order, so a smaller count gives the first places of a larger one.
+      const n = Math.min(mine.length, theirs.length);
+      const same = JSON.stringify(mine.slice(0, n)) === JSON.stringify(theirs.slice(0, n));
+      console.log(`\nThe published drawing had ${theirs.length} winner(s); you asked for ${mine.length}.`);
+      console.log(same ? `✅ The first ${n} match the published result (same order).` : "❌ Does NOT match the published winners.");
+    }
   }
 }

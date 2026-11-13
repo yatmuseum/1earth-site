@@ -866,3 +866,12 @@ button { font: inherit; color: inherit; }
 /* Grand prize amount back in Solana green (the label stays as is). */
 .col-right .grand > strong { color: var(--green) !important; }
 .col-right .grand > strong .usdc { color: var(--green); }
+
+/* Phones: give the framed globe room above and below (it was touching the
+   Grand Prize box), and remove the footer's top line that touched the
+   Gold Frame card. */
+@media (max-width: 960px) {
+  .col-right .hero-block { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 0 2.9rem; }
+  .col-right .hero-block .globe { margin: 0 auto; }
+  .onescreen .footer, .footer { border-top: none; margin-top: 1.4rem; }
+}

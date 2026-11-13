@@ -63,3 +63,4 @@ body {
 .pd-proof code, .pd-how code { background: #0f0e20; }
 .pd-links a { border-color: var(--line); }
 .fr-zoom input { accent-color: var(--sol-green); }
+@media (max-width: 960px) { body { background-attachment: scroll; } }
