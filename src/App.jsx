@@ -53,13 +53,13 @@ export default function App() {
             <section className="col-right" aria-labelledby="prizes-title">
               <div className="hero-block">
                 <img className="globe" src="/globe-gold.webp" alt="1-Earth globe" width="240" height="240" />
-                <h2 id="prizes-title" className="prizes-title">Prize Distribution</h2>
-                <p className="prizes-sub">1 winner · 10,000 USDC</p>
+                <h2 id="prizes-title" className="prizes-title hide-visually">Prize Distribution</h2>
+                <p className="prizes-sub hide-visually" aria-hidden="true">1 winner · 10,000 USDC</p>
               </div>
 
               <div className="body-block">
               <div className="card grand">
-                <span className="label">Grand prize · 1 winner</span>
+                <span className="label">Grand prize</span>
                 <strong>10,000<small className="usdc">USDC</small></strong>
               </div>
 

@@ -724,3 +724,32 @@ button { font: inherit; color: inherit; }
   .onescreen .mint.has-msg .buy { min-height: 42px; }
 }
 @media (min-width: 961px) { .onescreen .body-block { padding-bottom: 3px; } }
+
+/* ==================================================================
+   Revision: grid-aligned right column (desktop, one screen).
+   Row 1: Price / Supply / Odds  |  Grand prize       (same height)
+   Row 2: mint card              |  Prize pool + Operations (same height
+                                    as row 1), then The Drawing and the
+                                    Gold Frame card share the rest.
+   ================================================================== */
+/* "Prize Distribution" and its subtitle are hidden from view but keep their
+   space on desktop, so the globe stays level with "50/50". */
+.hide-visually { visibility: hidden; }
+@media (max-width: 960px) { .hide-visually { display: none; } }
+
+@media (min-width: 961px) {
+  .onescreen { --row1: clamp(64px, 10.6vh, 118px); --g: 1.2vh; }
+  .onescreen .body-block .stats { margin-bottom: var(--g) !important; }
+  .onescreen .stats .stat { height: var(--row1); min-height: 0 !important; padding-top: 0 !important; padding-bottom: 0 !important; justify-content: center; }
+  .onescreen .grand { flex: none !important; height: var(--row1); padding: 0 1rem !important; gap: 0.2vh !important; justify-content: center; }
+  .onescreen .grand .label { font-size: clamp(0.62rem, 1.2vh, 0.82rem); letter-spacing: 0.16em; }
+  .onescreen .grand strong { font-size: clamp(1.5rem, 4.4vh, 2.6rem) !important; }
+  .onescreen .mini-split { flex: none !important; height: var(--row1); margin-top: var(--g) !important; gap: var(--g) !important; }
+  .onescreen .mini-figure { padding: 0 0.6rem !important; gap: 0.2vh !important; justify-content: center; }
+  .onescreen .mini-figure .label { font-size: clamp(0.56rem, 1.05vh, 0.76rem); }
+  .onescreen .mini-figure strong { font-size: clamp(1.15rem, 3.4vh, 2.1rem) !important; line-height: 1.05; }
+  .onescreen .mini-figure p { font-size: clamp(0.6rem, 1.15vh, 0.82rem); }
+  /* The Drawing and the Gold Frame card share the remaining height */
+  .onescreen .drawing--compact { flex: 1 1 0 !important; min-height: 0; margin-top: var(--g) !important; display: flex; flex-direction: column; justify-content: center; padding: 0.6vh 1.2rem !important; }
+  .onescreen .col-right .body-block > .you-mint { flex: 1 1 0 !important; min-height: 0; margin-top: var(--g) !important; justify-content: center !important; padding: 0.6vh 1rem !important; }
+}
