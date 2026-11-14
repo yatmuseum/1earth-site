@@ -233,3 +233,6 @@ span.demo-connect { cursor: default; user-select: none; }
 .demo-step-row { justify-content: center; }
 @media (min-width: 901px) and (max-width: 1200px) { .demo-enter { justify-content: center !important; } }
 @media (max-width: 900px) { .demo-enter { justify-content: center !important; } }
+/* no separator after "1st"; just a space before the prize */
+.demo-prize--top .demo-place::after { content: none; }
+.demo-prize--top .demo-place { margin-right: .6em; }
