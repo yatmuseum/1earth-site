@@ -8,8 +8,6 @@ const PRIZES = [
   ["11th to 20th", "6,500"], ["21st to 40th", "3,250"], ["41st to 100th", "1,250"],
   ["101st to 250th", "1,000"], ["251st to 500th", "500"], ["501st to 1000th", "250"],
 ];
-// "Live" shows the same split scaled to a sample of tickets sold so far.
-const LIVE_SCALE = 0.42;
 const START = 48 * 3600 + 12 * 60 + 55; // the sample countdown starts at 48:12:55
 
 const two = (n) => String(n).padStart(2, "0");
@@ -17,7 +15,6 @@ const fmt = (s) => Number(s.replace(/,/g, "")).toLocaleString("en-US");
 
 export default function Demo() {
   const [left, setLeft] = useState(START);
-  const [view, setView] = useState("projected");
   const [qty, setQty] = useState(1);
   const [note, setNote] = useState("");
 
@@ -31,8 +28,7 @@ export default function Demo() {
   }, []);
 
   const h = Math.floor(left / 3600), mi = Math.floor((left % 3600) / 60), se = left % 60;
-  const prizes = useMemo(() => PRIZES.map(([p, a]) => [p, view === "live"
-    ? Math.round(Number(a.replace(/,/g, "")) * LIVE_SCALE).toLocaleString("en-US") : fmt(a)]), [view]);
+  const prizes = useMemo(() => PRIZES.map(([p, a]) => [p, fmt(a)]), []);
 
   const play = () => {
     setNote(`Demo only: no transaction. In the live protocol, this would enter ${qty} ticket${qty > 1 ? "s" : ""} for ${qty * 10} USDC.`);
@@ -69,10 +65,7 @@ export default function Demo() {
       <section className="demo-card demo-dist">
         <div className="demo-dist-head">
           <h2>Prize Distribution</h2>
-          <div className="demo-tog" role="tablist">
-            <button className={view === "projected" ? "on" : ""} onClick={() => setView("projected")}>Projected</button>
-            <button className={view === "live" ? "on" : ""} onClick={() => setView("live")}>Live</button>
-          </div>
+          <div className="demo-tog"><span className="on">Projected</span></div>
         </div>
         <div className="demo-grid">
           {prizes.map(([p, a]) => (
