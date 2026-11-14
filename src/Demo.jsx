@@ -114,7 +114,6 @@ export default function Demo() {
       fly(qty, () => {
         setSold((s) => s + qty);
         setMine((m) => [...m, ...nums]);
-        setXp((x) => x + qty * 10);
         setPulse((p) => p + 1);
         flash(qty === 1 ? `You're in! Entry #${num(first)}. Good luck!` : `You're in! Entries #${num(first)} to #${num(first + qty - 1)}. Good luck!`, 4200);
       });
@@ -167,7 +166,7 @@ export default function Demo() {
     }
   };
 
-  const shown = mine.length <= 3 ? mine : mine.slice(-2), more = mine.length - shown.length;
+  const shown = mine.length <= 4 ? mine : mine.slice(-3), more = mine.length - shown.length;
 
   return (
     <div className="demo">
@@ -183,7 +182,7 @@ export default function Demo() {
         </div>
         <div className="demo-pills">
           <span className="demo-pill demo-x" aria-label="X">𝕏</span>
-          <span className={"demo-pill" + (pulse ? " demo-bump" : "")} key={"xp" + pulse}>{num(xpShown)} <small>XP</small></span>
+          <span className="demo-pill">{num(xpShown)} <small>XP</small></span>
           {wallet
             ? <span className="demo-pill"><i className="demo-dot" />{ADDR}</span>
             : <span className="demo-pill demo-connect" aria-disabled="true">Connect Wallet</span>}

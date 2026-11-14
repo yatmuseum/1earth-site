@@ -271,3 +271,11 @@ span.demo-connect { cursor: default; user-select: none; }
 .demo-wbtns button { height: 46px; border-radius: 999px; border: 1px solid #3a3870; background: #24233c; color: var(--ink); font: 700 16px var(--body); cursor: pointer; }
 .demo-wbtns .go { border: 0; background: linear-gradient(90deg, #9945FF, #14F195); color: #0c0b16; }
 .demo-wcheck { width: 56px; height: 56px; margin-bottom: 14px; border-radius: 50%; display: grid; place-items: center; background: #14F195; color: #0c0b16; font-size: 30px; font-weight: 900; animation: demoPop .45s cubic-bezier(.3,1.6,.5,1); }
+
+/* My Entries: room for four tickets on one line */
+@media (min-width: 901px) {
+  .demo-mine { gap: clamp(12px, 1.4vw, 22px); }
+  .demo-tix { gap: clamp(10px, 1.1vw, 22px); justify-content: flex-end; }
+  .demo-tix span { font-size: clamp(14px, 1.7vh, 20px); gap: 7px; }
+  .demo-tix img { width: clamp(24px, 3.2vh, 36px); height: clamp(24px, 3.2vh, 36px); }
+}
