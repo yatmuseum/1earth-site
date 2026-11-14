@@ -90,6 +90,7 @@ export default function Demo() {
   const [wstep, setWstep] = useState(null);           // "sim" | "review" | "sending" | "done"
   const [sig, setSig] = useState("");
   const play = () => {
+    if (sold > 0) return;                              // the demo buys one entry
     if (!wallet) { setModal("connect"); return; }
     setView("live");
     setWstep("sim");
@@ -222,13 +223,13 @@ export default function Demo() {
           <div className="demo-step">
             <span className="demo-lbl">Entries (100 max)</span>
             <div className="demo-step-row">
-              <button onClick={() => setQty((q) => Math.max(1, q - 1))} aria-label="Fewer">−</button>
+              <button disabled aria-label="Fewer">−</button>
               <b>{qty}</b>
-              <button onClick={() => setQty((q) => Math.min(100, q + 1))} aria-label="More">+</button>
+              <button disabled aria-label="More">+</button>
             </div>
           </div>
           <p className="demo-price"><b>{qty * PRICE}</b> <small>USDC on SOL</small></p>
-          <button className="demo-play" onClick={play}>Play</button>
+          <button className="demo-play" onClick={play} disabled={sold > 0}>{sold > 0 ? "Entered ✓" : "Play"}</button>
           <p className="demo-odds">1 in 100 odds</p>
         </section>
         <section className="demo-card demo-mine" ref={mineRef}>
@@ -253,15 +254,16 @@ export default function Demo() {
       {wstep && (
         <div className="demo-wbg">
           <div className="demo-wallet" role="dialog" aria-modal="true" aria-label="Wallet (simulated)">
-            <div className="demo-wtop"><i className="demo-dot" /><b>Wallet</b><span className="demo-wnet">Solana · Mainnet</span></div>
+            <div className="demo-wtop"><i className="demo-dot" /><b>Wallet</b><span className="demo-wnet">{wstep === "done" ? "40.00 USDC · $0.99 SOL" : "50.00 USDC · $1.00 SOL"}</span></div>
             <div className="demo-wsite"><img src="/globe.webp" alt="" /><div><b>1-earth.io</b><span>Confirm transaction</span></div></div>
             {wstep === "sim" && (<div className="demo-wbody demo-wcenter"><div className="demo-spin" /><p>Simulating transaction…</p></div>)}
             {wstep === "review" && (
               <div className="demo-wbody">
                 <p className="demo-wlbl">Estimated balance changes</p>
-                <div className="demo-wchg"><span className="demo-wcoin demo-wusdc">$</span><span>USDC</span><b className="neg">−{qty * PRICE}</b></div>
-                <div className="demo-wchg"><img src="/globe.webp" alt="" className="demo-wcoin" /><span>1-Earth entry{qty > 1 ? "s" : ""}</span><b className="pos">+{qty} {qty === 1 ? "(#" : "(#"}{num(LIVE_BASE + sold + 1)}{qty > 1 ? "+" : ""})</b></div>
-                <div className="demo-wrow"><span>Network fee</span><b>&lt; 0.00001 SOL</b></div>
+                <div className="demo-wchg"><span className="demo-wcoin demo-wusdc">$</span><span>USDC<small>50.00 → 40.00</small></span><b className="neg">−10.00</b></div>
+                <div className="demo-wchg"><span className="demo-wcoin demo-wsol">◎</span><span>SOL<small>$1.00 → $0.99</small></span><b className="neg">−$0.01</b></div>
+                <div className="demo-wchg"><img src="/globe.webp" alt="" className="demo-wcoin" /><span>1-Earth entry<small>Soulbound</small></span><b className="pos">+1 (#{num(LIVE_BASE + sold + 1)})</b></div>
+                <div className="demo-wrow"><span>Network fee</span><b>≈ $0.01 in SOL</b></div>
                 <div className="demo-wrow"><span>Account</span><b>{ADDR}</b></div>
                 <p className="demo-wnote">Simulated for this demo. No funds move.</p>
                 <div className="demo-wbtns"><button onClick={() => setWstep(null)}>Cancel</button><button className="go" onClick={confirmTx}>Confirm</button></div>
