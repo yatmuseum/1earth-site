@@ -138,3 +138,44 @@
 .demo-tog span.on { background: linear-gradient(90deg, #9945FF, #14F195); color: #0c0b16; }
 @media (min-width: 901px) { .demo-tog span { font-size: clamp(13px, 1.45vh, 16px); padding: .5vh 20px; } }
 @media (max-width: 900px) { .demo-prize b { font-size: clamp(15px, 4.4vw, 20px); white-space: normal; } }
+
+/* ---- buying flow ---- */
+.demo-connect { cursor: pointer; border: 0; background: linear-gradient(90deg, #9945FF, #14F195); color: #0c0b16; font-weight: 700; }
+.demo-empty { margin: 0; color: var(--label); font-size: clamp(14px, 1.6vh, 18px); }
+.demo-more { font-weight: 700; color: var(--green); }
+.demo-tix-new { animation: demoPop .5s cubic-bezier(.3,1.6,.5,1) both; }
+@keyframes demoPop { from { transform: scale(.4); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.demo-glow img { animation: demoGlow 1.2s ease-out; }
+@keyframes demoGlow { 0% { box-shadow: 0 0 0 0 rgba(20,241,149,.0); } 30% { box-shadow: 0 0 60px 18px rgba(20,241,149,.55); } 100% { box-shadow: 0 18px 50px rgba(153,69,255,.35); } }
+.demo-bump { animation: demoPop .45s cubic-bezier(.3,1.6,.5,1); }
+.demo-fx { position: fixed; inset: 0; pointer-events: none; z-index: 30; overflow: hidden; }
+.demo-fly { position: absolute; left: 0; top: 0; display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px 8px 8px; border-radius: 999px; background: var(--card); border: 2px solid transparent;
+  background-image: linear-gradient(var(--card), var(--card)), linear-gradient(90deg, #9945FF, #14F195); background-origin: border-box; background-clip: padding-box, border-box;
+  box-shadow: 0 0 24px rgba(20,241,149,.45), 0 10px 30px rgba(0,0,0,.5); color: var(--ink); font-weight: 800; font-size: 18px; white-space: nowrap; will-change: transform; }
+.demo-fly img { width: 30px; height: 30px; border-radius: 50%; }
+.demo-conf { position: absolute; left: 0; top: 0; width: 9px; height: 14px; border-radius: 2px; }
+.demo-modal { position: fixed; inset: 0; z-index: 40; display: grid; place-items: center; background: rgba(6,5,14,.66); backdrop-filter: blur(4px); animation: demoFade .2s ease-out; }
+@keyframes demoFade { from { opacity: 0; } to { opacity: 1; } }
+.demo-sheet { width: min(420px, calc(100vw - 32px)); padding: 26px 24px 20px; border-radius: 22px; background: var(--card); border: 1.5px solid var(--line); box-shadow: 0 30px 80px rgba(0,0,0,.6); text-align: center; animation: demoUp .25s cubic-bezier(.2,.9,.3,1.2); }
+@keyframes demoUp { from { transform: translateY(18px) scale(.97); opacity: 0; } to { transform: none; opacity: 1; } }
+.demo-sheet h4 { margin: 0; font-family: var(--display); font-size: 24px; }
+.demo-sheet-sub { margin: 8px 0 0; color: var(--label); font-size: 14px; }
+.demo-wbtn { display: flex; align-items: center; gap: 12px; width: 100%; margin-top: 12px; padding: 14px 16px; border-radius: 14px; border: 1.5px solid var(--line); background: color-mix(in srgb, var(--bg) 60%, var(--card)); color: var(--ink); font: 600 17px var(--body); cursor: pointer; }
+.demo-wbtn:hover { border-color: #14F195; }
+.demo-wbtn .demo-dot { width: 24px; height: 24px; }
+.demo-cancel { margin-top: 12px; border: 0; background: none; color: var(--label); font: 600 15px var(--body); cursor: pointer; }
+.demo-approve { width: 100%; margin-top: 16px; height: 52px; border: 0; border-radius: 999px; background: linear-gradient(90deg, #9945FF, #14F195); color: #0c0b16; font: 800 19px var(--display); cursor: pointer; }
+.demo-bill { margin-top: 16px; text-align: left; border: 1.5px solid var(--line); border-radius: 14px; overflow: hidden; }
+.demo-bill div { display: flex; justify-content: space-between; gap: 12px; padding: 11px 14px; font-size: 15px; }
+.demo-bill div + div { border-top: 1px solid var(--line); }
+.demo-bill span { color: var(--label); }
+.demo-spin { width: 46px; height: 46px; margin: 4px auto 14px; border-radius: 50%; border: 4px solid var(--line); border-top-color: #14F195; animation: demoSpin .8s linear infinite; }
+@keyframes demoSpin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .demo-spin { animation-duration: 2s; } .demo-tix-new, .demo-bump, .demo-glow img { animation: none; } }
+@media (min-width: 901px) { .demo-note { bottom: auto; top: 30.5vh; } }
+@media (max-width: 900px) { .demo-note { position: fixed; left: 50%; top: 16px; transform: translateX(-50%); width: calc(100vw - 32px); z-index: 35; margin: 0; box-shadow: 0 10px 30px rgba(0,0,0,.4); } }
+
+@media (min-width: 901px) {
+  .demo-note { top: 15vh; left: 78%; max-width: 380px; }
+  .demo-tix { flex-wrap: nowrap; }
+}
