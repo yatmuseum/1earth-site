@@ -50,7 +50,7 @@ function useTicker(target, ms = 900) {
 
 export default function Demo() {
   const [left, setLeft] = useState(START);
-  const [view, setView] = useState("live");
+  const [view, setView] = useState("projected");
   const [qty, setQty] = useState(1);
   const [wallet, setWallet] = useState(null);        // null until connected
   const [modal, setModal] = useState(null);          // "connect" | "connecting" | "confirm" | "sending"
