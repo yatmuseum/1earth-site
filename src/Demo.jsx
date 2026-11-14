@@ -189,8 +189,9 @@ export default function Demo() {
         <div className="demo-grid">
           {prizes.map(([p, a, n]) => (
             <div className="demo-prize" key={view + p}>
-              <span className="demo-place">{p}<em>1 in {num(totalEntries / n)}</em></span>
+              <span className="demo-place">{p}</span>
               <b>{a}<small>USDC</small></b>
+              <em className="demo-tier-odds">1 in {num(totalEntries / n)}</em>
             </div>
           ))}
         </div>

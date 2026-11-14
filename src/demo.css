@@ -183,3 +183,17 @@
 /* odds for each tier, under the place */
 .demo-place { display: flex; flex-direction: column; gap: 2px; }
 .demo-place em { font-style: normal; font-size: .66em; font-weight: 600; color: var(--label); letter-spacing: .01em; }
+
+/* place and prize on one even line, in the same type; the tier's odds underneath */
+.demo-prize { display: grid !important; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; align-content: center; column-gap: 10px; row-gap: 3px; }
+.demo-prize .demo-place { display: block; font-family: var(--display); font-weight: 700; font-size: 22px; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.demo-tier-odds { grid-column: 1 / -1; font-style: normal; font-size: 13px; font-weight: 600; color: var(--label); }
+@media (min-width: 901px) {
+  .demo-prize .demo-place { font-size: clamp(16px, 2vh, 22px); }
+  .demo-tier-odds { font-size: clamp(11px, 1.25vh, 14px); }
+}
+@media (max-width: 900px) {
+  .demo-prize { grid-template-columns: minmax(0, 1fr); }
+  .demo-prize .demo-place { font-size: clamp(15px, 4.4vw, 20px); white-space: normal; }
+}
+@media (min-width: 901px) and (max-width: 1200px) { .demo-prize { padding: 0 14px; column-gap: 6px; } .demo-prize .demo-place, .demo-prize b { font-size: clamp(14px, 1.55vw, 18px); } }
