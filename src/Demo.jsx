@@ -56,7 +56,7 @@ export default function Demo() {
   const [modal, setModal] = useState(null);          // "connect" | "connecting" | "confirm" | "sending"
   const [sold, setSold] = useState(0);               // entries bought in this demo
   const [mine, setMine] = useState([18984, 18985, 18986]); // my entry numbers (three sample ones to start)
-  const [xp, setXp] = useState(0);
+  const [xp, setXp] = useState(125000);
   const [toast, setToast] = useState("");
   const [pulse, setPulse] = useState(0);
   const globeRef = useRef(null), mineRef = useRef(null), fxRef = useRef(null);
@@ -168,7 +168,7 @@ export default function Demo() {
           <span className={"demo-pill" + (pulse ? " demo-bump" : "")} key={"xp" + pulse}>{num(xpShown)} <small>XP</small></span>
           {wallet
             ? <span className="demo-pill"><i className="demo-dot" />{ADDR}</span>
-            : <button className="demo-pill demo-connect" onClick={() => setModal("connect")}>Connect Wallet</button>}
+            : <span className="demo-pill demo-connect" aria-disabled="true">Connect Wallet</span>}
         </div>
       </header>
 

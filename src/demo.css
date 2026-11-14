@@ -218,3 +218,18 @@
 .demo-prize--top .demo-place::after { content: "\00b7"; margin: 0 .45em; color: var(--label); }
 .demo-prize--top .demo-tier-odds { flex: 0 0 100%; text-align: center; }
 @media (max-width: 900px) { .demo-prize.demo-prize--top { flex-direction: row !important; align-items: baseline !important; justify-content: center !important; padding: 14px 12px; } .demo-prize--top .demo-place { white-space: nowrap; } }
+
+/* header Connect Wallet: same look, not clickable */
+span.demo-connect { cursor: default; user-select: none; }
+
+/* Enter row: every item vertically centered and evenly spaced across the box */
+.demo-enter { justify-content: space-between !important; align-items: center !important; }
+.demo-enter > * { margin: 0; }
+.demo-price { display: inline-flex; align-items: baseline; gap: 6px; line-height: 1; }
+.demo-price b { line-height: 1; }
+.demo-odds { line-height: 1; }
+.demo-play { display: inline-flex; align-items: center; justify-content: center; line-height: 1; padding: 0; }
+.demo-step { display: flex; flex-direction: column; align-items: center; }
+.demo-step-row { justify-content: center; }
+@media (min-width: 901px) and (max-width: 1200px) { .demo-enter { justify-content: center !important; } }
+@media (max-width: 900px) { .demo-enter { justify-content: center !important; } }
