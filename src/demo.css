@@ -236,3 +236,10 @@ span.demo-connect { cursor: default; user-select: none; }
 /* no separator after "1st"; just a space before the prize */
 .demo-prize--top .demo-place::after { content: none; }
 .demo-prize--top .demo-place { margin-right: .6em; }
+/* "1 in 100 odds" set exactly like "USDC on SOL": same face, size, weight, spacing and capitals */
+.demo-enter .demo-odds { font-family: var(--body); font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
+@media (min-width: 901px) and (max-width: 1340px) { .demo-enter .demo-odds { font-size: 10.5px; letter-spacing: .03em; } }
+/* give the odds an invisible strut the size of the "10", so its text sits on the same baseline as "USDC on SOL" */
+.demo-enter .demo-odds { display: inline-flex; align-items: baseline; }
+.demo-enter .demo-odds::before { content: "\200b"; font-family: var(--display); font-weight: 700; font-size: 28px; line-height: 1; letter-spacing: 0; }
+@media (min-width: 901px) { .demo-enter .demo-odds::before { font-size: clamp(20px, 2.5vh, 28px); } }
