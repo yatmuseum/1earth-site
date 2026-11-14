@@ -4,17 +4,17 @@ import { useEffect, useMemo, useRef, useState } from "react";
 
 // Projected: 1,000,000 entries, a 10,000,000 USDC pool (bracket 5 of the payout charts). Adds to exactly 10,000,000.
 const PROJECTED = [
-  ["1st", "1,200,000"], ["2nd", "500,000"], ["3rd to 4th", "250,000"],
-  ["5th to 10th", "100,000"], ["11th to 20th", "50,000"], ["21st to 40th", "25,000"],
-  ["41st to 100th", "10,000"], ["101st to 200th", "5,000"], ["201st to 400th", "2,500"],
-  ["401st to 2,500th", "1,000"], ["2,501st to 5,000th", "500"], ["5,001st to 10,000th", "250"],
+  ["1st", "1,200,000", 1], ["2nd", "500,000", 1], ["3rd to 4th", "250,000", 2],
+  ["5th to 10th", "100,000", 6], ["11th to 20th", "50,000", 10], ["21st to 40th", "25,000", 20],
+  ["41st to 100th", "10,000", 60], ["101st to 200th", "5,000", 100], ["201st to 400th", "2,500", 200],
+  ["401st to 2,500th", "1,000", 2100], ["2,501st to 5,000th", "500", 2500], ["5,001st to 10,000th", "250", 5000],
 ];
 // Live: 25,000 entries, a 250,000 USDC pool (bracket 3). Adds to exactly 250,000.
 const LIVE = [
-  ["1st", "35,000"], ["2nd", "22,500"], ["3rd", "13,750"],
-  ["4th to 5th", "8,125"], ["6th to 10th", "3,750"], ["11th to 20th", "1,625"],
-  ["21st to 40th", "1,375"], ["41st to 62nd", "1,250"], ["63rd", "1,000"],
-  ["64th to 100th", "750"], ["101st to 125th", "500"], ["126th to 250th", "250"],
+  ["1st", "35,000", 1], ["2nd", "22,500", 1], ["3rd", "13,750", 1],
+  ["4th to 5th", "8,125", 2], ["6th to 10th", "3,750", 5], ["11th to 20th", "1,625", 10],
+  ["21st to 40th", "1,375", 20], ["41st to 62nd", "1,250", 22], ["63rd", "1,000", 1],
+  ["64th to 100th", "750", 37], ["101st to 125th", "500", 25], ["126th to 250th", "250", 125],
 ];
 const PRICE = 10;
 const START = 48 * 3600 + 12 * 60 + 55;
@@ -74,6 +74,7 @@ export default function Demo() {
   const pool = useTicker((baseEntries + (live ? sold : 0)) * PRICE);
   const xpShown = useTicker(xp, 700);
   const prizes = useMemo(() => (live ? LIVE : PROJECTED), [live]);
+  const totalEntries = baseEntries + (live ? sold : 0);   // odds for each tier: entries ÷ winners in that tier
   const h = Math.floor(left / 3600), mi = Math.floor((left % 3600) / 60), se = left % 60;
 
   const connect = (name) => {
@@ -186,8 +187,11 @@ export default function Demo() {
           </div>
         </div>
         <div className="demo-grid">
-          {prizes.map(([p, a]) => (
-            <div className="demo-prize" key={view + p}><span>{p}</span><b>{a}<small>USDC</small></b></div>
+          {prizes.map(([p, a, n]) => (
+            <div className="demo-prize" key={view + p}>
+              <span className="demo-place">{p}<em>1 in {num(totalEntries / n)}</em></span>
+              <b>{a}<small>USDC</small></b>
+            </div>
           ))}
         </div>
       </section>

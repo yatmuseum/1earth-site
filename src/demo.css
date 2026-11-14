@@ -179,3 +179,7 @@
   .demo-note { top: 15vh; left: 78%; max-width: 380px; }
   .demo-tix { flex-wrap: nowrap; }
 }
+
+/* odds for each tier, under the place */
+.demo-place { display: flex; flex-direction: column; gap: 2px; }
+.demo-place em { font-style: normal; font-size: .66em; font-weight: 600; color: var(--label); letter-spacing: .01em; }
