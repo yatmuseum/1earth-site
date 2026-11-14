@@ -70,3 +70,65 @@
   .demo-pills { gap: 8px; } .demo-pill { padding: 0 12px; font-size: 14px; }
   .demo-tix { gap: 14px; } .demo-tix span { font-size: 17px; }
 }
+
+/* Desktop: the whole demo fits one screen. Sizes follow the screen height. */
+@media (min-width: 901px) {
+  .demo { height: 100svh; box-sizing: border-box; display: flex; flex-direction: column; padding-top: 1.4vh; padding-bottom: 1.6vh; overflow: hidden; }
+  .demo-brand { padding-top: 1.6vh; font-size: clamp(22px, 2.6vh, 30px); }
+  .demo-brand img { width: clamp(30px, 3.6vh, 40px); height: auto; }
+  .demo-next .demo-grad { font-size: clamp(18px, 2.3vh, 26px); }
+  .demo-cd { margin-top: .4vh; }
+  .demo-cd b { font-size: clamp(22px, 2.9vh, 32px); min-width: clamp(56px, 6.6vh, 72px); padding: .2vh 8px; }
+  .demo-cd span { margin-top: .4vh; font-size: clamp(10px, 1.1vh, 12px); }
+  .demo-pills { padding-top: 1.4vh; }
+  .demo-pill { height: clamp(34px, 3.9vh, 42px); }
+  .demo-hero { margin-top: .6vh; }
+  .demo-globe { width: clamp(110px, 15.5vh, 172px); height: clamp(110px, 15.5vh, 172px); }
+  .demo-globe p { font-size: clamp(11px, 1.3vh, 14px); padding: .4vh 0; }
+  .demo-entries { margin-top: .9vh; }
+  .demo-entries b { font-size: clamp(22px, 2.9vh, 32px); padding: .2vh 18px; }
+  .demo-entries .demo-grad { margin-top: .4vh; font-size: clamp(10px, 1.15vh, 13px); }
+  .demo-dist { margin-top: 1.4vh; padding: 2.2vh 32px 2.4vh; flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
+  .demo-dist h2 { font-size: clamp(20px, 2.5vh, 27px); }
+  .demo-tog button { font-size: clamp(13px, 1.45vh, 16px); padding: .5vh 20px; }
+  .demo-grid { margin-top: 1.8vh; gap: 1.4vh 17px; flex: 1; grid-auto-rows: 1fr; min-height: 0; }
+  .demo-prize { height: auto; min-height: 0; }
+  .demo-prize span { font-size: clamp(15px, 1.9vh, 21px); }
+  .demo-prize b { font-size: clamp(16px, 2vh, 22px); }
+  .demo-row { margin-top: 1.4vh; gap: 22px; }
+  .demo-enter, .demo-mine { min-height: 0; padding: 1.1vh 26px; flex-wrap: nowrap; }
+  .demo-enter h3, .demo-mine h3 { font-size: clamp(20px, 2.5vh, 28px); }
+  .demo-step { padding: .6vh 16px; }
+  .demo-step-row { margin-top: .3vh; }
+  .demo-step-row button { width: clamp(24px, 2.7vh, 30px); height: clamp(24px, 2.7vh, 30px); }
+  .demo-price b { font-size: clamp(20px, 2.5vh, 28px); }
+  .demo-play { height: clamp(42px, 5vh, 56px); width: clamp(92px, 10.5vh, 116px); font-size: clamp(17px, 2vh, 22px); }
+  .demo-tix img { width: clamp(28px, 3.6vh, 40px); height: clamp(28px, 3.6vh, 40px); }
+  .demo-tix span { font-size: clamp(16px, 1.9vh, 21px); }
+  .demo-note { position: fixed; left: 50%; bottom: 9vh; transform: translateX(-50%); margin: 0; z-index: 5; box-shadow: 0 10px 30px rgba(0,0,0,.4); }
+  .demo-foot { margin-top: 1.2vh; font-size: clamp(13px, 1.45vh, 16px); }
+}
+/* the prize-pool band reads as a ribbon a little wider than the globe, so its words always fit */
+.demo-globe p { left: -26px; right: -26px; border-radius: 8px; }
+@media (min-width: 901px) {
+  .demo-enter { gap: clamp(10px, 1.1vw, 22px); padding-left: clamp(16px, 1.4vw, 26px); padding-right: clamp(16px, 1.4vw, 26px); }
+  .demo-play { flex: none; }
+  .demo-odds { white-space: nowrap; }
+  .demo-step { flex: none; }
+}
+@media (min-width: 901px) and (max-width: 1340px) {
+  .demo-step { padding: .5vh 10px; }
+  .demo-step-row { gap: 12px; }
+  .demo-lbl { font-size: 10.5px; letter-spacing: .06em; }
+  .demo-price small { font-size: 10.5px; letter-spacing: .03em; }
+  .demo-odds { font-size: 14px; }
+  .demo-row { gap: 14px; }
+}
+@media (min-width: 901px) and (max-width: 1200px) {
+  .demo-row { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); }
+  .demo-enter { flex-wrap: wrap; row-gap: .8vh; justify-content: center; }
+  .demo-enter h3 { width: 100%; text-align: center; }
+  .demo-mine { flex-direction: column; justify-content: center; gap: .8vh; }
+  .demo-tix { gap: 14px; }
+}
+@media (min-width: 901px) and (max-width: 1000px) { .demo-prize { padding: 0 14px; } .demo-prize span { font-size: 15px; } .demo-dist { padding-left: 20px; padding-right: 20px; } }
