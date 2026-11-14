@@ -60,7 +60,7 @@ export default function Demo() {
   const [xp, setXp] = useState(125000);
   const [toast, setToast] = useState("");
   const [pulse, setPulse] = useState(0);
-  const globeRef = useRef(null), mineRef = useRef(null), fxRef = useRef(null);
+  const globeRef = useRef(null), mineRef = useRef(null), fxRef = useRef(null), walletRef = useRef(null);
 
   useEffect(() => {
     document.title = "1-Earth · Demo";
@@ -112,28 +112,57 @@ export default function Demo() {
       const first = LIVE_BASE + sold + 1;
       const nums = Array.from({ length: qty }, (_, i) => first + i);
       setView("live");
-      fly(qty, () => {
+      // 1) the 10 USDC leaves the wallet and drops into the prize-pool globe: the pool and entries tick up
+      coin(qty * PRICE, () => {
         setSold((s) => s + qty);
-        setMine((m) => [...m, ...nums]);
         setPulse((p) => p + 1);
-        flash(qty === 1 ? `You're in! Entry #${num(first)}. Good luck!` : `You're in! Entries #${num(first)} to #${num(first + qty - 1)}. Good luck!`, 4200);
+        // 2) a beat later, the new entry comes out of the globe and lands in My Entries
+        setTimeout(() => fly(qty, first, () => {
+          setMine((m) => [...m, ...nums]);
+          flash(qty === 1 ? `You're in! Entry #${num(first)}. Good luck!` : `You're in! Entries #${num(first)} to #${num(first + qty - 1)}. Good luck!`, 4200);
+        }), 450);
       });
     }, direct ? 0 : 1200);
   };
 
+  // A glowing "10 USDC" coin flies from the wallet (top right) in an arc and sinks into the globe.
+  const coin = (amount, done) => {
+    const layer = fxRef.current, g = globeRef.current, w = walletRef.current;
+    if (!layer || !g || reduced()) { done(); return; }
+    const a = (w || g).getBoundingClientRect(), b = g.getBoundingClientRect();
+    const sx = a.left + a.width / 2, sy = a.top + a.height / 2;
+    const ex = b.left + b.width / 2, ey = b.top + b.height / 2;
+    const el = document.createElement("div");
+    el.className = "demo-coin";
+    el.innerHTML = '<i>$</i><span>' + amount + ' USDC</span>';
+    layer.appendChild(el);
+    const mx = (sx + ex) / 2 + 60, my = Math.max(110, (sy + ey) / 2 - 30);
+    el.animate([
+      { transform: `translate(${sx}px, ${sy}px) translate(-50%, -50%) scale(.5)`, opacity: 0 },
+      { transform: `translate(${sx}px, ${sy + 10}px) translate(-50%, -50%) scale(1.15)`, opacity: 1, offset: 0.14 },
+      { transform: `translate(${mx}px, ${my}px) translate(-50%, -50%) scale(1.1) rotate(-6deg)`, opacity: 1, offset: 0.55 },
+      { transform: `translate(${ex}px, ${ey}px) translate(-50%, -50%) scale(.85)`, opacity: 1, offset: 0.86 },
+      { transform: `translate(${ex}px, ${ey}px) translate(-50%, -50%) scale(.15)`, opacity: 0 },
+    ], { duration: 1300, easing: "cubic-bezier(.45,.05,.35,1)", fill: "both" }).onfinish = () => {
+      el.remove();
+      burst(ex, ey, 22, ["#2775CA", "#14F195", "#ECEBFF"]);
+      done();
+    };
+  };
+
   // Tickets leave the prize-pool globe, arc up and land in My Entries; confetti bursts where they land.
-  const fly = (n, done) => {
+  const fly = (n, first, done) => {
     const layer = fxRef.current, g = globeRef.current, m = mineRef.current;
     if (!layer || !g || !m || reduced()) { done(); return; }
     const a = g.getBoundingClientRect(), b = m.getBoundingClientRect();
     const sx = a.left + a.width / 2, sy = a.top + a.height / 2;
-    const ex = b.left + b.width * 0.62, ey = b.top + b.height / 2;
+    const ex = b.left + b.width * 0.86, ey = b.top + b.height / 2;
     const count = Math.min(n, 8);
     let landed = 0;
     for (let i = 0; i < count; i++) {
       const el = document.createElement("div");
       el.className = "demo-fly";
-      el.innerHTML = '<img src="/globe.webp" alt=""><span>#' + num(LIVE_BASE + sold + 1 + i) + "</span>";
+      el.innerHTML = '<img src="/globe.webp" alt=""><span>#' + num(first + i) + "</span>";
       layer.appendChild(el);
       const dx = ex - sx + (i - (count - 1) / 2) * 26, dy = ey - sy, lift = -Math.max(160, Math.abs(dx) * 0.35);
       const anim = el.animate([
@@ -150,13 +179,13 @@ export default function Demo() {
       };
     }
   };
-  const burst = (x, y, n) => {
+  const burst = (x, y, n, palette) => {
     const layer = fxRef.current; if (!layer) return;
-    const colors = ["#9945FF", "#14F195", "#F5C04A", "#ECEBFF"];
+    const colors = palette || ["#9945FF", "#14F195", "#F5C04A", "#ECEBFF"];
     for (let i = 0; i < n; i++) {
       const c = document.createElement("i");
       c.className = "demo-conf";
-      c.style.background = colors[i % 4];
+      c.style.background = colors[i % colors.length];
       layer.appendChild(c);
       const ang = Math.random() * Math.PI * 2, d = 60 + Math.random() * 160;
       c.animate([
@@ -185,7 +214,7 @@ export default function Demo() {
           <span className="demo-pill demo-x" aria-label="X">𝕏</span>
           <span className="demo-pill">{num(xpShown)} <small>XP</small></span>
           {wallet
-            ? <span className="demo-pill"><i className="demo-dot" />{ADDR}</span>
+            ? <span className="demo-pill" ref={walletRef}><i className="demo-dot" />{ADDR}</span>
             : <span className="demo-pill demo-connect" aria-disabled="true">Connect Wallet</span>}
         </div>
       </header>
