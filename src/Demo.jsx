@@ -1,5 +1,4 @@
-// /demo: an unlisted, clickable preview of the 1-Earth protocol with sample data.
-// Nothing on the site links here, search engines are told not to index it, and it makes no transactions.
+// /demo: a clickable preview of the 1-Earth protocol with sample data. It makes no transactions.
 import { useEffect, useMemo, useRef, useState } from "react";
 
 // Projected: 10,000,000 entries, a 100,000,000 USDC pool (bracket 5 of the payout charts: all 11 bonuses plus the 2% jackpot).
@@ -64,11 +63,8 @@ export default function Demo() {
 
   useEffect(() => {
     document.title = "1-Earth · Demo";
-    const m = document.createElement("meta");
-    m.name = "robots"; m.content = "noindex, nofollow";
-    document.head.appendChild(m);
     const id = setInterval(() => setLeft((s) => (s > 0 ? s - 1 : START)), 1000);
-    return () => { clearInterval(id); m.remove(); };
+    return () => clearInterval(id);
   }, []);
 
   const live = view === "live";
