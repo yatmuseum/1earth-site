@@ -212,3 +212,9 @@
 }
 .demo-prize.demo-prize--top { grid-template-columns: auto auto; justify-content: center; column-gap: 28px; text-align: center; }
 .demo-prize--top .demo-tier-odds { text-align: center; }
+/* featured 1st place: "1st · 3,000,000 USDC" centered on one line, the odds centered underneath */
+.demo-prize.demo-prize--top { display: flex !important; flex-wrap: wrap; justify-content: center; align-items: baseline; align-content: center; gap: 2px 0; padding: 0 20px; }
+.demo-prize--top .demo-place { overflow: visible; }
+.demo-prize--top .demo-place::after { content: "\00b7"; margin: 0 .45em; color: var(--label); }
+.demo-prize--top .demo-tier-odds { flex: 0 0 100%; text-align: center; }
+@media (max-width: 900px) { .demo-prize.demo-prize--top { flex-direction: row !important; align-items: baseline !important; justify-content: center !important; padding: 14px 12px; } .demo-prize--top .demo-place { white-space: nowrap; } }
