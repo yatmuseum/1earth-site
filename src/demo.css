@@ -289,3 +289,7 @@ span.demo-connect { cursor: default; user-select: none; }
 .demo-coin { position: absolute; left: 0; top: 0; display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px 7px 7px; border-radius: 999px; background: #10233f; border: 2px solid #2775CA;
   box-shadow: 0 0 26px rgba(39,117,202,.75), 0 10px 30px rgba(0,0,0,.5); color: #fff; font-weight: 800; font-size: 18px; white-space: nowrap; will-change: transform; }
 .demo-coin i { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: #2775CA; font-style: normal; font-weight: 900; }
+
+/* My Entries: tickets start on the left, right after the title */
+.demo-tix { justify-content: flex-start !important; }
+@media (max-width: 900px) { .demo-tix { justify-content: center !important; } }

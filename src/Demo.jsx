@@ -156,7 +156,10 @@ export default function Demo() {
     if (!layer || !g || !m || reduced()) { done(); return; }
     const a = g.getBoundingClientRect(), b = m.getBoundingClientRect();
     const sx = a.left + a.width / 2, sy = a.top + a.height / 2;
-    const ex = b.left + b.width * 0.86, ey = b.top + b.height / 2;
+    // land just to the right of the last ticket already in My Entries (where the new one will appear)
+    const lastT = m.querySelector(".demo-tix span:last-of-type");
+    const lr = lastT ? lastT.getBoundingClientRect() : null;
+    const ex = lr ? lr.right + 24 + lr.width / 2 : b.left + b.width * 0.4, ey = b.top + b.height / 2;
     const count = Math.min(n, 8);
     let landed = 0;
     for (let i = 0; i < count; i++) {
