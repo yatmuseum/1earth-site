@@ -19,6 +19,7 @@ const LIVE = [
   ["64th to 100th", "750", 37], ["101st to 125th", "500", 25], ["126th to 250th", "250", 125],
 ];
 const PRICE = 10;
+const LIVE_BASE = 24999; // Live starts one short, so the first demo purchase is entry #25,000
 const START = 96 * 3600 + 12 * 60 + 55; // the sample countdown starts at 96:12:55
 const WALLETS = ["Phantom", "Solflare", "Backpack"];
 const ADDR = "7Gx4…Qm2P";
@@ -71,12 +72,12 @@ export default function Demo() {
   }, []);
 
   const live = view === "live";
-  const baseEntries = live ? 25000 : 10000000;
+  const baseEntries = live ? LIVE_BASE : 10000000;
   const entries = useTicker(baseEntries + (live ? sold : 0));
   const pool = useTicker((baseEntries + (live ? sold : 0)) * PRICE);
   const xpShown = useTicker(xp, 700);
   const prizes = useMemo(() => (live ? LIVE : PROJECTED), [live]);
-  const totalEntries = baseEntries + (live ? sold : 0);   // odds for each tier: entries ÷ winners in that tier
+  const totalEntries = live ? Math.max(25000, LIVE_BASE + sold) : baseEntries;   // odds for each tier: entries ÷ winners in that tier
   const h = Math.floor(left / 3600), mi = Math.floor((left % 3600) / 60), se = left % 60;
 
   const connect = (name) => {
@@ -84,13 +85,30 @@ export default function Demo() {
     setTimeout(() => { setWallet(name); setModal(null); flash(`Connected with ${name}. Demo wallet: ${ADDR}`); }, 1100);
   };
   const flash = (t, ms = 3600) => { setToast(t); clearTimeout(flash.id); flash.id = setTimeout(() => setToast(""), ms); };
-  const play = () => { if (!wallet) setModal("connect"); else setModal("confirm"); };
+  // Play opens a simulated browser-wallet popup: it simulates the transaction, shows the balance changes,
+  // then "sends" and confirms it. Nothing is ever sent; it is all on this page.
+  const [wstep, setWstep] = useState(null);           // "sim" | "review" | "sending" | "done"
+  const [sig, setSig] = useState("");
+  const play = () => {
+    if (!wallet) { setModal("connect"); return; }
+    setView("live");
+    setWstep("sim");
+    setTimeout(() => setWstep((w) => (w === "sim" ? "review" : w)), 1100);
+  };
+  const confirmTx = () => {
+    setWstep("sending");
+    const chars = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
+    const r = (n) => Array.from({ length: n }, () => chars[Math.floor(Math.random() * chars.length)]).join("");
+    setSig(r(4) + "…" + r(4));
+    setTimeout(() => setWstep("done"), 1500);
+    setTimeout(() => { setWstep(null); approve(true); }, 2900);
+  };
 
-  const approve = () => {
-    setModal("sending");
+  const approve = (direct) => {
+    if (!direct) setModal("sending");
     setTimeout(() => {
       setModal(null);
-      const first = 25000 + sold + 1;
+      const first = LIVE_BASE + sold + 1;
       const nums = Array.from({ length: qty }, (_, i) => first + i);
       setView("live");
       fly(qty, () => {
@@ -100,7 +118,7 @@ export default function Demo() {
         setPulse((p) => p + 1);
         flash(qty === 1 ? `You're in! Entry #${num(first)}. Good luck!` : `You're in! Entries #${num(first)} to #${num(first + qty - 1)}. Good luck!`, 4200);
       });
-    }, 1200);
+    }, direct ? 0 : 1200);
   };
 
   // Tickets leave the prize-pool globe, arc up and land in My Entries; confetti bursts where they land.
@@ -115,7 +133,7 @@ export default function Demo() {
     for (let i = 0; i < count; i++) {
       const el = document.createElement("div");
       el.className = "demo-fly";
-      el.innerHTML = '<img src="/globe.webp" alt=""><span>#' + num(25000 + sold + 1 + i) + "</span>";
+      el.innerHTML = '<img src="/globe.webp" alt=""><span>#' + num(LIVE_BASE + sold + 1 + i) + "</span>";
       layer.appendChild(el);
       const dx = ex - sx + (i - (count - 1) / 2) * 26, dy = ey - sy, lift = -Math.max(160, Math.abs(dx) * 0.35);
       const anim = el.animate([
@@ -232,6 +250,29 @@ export default function Demo() {
       {toast && <p className="demo-note" role="status">{toast}</p>}
       <div className="demo-fx" ref={fxRef} aria-hidden="true" />
 
+
+      {wstep && (
+        <div className="demo-wbg">
+          <div className="demo-wallet" role="dialog" aria-modal="true" aria-label="Wallet (simulated)">
+            <div className="demo-wtop"><i className="demo-dot" /><b>Wallet</b><span className="demo-wnet">Solana · Mainnet</span></div>
+            <div className="demo-wsite"><img src="/globe.webp" alt="" /><div><b>1-earth.io</b><span>Confirm transaction</span></div></div>
+            {wstep === "sim" && (<div className="demo-wbody demo-wcenter"><div className="demo-spin" /><p>Simulating transaction…</p></div>)}
+            {wstep === "review" && (
+              <div className="demo-wbody">
+                <p className="demo-wlbl">Estimated balance changes</p>
+                <div className="demo-wchg"><span className="demo-wcoin demo-wusdc">$</span><span>USDC</span><b className="neg">−{qty * PRICE}</b></div>
+                <div className="demo-wchg"><img src="/globe.webp" alt="" className="demo-wcoin" /><span>1-Earth entry{qty > 1 ? "s" : ""}</span><b className="pos">+{qty} {qty === 1 ? "(#" : "(#"}{num(LIVE_BASE + sold + 1)}{qty > 1 ? "+" : ""})</b></div>
+                <div className="demo-wrow"><span>Network fee</span><b>&lt; 0.00001 SOL</b></div>
+                <div className="demo-wrow"><span>Account</span><b>{ADDR}</b></div>
+                <p className="demo-wnote">Simulated for this demo. No funds move.</p>
+                <div className="demo-wbtns"><button onClick={() => setWstep(null)}>Cancel</button><button className="go" onClick={confirmTx}>Confirm</button></div>
+              </div>
+            )}
+            {wstep === "sending" && (<div className="demo-wbody demo-wcenter"><div className="demo-spin" /><p>Sending transaction…</p><span className="demo-wsub">Waiting for confirmation on Solana</span></div>)}
+            {wstep === "done" && (<div className="demo-wbody demo-wcenter"><div className="demo-wcheck">✓</div><p>Transaction confirmed</p><span className="demo-wsub">Entry #{num(LIVE_BASE + sold + 1)} minted · Signature {sig}</span></div>)}
+          </div>
+        </div>
+      )}
       {modal && (
         <div className="demo-modal" onClick={(e) => { if (e.target === e.currentTarget && (modal === "connect" || modal === "confirm")) setModal(null); }}>
           <div className="demo-sheet" role="dialog" aria-modal="true">

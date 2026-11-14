@@ -243,3 +243,31 @@ span.demo-connect { cursor: default; user-select: none; }
 .demo-enter .demo-odds { display: inline-flex; align-items: baseline; }
 .demo-enter .demo-odds::before { content: "\200b"; font-family: var(--display); font-weight: 700; font-size: 28px; line-height: 1; letter-spacing: 0; }
 @media (min-width: 901px) { .demo-enter .demo-odds::before { font-size: clamp(20px, 2.5vh, 28px); } }
+
+/* ---- simulated browser-wallet popup (generic, not any real wallet's design) ---- */
+.demo-wbg { position: fixed; inset: 0; z-index: 45; background: rgba(6,5,14,.55); animation: demoFade .2s ease-out; }
+.demo-wallet { position: absolute; top: 14px; right: 18px; width: min(360px, calc(100vw - 24px)); border-radius: 18px; overflow: hidden; background: #1c1b2e; border: 1px solid #34325a;
+  box-shadow: 0 30px 80px rgba(0,0,0,.65); color: var(--ink); animation: demoDrop .32s cubic-bezier(.2,.9,.3,1.15); }
+@keyframes demoDrop { from { transform: translateY(-24px) scale(.97); opacity: 0; } to { transform: none; opacity: 1; } }
+.demo-wtop { display: flex; align-items: center; gap: 10px; padding: 12px 16px; background: #23223a; border-bottom: 1px solid #34325a; font-size: 15px; }
+.demo-wnet { margin-left: auto; font-size: 12px; color: var(--label); }
+.demo-wsite { display: flex; align-items: center; gap: 12px; padding: 16px; border-bottom: 1px solid #2c2a48; }
+.demo-wsite img { width: 40px; height: 40px; border-radius: 50%; }
+.demo-wsite b { display: block; font-size: 16px; } .demo-wsite span { font-size: 13px; color: var(--label); }
+.demo-wbody { padding: 16px; }
+.demo-wcenter { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 30px 16px 34px; }
+.demo-wcenter p { margin: 0; font-weight: 700; font-size: 17px; }
+.demo-wsub { margin-top: 6px; font-size: 13px; color: var(--label); }
+.demo-wlbl { margin: 0 0 10px; font-size: 13px; font-weight: 700; color: var(--label); text-transform: uppercase; letter-spacing: .08em; }
+.demo-wchg { display: flex; align-items: center; gap: 10px; padding: 12px; border-radius: 12px; background: #24233c; margin-bottom: 8px; font-weight: 600; }
+.demo-wchg b { margin-left: auto; font-size: 16px; }
+.demo-wchg .neg { color: #ff6b8b; } .demo-wchg .pos { color: #14F195; }
+.demo-wcoin { width: 28px; height: 28px; border-radius: 50%; display: inline-grid; place-items: center; }
+.demo-wusdc { background: #2775ca; color: #fff; font-weight: 800; font-size: 15px; }
+.demo-wrow { display: flex; justify-content: space-between; padding: 8px 2px; font-size: 14px; border-bottom: 1px solid #2c2a48; }
+.demo-wrow span { color: var(--label); }
+.demo-wnote { margin: 12px 0 0; font-size: 12px; color: var(--label); text-align: center; }
+.demo-wbtns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+.demo-wbtns button { height: 46px; border-radius: 999px; border: 1px solid #3a3870; background: #24233c; color: var(--ink); font: 700 16px var(--body); cursor: pointer; }
+.demo-wbtns .go { border: 0; background: linear-gradient(90deg, #9945FF, #14F195); color: #0c0b16; }
+.demo-wcheck { width: 56px; height: 56px; margin-bottom: 14px; border-radius: 50%; display: grid; place-items: center; background: #14F195; color: #0c0b16; font-size: 30px; font-weight: 900; animation: demoPop .45s cubic-bezier(.3,1.6,.5,1); }
