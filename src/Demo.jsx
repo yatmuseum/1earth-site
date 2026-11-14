@@ -52,7 +52,7 @@ export default function Demo() {
   const [left, setLeft] = useState(START);
   const [view, setView] = useState("projected");
   const [qty, setQty] = useState(1);
-  const [wallet, setWallet] = useState(null);        // null until connected
+  const [wallet, setWallet] = useState("Phantom");   // the demo starts with a sample wallet already connected
   const [modal, setModal] = useState(null);          // "connect" | "connecting" | "confirm" | "sending"
   const [sold, setSold] = useState(0);               // entries bought in this demo
   const [mine, setMine] = useState([18984, 18985, 18986]); // my entry numbers (three sample ones to start)
