@@ -137,3 +137,4 @@
 .demo-tog span { display: inline-block; font: 600 16px var(--body); padding: 6px 20px; border-radius: 999px; }
 .demo-tog span.on { background: linear-gradient(90deg, #9945FF, #14F195); color: #0c0b16; }
 @media (min-width: 901px) { .demo-tog span { font-size: clamp(13px, 1.45vh, 16px); padding: .5vh 20px; } }
+@media (max-width: 900px) { .demo-prize b { font-size: clamp(15px, 4.4vw, 20px); white-space: normal; } }

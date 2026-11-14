@@ -8,6 +8,13 @@ const PRIZES = [
   ["11th to 20th", "6,500"], ["21st to 40th", "3,250"], ["41st to 100th", "1,250"],
   ["101st to 250th", "1,000"], ["251st to 500th", "500"], ["501st to 1000th", "250"],
 ];
+// Live: a sample draw with 25,000 entries and a 250,000 USDC pool (250 winners at 1 in 100).
+const LIVE = [
+  ["1st", "35,000"], ["2nd", "22,500"], ["3rd", "13,750"],
+  ["4th to 5th", "8,125"], ["6th to 10th", "3,750"], ["11th to 20th", "1,625"],
+  ["21st to 40th", "1,375"], ["41st to 62nd", "1,250"], ["63rd", "1,000"],
+  ["64th to 100th", "750"], ["101st to 125th", "500"], ["126th to 250th", "250"],
+]; // exactly 250,000 USDC across 250 winners
 const START = 48 * 3600 + 12 * 60 + 55; // the sample countdown starts at 48:12:55
 
 const two = (n) => String(n).padStart(2, "0");
@@ -15,6 +22,7 @@ const fmt = (s) => Number(s.replace(/,/g, "")).toLocaleString("en-US");
 
 export default function Demo() {
   const [left, setLeft] = useState(START);
+  const [view, setView] = useState("projected");
   const [qty, setQty] = useState(1);
   const [note, setNote] = useState("");
 
@@ -28,7 +36,8 @@ export default function Demo() {
   }, []);
 
   const h = Math.floor(left / 3600), mi = Math.floor((left % 3600) / 60), se = left % 60;
-  const prizes = useMemo(() => PRIZES.map(([p, a]) => [p, fmt(a)]), []);
+  const live = view === "live";
+  const prizes = useMemo(() => (live ? LIVE : PRIZES.map(([p, a]) => [p, fmt(a)])), [live]);
 
   const play = () => {
     setNote(`Demo only: no transaction. In the live protocol, this would enter ${qty} ticket${qty > 1 ? "s" : ""} for ${qty * 10} USDC.`);
@@ -57,17 +66,20 @@ export default function Demo() {
       <section className="demo-hero">
         <div className="demo-globe">
           <img src="/globe.webp" alt="" />
-          <p>Prize Pool 1,000,000 <small>USDC</small></p>
+          <p>Prize Pool {live ? "250,000" : "1,000,000"} <small>USDC</small></p>
         </div>
-        <div className="demo-entries"><b>100,000</b><span className="demo-grad">Entries</span></div>
+        <div className="demo-entries"><b>{live ? "25,000" : "100,000"}</b><span className="demo-grad">Entries</span></div>
       </section>
 
       <section className="demo-card demo-dist">
         <div className="demo-dist-head">
           <h2>Prize Distribution</h2>
-          <div className="demo-tog"><span className="on">Projected</span></div>
+          <div className="demo-tog" role="tablist">
+            <button className={!live ? "on" : ""} onClick={() => setView("projected")}>Projected</button>
+            <button className={live ? "on" : ""} onClick={() => setView("live")}>Live</button>
+          </div>
         </div>
-        <div className="demo-grid">
+        <div className={"demo-grid" + (live ? " demo-grid--live" : "")}>
           {prizes.map(([p, a]) => (
             <div className="demo-prize" key={p}><span>{p}</span><b>{a}<small>USDC</small></b></div>
           ))}
