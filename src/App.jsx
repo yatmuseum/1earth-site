@@ -116,6 +116,7 @@ export default function App() {
           <nav className="footer-links" aria-label="More">
             <a href="/PastDraws" className="pill pill--link">Past Draws →</a>
             <a href="/Frame" className="pill pill--link">Gold Frame PFP →</a>
+            <a href="/demo" className="pill pill--link">Protocol Demo →</a>
           </nav>
           <p className="legal">
             <strong>Important:</strong> For informational purposes only. Not an offer to sell, or a
