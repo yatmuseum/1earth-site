@@ -151,7 +151,7 @@ export default function Demo() {
   return (
     <div className="demo">
       <header className="demo-top">
-        <div className="demo-brand"><img src="/globe.webp" alt="" width="40" height="40" /><span>1-Earth</span><em className="demo-flag">Demo · sample data</em></div>
+        <div className="demo-brand"><img src="/globe.webp" alt="" width="40" height="40" /><span>1-Earth</span><em className="demo-flag">Demo · real payout math</em></div>
         <div className="demo-next">
           <p className="demo-grad">Next Drawing</p>
           <div className="demo-cd">
