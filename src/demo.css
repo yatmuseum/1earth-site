@@ -197,3 +197,18 @@
   .demo-prize .demo-place { font-size: clamp(15px, 4.4vw, 20px); white-space: normal; }
 }
 @media (min-width: 901px) and (max-width: 1200px) { .demo-prize { padding: 0 14px; column-gap: 6px; } .demo-prize .demo-place, .demo-prize b { font-size: clamp(14px, 1.55vw, 18px); } }
+
+/* Projected has 13 tiers: 1st gets the full top row, the other 12 fill the grid below */
+.demo-prize--top { grid-column: 1 / -1; }
+@media (min-width: 901px) { .demo-grid { gap: 1.1vh 17px; } }
+
+/* 13 tiers (Projected) on shorter screens: tighten so all five rows fit */
+@media (min-width: 901px) and (max-height: 900px) {
+  .demo-grid--13 { gap: .7vh 14px; margin-top: 1.2vh; }
+  .demo-grid--13 .demo-prize { row-gap: 0; }
+  .demo-grid--13 .demo-prize .demo-place, .demo-grid--13 .demo-prize b { font-size: clamp(13px, 1.8vh, 18px); line-height: 1.15; }
+  .demo-grid--13 .demo-tier-odds { font-size: clamp(10px, 1.15vh, 12px); line-height: 1.15; }
+  .demo-dist:has(.demo-grid--13) { padding-top: 1.6vh; padding-bottom: 1.6vh; }
+}
+.demo-prize.demo-prize--top { grid-template-columns: auto auto; justify-content: center; column-gap: 28px; text-align: center; }
+.demo-prize--top .demo-tier-odds { text-align: center; }

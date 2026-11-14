@@ -2,12 +2,14 @@
 // Nothing on the site links here, search engines are told not to index it, and it makes no transactions.
 import { useEffect, useMemo, useRef, useState } from "react";
 
-// Projected: 1,000,000 entries, a 10,000,000 USDC pool (bracket 5 of the payout charts). Adds to exactly 10,000,000.
+// Projected: 10,000,000 entries, a 100,000,000 USDC pool (bracket 5 of the payout charts: all 11 bonuses plus the 2% jackpot).
+// Adds to exactly 100,000,000 across 100,000 winners. Each row: place, prize, winners in that tier.
 const PROJECTED = [
-  ["1st", "1,200,000", 1], ["2nd", "500,000", 1], ["3rd to 4th", "250,000", 2],
-  ["5th to 10th", "100,000", 6], ["11th to 20th", "50,000", 10], ["21st to 40th", "25,000", 20],
-  ["41st to 100th", "10,000", 60], ["101st to 200th", "5,000", 100], ["201st to 400th", "2,500", 200],
-  ["401st to 2,500th", "1,000", 2100], ["2,501st to 5,000th", "500", 2500], ["5,001st to 10,000th", "250", 5000],
+  ["1st", "3,000,000", 1],
+  ["2nd to 10th", "1,000,000", 9], ["11th to 20th", "500,000", 10], ["21st to 40th", "250,000", 20],
+  ["41st to 100th", "100,000", 60], ["101st to 200th", "50,000", 100], ["201st to 400th", "25,000", 200],
+  ["401st to 1,000th", "10,000", 600], ["1,001st to 2,000th", "5,000", 1000], ["2,001st to 4,000th", "2,500", 2000],
+  ["4,001st to 25,000th", "1,000", 21000], ["25,001st to 50,000th", "500", 25000], ["50,001st to 100,000th", "250", 50000],
 ];
 // Live: 25,000 entries, a 250,000 USDC pool (bracket 3). Adds to exactly 250,000.
 const LIVE = [
@@ -17,7 +19,7 @@ const LIVE = [
   ["64th to 100th", "750", 37], ["101st to 125th", "500", 25], ["126th to 250th", "250", 125],
 ];
 const PRICE = 10;
-const START = 48 * 3600 + 12 * 60 + 55;
+const START = 96 * 3600 + 12 * 60 + 55; // the sample countdown starts at 96:12:55
 const WALLETS = ["Phantom", "Solflare", "Backpack"];
 const ADDR = "7Gx4…Qm2P";
 
@@ -53,7 +55,7 @@ export default function Demo() {
   const [wallet, setWallet] = useState(null);        // null until connected
   const [modal, setModal] = useState(null);          // "connect" | "connecting" | "confirm" | "sending"
   const [sold, setSold] = useState(0);               // entries bought in this demo
-  const [mine, setMine] = useState([]);              // my entry numbers
+  const [mine, setMine] = useState([18984, 18985, 18986]); // my entry numbers (three sample ones to start)
   const [xp, setXp] = useState(0);
   const [toast, setToast] = useState("");
   const [pulse, setPulse] = useState(0);
@@ -69,7 +71,7 @@ export default function Demo() {
   }, []);
 
   const live = view === "live";
-  const baseEntries = live ? 25000 : 1000000;
+  const baseEntries = live ? 25000 : 10000000;
   const entries = useTicker(baseEntries + (live ? sold : 0));
   const pool = useTicker((baseEntries + (live ? sold : 0)) * PRICE);
   const xpShown = useTicker(xp, 700);
@@ -186,9 +188,9 @@ export default function Demo() {
             <button className={live ? "on" : ""} onClick={() => setView("live")}>Live</button>
           </div>
         </div>
-        <div className="demo-grid">
+        <div className={"demo-grid" + (prizes.length === 13 ? " demo-grid--13" : "")}>
           {prizes.map(([p, a, n]) => (
-            <div className="demo-prize" key={view + p}>
+            <div className={"demo-prize" + (prizes.length === 13 && p === "1st" ? " demo-prize--top" : "")} key={view + p}>
               <span className="demo-place">{p}</span>
               <b>{a}<small>USDC</small></b>
               <em className="demo-tier-odds">1 in {num(totalEntries / n)}</em>
@@ -215,8 +217,7 @@ export default function Demo() {
         <section className="demo-card demo-mine" ref={mineRef}>
           <h3>My Entries</h3>
           <div className="demo-tix">
-            {!wallet && <p className="demo-empty">Connect a wallet to see your entries</p>}
-            {wallet && !mine.length && <p className="demo-empty">No entries yet. Press Play!</p>}
+            {!mine.length && <p className="demo-empty">No entries yet. Press Play!</p>}
             {shown.map((n) => <span key={n} className="demo-tix-new"><img src="/globe.webp" alt="" />#{num(n)}</span>)}
             {more > 0 && <span className="demo-more">+{num(more)} more</span>}
           </div>
