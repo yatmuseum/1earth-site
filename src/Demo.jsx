@@ -201,6 +201,13 @@ export default function Demo() {
     <div className="demo">
       <div className="page site-head"><header className="topbar">
         <div className="site-brand"><a href="/" className="brand"><img src="/globe.webp" alt="" width="46" height="46" /><span>1-Earth</span></a><em className="demo-flag">Demo · real payout math</em></div>
+        <div className="demo-pills site-right">
+          <a className="demo-pill demo-x" href="https://x.com/1earthh" target="_blank" rel="noopener noreferrer" aria-label="1-Earth on X">𝕏</a>
+          <span className="demo-pill">{num(xpShown)} <small>XP</small></span>
+          {wallet
+            ? <span className="demo-pill" ref={walletRef}><i className="demo-dot" />{ADDR}</span>
+            : <span className="demo-pill demo-connect" aria-disabled="true">Connect Wallet</span>}
+        </div>
       </header></div>
       <header className="demo-top">
         <div className="demo-brand" aria-hidden="true" />
@@ -212,13 +219,7 @@ export default function Demo() {
             <div><b>{two(se)}</b><span>Seconds</span></div>
           </div>
         </div>
-        <div className="demo-pills">
-          <a className="demo-pill demo-x" href="https://x.com/1earthh" target="_blank" rel="noopener noreferrer" aria-label="1-Earth on X">𝕏</a>
-          <span className="demo-pill">{num(xpShown)} <small>XP</small></span>
-          {wallet
-            ? <span className="demo-pill" ref={walletRef}><i className="demo-dot" />{ADDR}</span>
-            : <span className="demo-pill demo-connect" aria-disabled="true">Connect Wallet</span>}
-        </div>
+        <div aria-hidden="true" />
       </header>
 
       <section className="demo-hero">
