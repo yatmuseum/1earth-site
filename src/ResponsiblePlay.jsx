@@ -44,10 +44,11 @@ export default function ResponsiblePlay() {
       <main className="rp-main">
         <section className="rp-head">
           <h1 className="rp-grad">Responsible play</h1>
-          <p>Play for fun, within limits you choose. Set a cap on your entries or take a break whenever you need to.</p>
+          <div className="rp-head-r">
+            <p>Play for fun, within limits you choose. Set a cap on your entries or take a break whenever you need to.</p>
+            <span className="rp-preview">Preview · these tools go live with the protocol</span>
+          </div>
         </section>
-
-        <p className="rp-preview">Preview · these tools go live with the protocol</p>
 
         <div className="rp-cards">
           <section className="rp-card">
@@ -70,7 +71,7 @@ export default function ResponsiblePlay() {
             {note1 && <p className="rp-note" role="status">{note1}</p>}
           </section>
 
-          <section className="rp-card rp-card--accent">
+          <section className="rp-card">
             <h2>Take a break</h2>
             <p className="rp-lead">Self-exclusion blocks you from entering for the time you choose. It can’t be shortened or cancelled once it starts.</p>
             <label className="rp-lbl" htmlFor="rp-w2">Wallet address</label>
