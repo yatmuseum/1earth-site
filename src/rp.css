@@ -204,3 +204,8 @@ body .pd-empty h2, body .pd-draw h2, body .pd-how h2 { font-family: var(--displa
   .rp-head-r p { font-size: clamp(11.5px, min(1.6vh, 0.92vw), 16.5px); }
 }
 .rp-top-r .rp-preview { margin: 0; }
+
+/* Preview tag right of the logo, like the demo page */
+.rp-top-l { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.rp-top-l .rp-preview { margin: 0; font-size: 12px; letter-spacing: .14em; padding: 4px 10px; }
+@media (max-width: 600px) { .rp-top-l .rp-preview { display: none; } }
