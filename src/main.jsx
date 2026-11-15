@@ -8,6 +8,8 @@ import App from "./App.jsx";
 import PastDraws from "./PastDraws.jsx";
 import Frame from "./Frame.jsx";
 import Demo from "./Demo.jsx";
+import ResponsiblePlay from "./ResponsiblePlay.jsx";
+import "./rp.css";
 import "./demo.css";
 import "@solana/wallet-adapter-react-ui/styles.css";
 import "./styles.css";
@@ -16,7 +18,8 @@ import "./theme-solana.css"; // remove this line to go back to the light theme
 const path = window.location.pathname;
 const isPastDraws = /^\/pastdraws\/?$/i.test(path);
 const isFrame = /^\/frame\/?$/i.test(path);
-const isDemo = /^\/demo\/?$/i.test(path); // unlisted: nothing on the site links here
+const isDemo = /^\/demo\/?$/i.test(path);
+const isRP = /^\/demo\/responsible-play\/?$/i.test(path);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -26,6 +29,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <Frame />
     ) : isDemo ? (
       <Demo />
+    ) : isRP ? (
+      <ResponsiblePlay />
     ) : (
       <WalletProviders>
         <App />

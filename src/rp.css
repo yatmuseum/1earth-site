@@ -1,0 +1,61 @@
+/* /demo/responsible-play, Solana theme */
+.rp { color: var(--ink); font-family: var(--body); min-height: 100svh; }
+.rp-grad { background: linear-gradient(90deg, #9945FF, #14F195); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.rp-top { display: flex; align-items: center; justify-content: space-between; padding: 16px clamp(16px, 3vw, 40px); border-bottom: 1px solid var(--line); }
+.rp-brand { display: inline-flex; align-items: center; gap: 12px; color: inherit; text-decoration: none; font-family: var(--display); font-weight: 700; font-size: 28px; }
+.rp-brand img { border-radius: 50%; }
+.rp-back { color: var(--label); text-decoration: none; font-weight: 600; }
+.rp-back:hover { color: var(--ink); }
+.rp-main { max-width: 1270px; margin: 0 auto; padding: 40px clamp(16px, 4vw, 40px) 60px; }
+.rp-head { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 30px; padding-bottom: 26px; border-bottom: 2px solid transparent;
+  border-image: linear-gradient(90deg, #9945FF, #14F195) 1; }
+.rp-head h1 { margin: 0; font-family: var(--display); font-weight: 800; font-size: clamp(40px, 5.4vw, 72px); line-height: 1.05; letter-spacing: -0.02em; }
+.rp-head p { margin: 0; justify-self: end; max-width: 690px; text-align: right; color: var(--label); font-size: 19px; line-height: 1.55; }
+.rp-preview { display: inline-block; margin: 22px 0 0; padding: 6px 14px; border-radius: 999px; border: 1px solid var(--line); color: var(--label); font-size: 13px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+.rp-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px; margin-top: 22px; align-items: start; }
+.rp-card { position: relative; padding: 32px 34px; border-radius: 22px; background: var(--card); border: 1.5px solid var(--line); }
+.rp-card--accent::before { content: ""; position: absolute; left: -1.5px; right: -1.5px; top: -1.5px; height: 5px; border-radius: 22px 22px 0 0; background: linear-gradient(90deg, #9945FF, #14F195); }
+.rp-card h2, .rp-signs h2 { margin: 0; font-family: var(--display); font-weight: 800; font-size: 32px; letter-spacing: -0.01em; }
+.rp-lead { margin: 10px 0 0; color: var(--label); font-size: 17px; line-height: 1.6; }
+.rp-lbl { display: block; margin: 24px 0 10px; font-weight: 700; font-size: 17px; }
+.rp-input { width: 100%; box-sizing: border-box; height: 58px; padding: 0 20px; border-radius: 14px; border: 1.5px solid var(--line); background: color-mix(in srgb, var(--bg) 60%, var(--card)); color: var(--ink); font: 500 16px var(--body); }
+.rp-input::placeholder { color: color-mix(in srgb, var(--label) 70%, transparent); }
+.rp-input:focus { outline: none; border-color: #14F195; }
+.rp-limit { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; }
+.rp-limit p { margin: 0; color: var(--label); font-size: 17px; } .rp-limit p b { color: var(--ink); }
+.rp-step { display: inline-flex; align-items: center; gap: 22px; height: 56px; padding: 0 16px; border-radius: 14px; background: color-mix(in srgb, var(--bg) 60%, var(--card)); border: 1.5px solid var(--line); }
+.rp-step button { width: 32px; height: 32px; border: 0; border-radius: 50%; background: none; color: var(--ink); font-size: 22px; cursor: pointer; }
+.rp-step button:hover { background: var(--line); }
+.rp-step b { min-width: 46px; text-align: center; font-family: var(--display); font-size: 24px; }
+.rp-range { width: 100%; margin: 22px 0 0; -webkit-appearance: none; appearance: none; height: 8px; border-radius: 999px; outline: none;
+  background: linear-gradient(90deg, #9945FF, #14F195) 0 / var(--p) 100% no-repeat, var(--line); }
+.rp-range::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%; background: #14F195; border: 3px solid var(--card); box-shadow: 0 0 0 2px #14F195; cursor: pointer; }
+.rp-range::-moz-range-thumb { width: 18px; height: 18px; border-radius: 50%; background: #14F195; border: 3px solid var(--card); cursor: pointer; }
+.rp-fine { margin: 16px 0 0; color: var(--label); font-size: 14.5px; line-height: 1.6; }
+.rp-btn { margin-top: 24px; height: 56px; padding: 0 30px; border: 0; border-radius: 12px; background: linear-gradient(90deg, #9945FF, #14F195); color: #0c0b16; font: 800 18px var(--display); cursor: pointer; }
+.rp-btn--alt { background: var(--ink); color: var(--bg); }
+.rp-note { margin: 14px 0 0; padding: 10px 14px; border-radius: 10px; background: color-mix(in srgb, var(--card) 70%, #9945FF); font-size: 14.5px; font-weight: 600; }
+.rp-durs { display: flex; flex-wrap: wrap; gap: 10px; }
+.rp-durs button { height: 54px; padding: 0 16px; border-radius: 14px; border: 1.5px solid var(--line); background: color-mix(in srgb, var(--bg) 60%, var(--card)); color: var(--ink); font: 700 16px var(--body); cursor: pointer; }
+.rp-durs button.on { background: linear-gradient(90deg, #9945FF, #14F195); color: #0c0b16; border-color: transparent; }
+.rp-check { display: flex; gap: 14px; align-items: flex-start; margin-top: 22px; cursor: pointer; }
+.rp-check input { width: 22px; height: 22px; margin: 2px 0 0; accent-color: #14F195; flex: none; cursor: pointer; }
+.rp-check b { font-weight: 500; font-size: 17px; line-height: 1.5; }
+.rp-check small { display: block; margin-top: 4px; color: var(--label); font-size: 14.5px; line-height: 1.55; }
+.rp-signs { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 50px; margin-top: 56px; }
+.rp-signs ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 40px; }
+.rp-signs li { position: relative; padding-left: 24px; font-size: 18px; line-height: 1.55; }
+.rp-signs li::before { content: ""; position: absolute; left: 0; top: .6em; width: 9px; height: 9px; border-radius: 50%; background: linear-gradient(135deg, #9945FF, #14F195); }
+.rp-help { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 30px; }
+.rp-help a { display: block; padding: 20px 22px; border-radius: 14px; background: var(--card); border: 1.5px solid var(--line); color: inherit; text-decoration: none; }
+.rp-help a:hover { border-color: #14F195; }
+.rp-help b { display: block; font-size: 18px; } .rp-help span { display: block; margin-top: 6px; color: var(--label); font-size: 15px; line-height: 1.5; }
+.rp-foot { margin: 46px 0 0; padding-top: 30px; border-top: 1px solid var(--line); color: var(--label); font-size: 15px; line-height: 1.6; }
+@media (max-width: 900px) {
+  .rp-head { grid-template-columns: 1fr; gap: 12px; } .rp-head p { justify-self: start; text-align: left; font-size: 17px; }
+  .rp-cards, .rp-signs { grid-template-columns: 1fr; gap: 24px; } .rp-signs { margin-top: 40px; }
+  .rp-card { padding: 24px 20px; }
+  .rp-signs ul, .rp-help { grid-template-columns: 1fr; }
+  .rp-brand { font-size: 22px; }
+}
+.rp-durs { gap: 8px; } .rp-durs button { padding: 0 13px; font-size: 15px; height: 50px; }
