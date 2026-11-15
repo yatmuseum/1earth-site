@@ -326,3 +326,4 @@ a.demo-x:hover, a.demo-x:focus-visible { border-color: #14F195; }
 @media (max-width: 900px) and (min-width: 481px) { .site-right .demo-pill:nth-child(2) { display: none; } }
 @media (max-width: 900px) { .site-head { margin-left: calc(-1 * clamp(16px, 4vw, 40px)); margin-right: calc(-1 * clamp(16px, 4vw, 40px)); } }
 @media (max-width: 900px) { .demo > .site-head.page { margin-left: calc(-1 * clamp(16px, 4vw, 40px)); margin-right: calc(-1 * clamp(16px, 4vw, 40px)); max-width: none; } }
+@media (max-width: 900px) { .demo .demo-top { margin-top: 14px !important; } }
