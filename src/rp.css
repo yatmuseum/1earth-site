@@ -162,3 +162,25 @@ body .pd-empty h2, body .pd-draw h2, body .pd-how h2 { font-family: var(--displa
   .rp-check { margin-top: .8vh; }
 }
 @media (min-width: 901px) { .rp-card > .rp-check:last-of-type { margin-bottom: 1.6vh; } }
+/* no line above the footer note */
+.rp-foot { border-top: 0 !important; }
+/* buttons sit in the middle of the space between the last checkbox and the bottom of the card */
+@media (min-width: 901px) {
+  .rp-card { padding-bottom: 0 !important; }
+  .rp-card > .rp-check:last-of-type { margin-bottom: 0 !important; }
+  .rp-card .rp-btn { margin-top: auto !important; margin-bottom: auto !important; }
+  .rp-card .rp-note { bottom: auto; top: auto; }
+  /* help cards: one row, each half the width */
+  .rp-signs-body { display: block !important; }
+  .rp-help { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 16px !important; margin-top: 1.2vh !important; }
+}
+@media (min-width: 901px) {
+  .rp-card { padding-bottom: 2.2vh !important; }
+  .rp-card > .rp-check:last-of-type { margin-bottom: 2.2vh !important; }
+}
+@media (min-width: 901px) {
+  /* buttons level with each other; the same space above and below them in the fuller card */
+  .rp-card { padding-bottom: 2vh !important; }
+  .rp-card > .rp-check:last-of-type { margin-bottom: 2vh !important; }
+  .rp-card .rp-btn { margin-top: auto !important; margin-bottom: 0 !important; }
+}
