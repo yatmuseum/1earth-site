@@ -301,3 +301,7 @@ span.demo-connect { cursor: default; user-select: none; }
 /* footer text links: look like the rest of the footer, brighten on hover */
 .demo-foot-link { color: inherit; text-decoration: none; }
 .demo-foot-link:hover, .demo-foot-link:focus-visible { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+
+/* the X button opens @1earthh; it looks the same as before */
+a.demo-x { color: inherit; text-decoration: none; cursor: pointer; }
+a.demo-x:hover, a.demo-x:focus-visible { border-color: #14F195; }

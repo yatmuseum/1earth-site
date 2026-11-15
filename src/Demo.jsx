@@ -210,7 +210,7 @@ export default function Demo() {
           </div>
         </div>
         <div className="demo-pills">
-          <span className="demo-pill demo-x" aria-label="X">𝕏</span>
+          <a className="demo-pill demo-x" href="https://x.com/1earthh" target="_blank" rel="noopener noreferrer" aria-label="1-Earth on X">𝕏</a>
           <span className="demo-pill">{num(xpShown)} <small>XP</small></span>
           {wallet
             ? <span className="demo-pill" ref={walletRef}><i className="demo-dot" />{ADDR}</span>
