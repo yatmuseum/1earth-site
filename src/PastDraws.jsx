@@ -77,7 +77,6 @@ export default function PastDraws() {
           <img src="/globe.webp" alt="" width="46" height="46" />
           <span>1-Earth</span>
         </a>
-        <a href="/" className="pd-back">← Back to the mint</a>
       </header>
 
       <h1 className="pd-title">Past Draws</h1>
