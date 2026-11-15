@@ -280,6 +280,7 @@ export default function Demo() {
           l === "Past Draws" ? <a key={l} href="/PastDraws" className="demo-foot-link">{l}</a>
           : l === "Frames" ? <a key={l} href="/" className="demo-foot-link">{l}</a>   /* home for now; will point elsewhere later */
           : l === "Responsible Play" ? <a key={l} href="/demo/responsible-play" className="demo-foot-link">{l}</a>
+          : l === "Support" ? <a key={l} href="/demo/support" className="demo-foot-link">{l}</a>
           : <span key={l}>{l}</span>)}
       </footer>
 

@@ -9,6 +9,8 @@ import PastDraws from "./PastDraws.jsx";
 import Frame from "./Frame.jsx";
 import Demo from "./Demo.jsx";
 import ResponsiblePlay from "./ResponsiblePlay.jsx";
+import Support from "./Support.jsx";
+import "./sp.css";
 import "./rp.css";
 import "./demo.css";
 import "@solana/wallet-adapter-react-ui/styles.css";
@@ -20,6 +22,7 @@ const isPastDraws = /^\/pastdraws\/?$/i.test(path);
 const isFrame = /^\/frame\/?$/i.test(path);
 const isDemo = /^\/demo\/?$/i.test(path);
 const isRP = /^\/demo\/responsible-play\/?$/i.test(path);
+const isSupport = /^\/demo\/support\/?$/i.test(path);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -31,6 +34,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <Demo />
     ) : isRP ? (
       <ResponsiblePlay />
+    ) : isSupport ? (
+      <Support />
     ) : (
       <WalletProviders>
         <App />
