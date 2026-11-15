@@ -184,3 +184,23 @@ body .pd-empty h2, body .pd-draw h2, body .pd-how h2 { font-family: var(--displa
   .rp-card > .rp-check:last-of-type { margin-bottom: 2vh !important; }
   .rp-card .rp-btn { margin-top: auto !important; margin-bottom: 0 !important; }
 }
+/* no line under the top bar */
+.rp-top { border-bottom: 0 !important; }
+/* each bullet sits at the middle of its first line of text */
+.rp-signs li::before { top: calc(0.725em - 4.5px) !important; }
+@media (min-width: 901px) {
+  /* the intro is one line, level with the "Responsible play" title */
+  .rp-head { align-items: baseline !important; }
+  .rp-head-r p { white-space: nowrap; max-width: none; font-size: clamp(12px, min(1.7vh, 1.05vw), 18px); }
+}
+
+.rp-top-r { display: flex; align-items: center; gap: 18px; }
+@media (max-width: 600px) { .rp-top-r .rp-preview { display: none; } }
+@media (min-width: 901px) {
+  .rp-main { max-width: 1440px; }
+  .rp-head { grid-template-columns: auto minmax(0, 1fr); }
+  .rp-head h1 { white-space: nowrap; font-size: clamp(30px, min(5.4vh, 4.2vw), 62px); }
+  .rp-head-r { min-width: 0; }
+  .rp-head-r p { font-size: clamp(11.5px, min(1.6vh, 0.92vw), 16.5px); }
+}
+.rp-top-r .rp-preview { margin: 0; }

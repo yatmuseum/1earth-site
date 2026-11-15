@@ -43,7 +43,7 @@ export default function ResponsiblePlay() {
     <div className="rp">
       <header className="rp-top">
         <a href="/" className="rp-brand" aria-label="1-Earth home"><img src="/globe.webp" alt="" width="40" height="40" /><span>1-Earth</span></a>
-        <a href="/demo" className="rp-back">← Back to demo</a>
+        <div className="rp-top-r"><span className="rp-preview">Preview · these tools go live with the protocol</span><a href="/demo" className="rp-back">← Back to demo</a></div>
       </header>
 
       <main className="rp-main">
@@ -51,7 +51,6 @@ export default function ResponsiblePlay() {
           <h1 className="rp-grad">Responsible play</h1>
           <div className="rp-head-r">
             <p>Play for fun, within limits you choose. Set a cap on your entries or take a break whenever you need to.</p>
-            <span className="rp-preview">Preview · these tools go live with the protocol</span>
           </div>
         </section>
 
