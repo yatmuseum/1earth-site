@@ -41,10 +41,10 @@ export default function ResponsiblePlay() {
 
   return (
     <div className="rp">
-      <header className="rp-top">
-        <div className="rp-top-l"><a href="/" className="rp-brand" aria-label="1-Earth home"><img src="/globe.webp" alt="" width="40" height="40" /><span>1-Earth</span></a><span className="rp-preview">Preview · these tools go live with the protocol</span></div>
+      <div className="page"><header className="topbar">
+        <div className="site-brand"><a href="/" className="brand"><img src="/globe.webp" alt="" width="46" height="46" /><span>1-Earth</span></a><span className="rp-preview">Preview · these tools go live with the protocol</span></div>
         <a href="/demo" className="rp-back">← Back to demo</a>
-      </header>
+      </header></div>
 
       <main className="rp-main">
         <section className="rp-head">

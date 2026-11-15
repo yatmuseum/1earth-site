@@ -880,3 +880,18 @@ button { font: inherit; color: inherit; }
    and an open slot for one more button later */
 .footer-links { grid-auto-flow: row; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-columns: auto; }
 @media (min-width: 961px) { .onescreen .footer .page { align-items: start; } .onescreen .footer-links { row-gap: 0.55rem; } }
+
+/* ==================================================================
+   Site header: the 1-Earth logo sits in exactly the same spot on every page
+   (the main page is the reference): same container, same padding, same height.
+   ================================================================== */
+.page > .topbar { box-sizing: content-box; min-height: 46px; }
+@media (min-width: 961px) { .page > .topbar { padding-top: 1vh; padding-bottom: 0.4vh; } }
+.site-brand { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.site-brand .demo-flag, .site-brand .rp-preview { margin: 0; font-style: normal; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--label); border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px; font-family: var(--body); font-weight: 600; }
+/* on the demo, the header floats over the page so the one-screen layout is untouched */
+.site-head { position: absolute; left: 0; right: 0; top: 0; pointer-events: none; z-index: 5; }
+.site-head .brand, .site-head .demo-flag { pointer-events: auto; }
+@media (max-width: 600px) { .site-brand .rp-preview, .site-brand .demo-flag { display: none; } }
+.rp > .page { width: 100%; box-sizing: border-box; }
+@media (min-width: 561px) and (max-width: 960px) { .page > .topbar { min-height: 56px; } }

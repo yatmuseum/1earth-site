@@ -199,8 +199,11 @@ export default function Demo() {
 
   return (
     <div className="demo">
+      <div className="page site-head"><header className="topbar">
+        <div className="site-brand"><a href="/" className="brand"><img src="/globe.webp" alt="" width="46" height="46" /><span>1-Earth</span></a><em className="demo-flag">Demo · real payout math</em></div>
+      </header></div>
       <header className="demo-top">
-        <div className="demo-brand"><a href="/" className="demo-home" aria-label="1-Earth home"><img src="/globe.webp" alt="" width="40" height="40" /><span>1-Earth</span></a><em className="demo-flag">Demo · real payout math</em></div>
+        <div className="demo-brand" aria-hidden="true" />
         <div className="demo-next">
           <p className="demo-grad">Next Drawing</p>
           <div className="demo-cd">
