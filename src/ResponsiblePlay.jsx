@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 const PRICE = 10, MAX = 100;
-const DURATIONS = ["7 days", "30 days", "6 months", "1 year", "Permanent"];
+const DURATIONS = ["7 days", "30 days", "90 days", "6 months", "1 year", "Permanent"];
 const SIGNS = [
   "Spending more than you planned, or more than you can afford",
   "Chasing losses by buying more entries",
@@ -20,13 +20,18 @@ export default function ResponsiblePlay() {
   const [dur, setDur] = useState("");
   const [device, setDevice] = useState(true);
   const [agree, setAgree] = useState(false);
+  const [agreeLimit, setAgreeLimit] = useState(false);
   const [note1, setNote1] = useState("");
   const [note2, setNote2] = useState("");
 
   useEffect(() => { document.title = "Responsible play · 1-Earth"; }, []);
 
   const preview = "Preview only: limits and breaks aren’t active yet. They’ll work when the protocol launches.";
-  const saveLimit = () => setNote1(wallet1.trim() ? preview : "Enter your Solana wallet address first.");
+  const saveLimit = () => {
+    if (!wallet1.trim()) return setNote1("Enter your Solana wallet address first.");
+    if (!agreeLimit) return setNote1("Please confirm you understand this limit can never be raised.");
+    setNote1(preview);
+  };
   const startBreak = () => {
     if (!wallet2.trim()) return setNote2("Enter your Solana wallet address first.");
     if (!dur) return setNote2("Choose how long your break should last.");
@@ -66,7 +71,11 @@ export default function ResponsiblePlay() {
               <p>Up to <b>{(limit * PRICE).toLocaleString("en-US")} USDC</b> per drawing</p>
             </div>
             <input type="range" min="1" max={MAX} value={limit} onChange={(e) => setLimit(Number(e.target.value))} className="rp-range" aria-label="Entries per drawing" style={{ "--p": `${((limit - 1) / (MAX - 1)) * 100}%` }} />
-            <p className="rp-fine">Lower limits start right away. Higher limits start after a 7-day waiting period.</p>
+            <p className="rp-fine">Your limit starts right away.</p>
+            <label className="rp-check">
+              <input type="checkbox" checked={agreeLimit} onChange={(e) => setAgreeLimit(e.target.checked)} />
+              <span><b>I understand that once I save this limit, I can never raise it again.</b></span>
+            </label>
             <button className="rp-btn" onClick={saveLimit}>Save limit</button>
             {note1 && <p className="rp-note" role="status">{note1}</p>}
           </section>
@@ -88,17 +97,17 @@ export default function ResponsiblePlay() {
               <input type="checkbox" checked={agree} onChange={(e) => setAgree(e.target.checked)} />
               <span><b>I understand I won’t be able to enter until my break ends, and it can’t be undone early.</b></span>
             </label>
-            <button className="rp-btn rp-btn--alt" onClick={startBreak}>Start my break</button>
+            <button className="rp-btn" onClick={startBreak}>Start my break</button>
             {note2 && <p className="rp-note" role="status">{note2}</p>}
           </section>
         </div>
 
         <section className="rp-signs">
-          <div>
+          <div className="rp-signs-head">
             <h2>Know the signs</h2>
             <p className="rp-lead">If any of these sound familiar, it may be time to set a limit, take a break, or talk to someone.</p>
           </div>
-          <div>
+          <div className="rp-signs-body">
             <ul>{SIGNS.map((s) => <li key={s}>{s}</li>)}</ul>
             <div className="rp-help">
               <a href="https://www.gamblingtherapy.org" target="_blank" rel="noopener noreferrer"><b>Gambling Therapy</b><span>Free, confidential support worldwide, in many languages</span></a>
