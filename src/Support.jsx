@@ -26,13 +26,13 @@ export default function Support() {
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) return setNote("Please enter a valid email address.");
     if (!topic) return setNote("Please choose a topic.");
     if (!details.trim()) return setNote("Please describe your issue.");
-    setNote("Preview only: requests aren’t sent yet. Support goes live with the protocol.");
+    setNote("Demo only: requests aren’t sent yet.");
   };
 
   return (
     <div className="sp">
       <div className="page"><header className="topbar">
-        <div className="site-brand"><a href="/" className="brand"><img src="/globe.webp" alt="" width="46" height="46" /><span>1-Earth</span></a><span className="rp-preview">Preview · requests aren’t sent yet</span></div>
+        <div className="site-brand"><a href="/" className="brand"><img src="/globe.webp" alt="" width="46" height="46" /><span>1-Earth</span></a><span className="rp-preview">Demo · requests aren’t sent yet</span></div>
         <a href="/demo" className="rp-back">← Back to demo</a>
       </header></div>
 
@@ -80,7 +80,7 @@ export default function Support() {
             <input ref={pick} type="file" multiple accept="image/*,application/pdf,text/*" hidden onChange={(e) => { addFiles(e.target.files); e.target.value = ""; }} />
             <button type="button" className="rp-btn sp-send" onClick={send}>Send request</button>
           </div>
-          {note && <p className="rp-note sp-note" role="status">{note}</p>}
+          <p className="sp-msg" role="status">{note}</p>
         </div>
       </main>
     </div>

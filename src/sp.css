@@ -46,3 +46,8 @@
 }
 @media (max-width: 900px) { .sp textarea.sp-text { height: 220px; } }
 .sp textarea.sp-text { padding: 18px 20px; }
+
+/* status line under the buttons: plain small text, no box */
+.sp-msg { min-height: 1.4em; margin: 10px 0 0; color: var(--label); font-size: 14px; text-align: right; }
+@media (min-width: 901px) { .sp-msg { font-size: clamp(12px, 1.4vh, 14px); margin-top: .8vh; } }
+@media (max-width: 900px) { .sp-msg { text-align: left; } }
