@@ -297,3 +297,7 @@ span.demo-connect { cursor: default; user-select: none; }
 /* the logo is the home link; it looks exactly as before */
 .demo-home { display: inline-flex; align-items: center; gap: 12px; color: inherit; text-decoration: none; }
 .demo-home img { border-radius: 50%; }
+
+/* footer text links: look like the rest of the footer, brighten on hover */
+.demo-foot-link { color: inherit; text-decoration: none; }
+.demo-foot-link:hover, .demo-foot-link:focus-visible { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }

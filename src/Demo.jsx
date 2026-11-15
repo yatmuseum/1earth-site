@@ -272,7 +272,8 @@ export default function Demo() {
 
       <footer className="demo-foot">
         <span>© 2026 : 1-Earth</span>
-        {["How to Play", "How it Works", "How XP Works", "Past Draws", "Legal", "Support", "Responsible Play", "50/50"].map((l) => <span key={l}>{l}</span>)}
+        {["How to Play", "How it Works", "How XP Works", "Past Draws", "Legal", "Support", "Responsible Play", "50/50"].map((l) =>
+          l === "Past Draws" ? <a key={l} href="/PastDraws" className="demo-foot-link">{l}</a> : <span key={l}>{l}</span>)}
       </footer>
 
       {toast && <p className="demo-note" role="status">{toast}</p>}
