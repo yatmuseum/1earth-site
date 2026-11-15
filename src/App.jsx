@@ -14,7 +14,7 @@ export default function App() {
       <div className="onescreen">
       <div className="page screen1">
         <header className="topbar">
-          <a href="#top" className="brand">
+          <a href="/" className="brand">
             <img src="/globe.webp" alt="" width="46" height="46" />
             <span>1-Earth</span>
           </a>

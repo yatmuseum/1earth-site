@@ -293,3 +293,7 @@ span.demo-connect { cursor: default; user-select: none; }
 /* My Entries: tickets start on the left, right after the title */
 .demo-tix { justify-content: flex-start !important; }
 @media (max-width: 900px) { .demo-tix { justify-content: center !important; } }
+
+/* the logo is the home link; it looks exactly as before */
+.demo-home { display: inline-flex; align-items: center; gap: 12px; color: inherit; text-decoration: none; }
+.demo-home img { border-radius: 50%; }
