@@ -8,7 +8,7 @@ const NEED = [
   ["wallet", "A Solana wallet", "A free app like MetaMask, Phantom, Solflare or Backpack."],
   ["10 USDC", "USDC on Solana", "10 USDC per entry. Up to 100 entries (1,000 USDC) per draw."],
   ["~1 USDC", "A little SOL", "Pays the network fee, a fraction of a cent per entry. About 1 USDC worth lasts a long time."],
-  ["18+", "An eligible country", "You must be of legal age and live where 1-Earth is available. See the Terms & Conditions."],
+  ["18+", "An eligible country", <>You must be of legal age and live where 1-Earth is available. See the <a href="/demo/terms">Terms &amp; Conditions</a>.</>],
 ];
 
 const STEPS = [
