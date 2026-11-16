@@ -134,3 +134,8 @@
   .hp-next { margin-top: 2vh !important; }
 }
 .hp-need-card::after { content: none !important; }
+
+/* What you need: big values in white; the wallet tile shows a wallet symbol */
+.hp-need-card .hp-big { background: none !important; -webkit-background-clip: border-box !important; background-clip: border-box !important; color: var(--ink) !important; display: inline-flex; align-items: center; justify-content: center; }
+.hp-need-card .hp-big svg { display: block; }
+.hp-need-card .hp-big { height: 1.2em; }

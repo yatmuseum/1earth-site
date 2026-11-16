@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 const TABS = ["What you need", "Step by step", "Send and receive", "Safety and security"];
 
 const NEED = [
-  ["×1", "A Solana wallet", "A free app like Phantom, Solflare or Backpack."],
+  ["wallet", "A Solana wallet", "A free app like MetaMask, Phantom, Solflare or Backpack."],
   ["10 USDC", "USDC on Solana", "10 USDC per entry. Up to 100 entries (1,000 USDC) per draw."],
   ["~1 USDC", "A little SOL", "Pays the network fee, a fraction of a cent per entry. About 1 USDC worth lasts a long time."],
   ["18+", "An eligible country", "You must be of legal age and live where 1-Earth is available. See the Terms & Conditions."],
@@ -13,7 +13,7 @@ const NEED = [
 
 const STEPS = [
   ["Get a wallet", [
-    <>Download <b>Phantom</b>, <b>Solflare</b> or <b>Backpack</b> from the official website or your phone’s app store.</>,
+    <>Download <b>MetaMask</b>, <b>Phantom</b>, <b>Solflare</b> or <b>Backpack</b> from the official website or your phone’s app store.</>,
     <>Tap <b>Create new wallet</b> and set a password.</>,
     <>Write your <b>recovery phrase</b> (12 or 24 words) on paper and keep it somewhere safe.</>,
   ], <>Never share your recovery phrase. Anyone who has it can take everything. 1-Earth will never ask for it.</>],
@@ -103,7 +103,9 @@ export default function HowToPlay() {
             <div className="hp-need">
               <p className="hp-lead">Check you have everything before you start.</p>
               <div className="hp-need-grid">
-                {NEED.map(([big, t, d], i) => <div key={t} className="hp-card hp-need-card"><span className="hp-num">{i + 1}</span><b className="hp-big">{big}</b><h3>{t}</h3><p>{d}</p></div>)}
+                {NEED.map(([big, t, d], i) => <div key={t} className="hp-card hp-need-card"><span className="hp-num">{i + 1}</span><b className="hp-big">{big === "wallet"
+                  ? <svg viewBox="0 0 48 40" width="1.25em" height="1.05em" aria-label="Wallet" role="img" fill="none" stroke="currentColor" strokeWidth="3.4" strokeLinejoin="round"><path d="M6 10h32a4 4 0 0 1 4 4v20a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V8a4 4 0 0 1 4-4h26v6"/><path d="M42 20H33a4 4 0 0 0 0 8h9"/><circle cx="34" cy="24" r="1.6" fill="currentColor" stroke="none"/></svg>
+                  : big}</b><h3>{t}</h3><p>{d}</p></div>)}
               </div>
               <div className="hp-card hp-next">
                 <p><b>Got everything?</b> Head to <b>Step by step</b>. Steps 1 and 2 are once only; after that, every entry is steps 3 to 6.</p>
