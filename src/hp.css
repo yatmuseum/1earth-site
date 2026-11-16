@@ -111,3 +111,26 @@
   .hp-tips li { font-size: clamp(10.5px, 1.45vh, 15px) !important; }
   .hp-need-card h3 { font-size: clamp(15px, 2.4vh, 24px) !important; }
 }
+
+/* tabs: no green border on hover; a soft lift instead */
+.hp-tabs button:hover { border-color: color-mix(in srgb, var(--ink) 35%, var(--line)); }
+.hp-tabs button.on:hover { border-color: transparent; }
+/* What you need: four even tiles, same structure top to bottom so every row lines up */
+.hp-need-card { justify-content: flex-start !important; align-items: center; text-align: center; gap: 0 !important; }
+.hp-need-card .hp-num { margin-bottom: 14px; }
+.hp-need-card .hp-big { display: inline-block; font-family: var(--display); font-weight: 800; font-size: 34px; line-height: 1.1; letter-spacing: -0.02em;
+  background: linear-gradient(90deg, #9945FF, #14F195); -webkit-background-clip: text; background-clip: text; color: transparent !important; }
+.hp-need-card h3 { margin-top: 10px !important; }
+.hp-need-card p { margin-top: 8px !important; }
+.hp-need-card::after { content: ""; display: block; width: 36px; height: 3px; border-radius: 3px; margin-top: auto; background: var(--line); }
+@media (min-width: 1100px) {
+  .hp-need { justify-content: center; }
+  .hp-need-grid { flex: none !important; }
+  .hp-need-card { height: clamp(220px, 42vh, 460px); padding: 4.2vh 22px 3vh !important; }
+  .hp-need-card .hp-num { margin-bottom: 2.2vh; }
+  .hp-need-card .hp-big { font-size: clamp(28px, 5vh, 54px); }
+  .hp-need-card h3 { margin-top: 1.4vh !important; }
+  .hp-need-card p { margin-top: 1.2vh !important; max-width: 28ch; }
+  .hp-next { margin-top: 2vh !important; }
+}
+.hp-need-card::after { content: none !important; }

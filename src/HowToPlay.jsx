@@ -103,7 +103,7 @@ export default function HowToPlay() {
             <div className="hp-need">
               <p className="hp-lead">Check you have everything before you start.</p>
               <div className="hp-need-grid">
-                {NEED.map(([big, t, d]) => <div key={t} className="hp-card hp-need-card"><b className="rp-grad">{big}</b><h3>{t}</h3><p>{d}</p></div>)}
+                {NEED.map(([big, t, d], i) => <div key={t} className="hp-card hp-need-card"><span className="hp-num">{i + 1}</span><b className="hp-big">{big}</b><h3>{t}</h3><p>{d}</p></div>)}
               </div>
               <div className="hp-card hp-next">
                 <p><b>Got everything?</b> Head to <b>Step by step</b>. Steps 1 and 2 are once only; after that, every entry is steps 3 to 6.</p>
