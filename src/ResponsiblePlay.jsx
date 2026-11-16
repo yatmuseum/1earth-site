@@ -26,7 +26,7 @@ export default function ResponsiblePlay() {
 
   useEffect(() => { document.title = "Responsible play · 1-Earth"; }, []);
 
-  const preview = "Preview only: limits and breaks aren’t active yet. They’ll work when the protocol launches.";
+  const preview = "Demo only: limits and breaks aren’t active yet. They’ll work when the protocol launches.";
   const saveLimit = () => {
     if (!wallet1.trim()) return setNote1("Enter your Solana wallet address first.");
     if (!agreeLimit) return setNote1("Please confirm you understand this limit can never be raised.");
@@ -42,7 +42,7 @@ export default function ResponsiblePlay() {
   return (
     <div className="rp">
       <div className="page"><header className="topbar">
-        <div className="site-brand"><a href="/" className="brand"><img src="/globe.webp" alt="" width="46" height="46" /><span>1-Earth</span></a><span className="rp-preview">Preview · these tools go live with the protocol</span></div>
+        <div className="site-brand"><a href="/" className="brand"><img src="/globe.webp" alt="" width="46" height="46" /><span>1-Earth</span></a><span className="rp-preview">Demo · these tools go live with the protocol</span></div>
         <a href="/demo" className="rp-back">← Back to demo</a>
       </header></div>
 
