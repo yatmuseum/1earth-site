@@ -1,8 +1,11 @@
 // /demo/how-it-works: how the 1-Earth protocol works, in the Solana theme.
 import { useEffect, useState } from "react";
 
-// Three example drawings, with prizes from the payout tables (format 4 at 100,000 entries, format 5 above).
+// Four example drawings, with prizes from the payout tables (format 4 at 100,000 entries, format 5 above).
 const SCENARIOS = [
+  { label: "10,000 entries", pool: "100,000", rows: [ // format 3
+    ["1st", 20000], ["2nd", 10000], ["3rd", 5000], ["4th", 3750], ["5th", 2250], ["6th to 10th", 1500],
+    ["11th to 20th", 1250], ["21st to 25th", 1150], ["26th to 40th", 650], ["41st to 50th", 600], ["51st to 100th", 350]] },
   { label: "100,000 entries", pool: "1,000,000", rows: [
     ["1st", 160000], ["2nd", 80000], ["3rd", 40000], ["4th", 32500], ["5th", 17500], ["6th to 10th", 13000],
     ["11th to 20th", 6500], ["21st to 40th", 3250], ["41st to 100th", 1250], ["101st to 250th", 1000], ["251st to 500th", 500], ["501st to 1000th", 250]] },
@@ -70,7 +73,7 @@ const TRUST = [
 
 export default function HowItWorks() {
   useEffect(() => { document.title = "How it Works · 1-Earth"; }, []);
-  const [sc, setSc] = useState(1);
+  const [sc, setSc] = useState(0);
   const S = SCENARIOS[sc], max = S.rows[0][1];
   return (
     <div className="hw">
@@ -135,7 +138,7 @@ export default function HowItWorks() {
             </div>
             <div className="hw-card hw-ex">
               <div className="hw-ex-top">
-                <h3 className="hw-card-t">Example: {S.label} – {S.pool} USDC pool</h3>
+                <h3 className="hw-card-t">Example payouts per {S.label} <span className="hw-pool">· {S.pool} USDC pool</span></h3>
                 <div className="hw-ex-tabs" role="tablist" aria-label="Example drawing size">
                   {SCENARIOS.map((x, i) => <button key={x.label} role="tab" aria-selected={i === sc} className={i === sc ? "on" : ""} onClick={() => setSc(i)}>{x.label.replace(" entries", "")}</button>)}
                 </div>

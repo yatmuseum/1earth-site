@@ -299,3 +299,5 @@
   .hw-ex-row { grid-template-columns: 124px 1fr 140px !important; font-size: clamp(10px, 1.22vh, 13.5px) !important; }
 }
 @media (min-width: 1100px) and (max-height: 760px) { .hw-ex { padding-top: .8vh !important; padding-bottom: .8vh !important; } .hw-ex-rows { margin-top: .4vh !important; } .hw-ex-row { line-height: 1.1 !important; } }
+
+.hw-pool { font-weight: 600; color: var(--label); font-size: .82em; }
