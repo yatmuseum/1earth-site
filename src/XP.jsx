@@ -20,28 +20,37 @@ export default function XP() {
 
       <main className="xp-main">
         <section className="xp-head">
-          <h1 className="rp-grad">XP: Participate &amp; Use</h1>
+          <h1 className="rp-grad">XP: Participants &amp; Users</h1>
           <p>Earn XP by joining the Frame mints and by playing.</p>
         </section>
 
         <div className="xp-halves">
           {/* ---------- Participate: Frame mint participants (details to come) ---------- */}
           <section className="xp-half">
-            <div className="xp-half-head"><span className="xp-tag">Participate</span><h2>Frame mints</h2></div>
+            <div className="xp-half-head"><span className="xp-tag">Participants</span><h2>Frame mints</h2></div>
             <div className="xp-grid4">
               {["Gold Frame", "Silver Frame", "Bronze Frame", "Surprise"].map((t) => (
                 <div key={t} className="xp-stat"><span className="xp-lbl">{t}</span><b className="xp-tbd">Details soon</b><small>XP for participants</small></div>
               ))}
             </div>
-            <div className="xp-card xp-soon">
-              <h3>How participants earn XP</h3>
-              <p>Every Frame you mint earns XP for your wallet. The full breakdown for each mint is coming soon.</p>
+            <div className="xp-use-row">
+              <div className="xp-card xp-formula">
+                <h3>How participants earn XP</h3>
+                <div className="xp-eq xp-eq-soon"><b>Details soon</b><em>XP for each Frame you mint</em></div>
+                <p><b>Every Frame counts.</b> Each Frame you mint earns XP for your wallet. The full breakdown for each mint is coming soon.</p>
+              </div>
+              <div className="xp-card xp-table">
+                <h3>XP by Frame mint</h3>
+                <table><thead><tr><th>Frame mint</th><th>XP per Frame</th></tr></thead>
+                  <tbody>{["Gold Frame", "Silver Frame", "Bronze Frame", "Surprise"].map((t) => <tr key={t}><td>{t}</td><td className="g xp-soon-v">Soon</td></tr>)}</tbody></table>
+              </div>
             </div>
+            <p className="xp-note">Participant XP details will be shared before each Frame mint opens.</p>
           </section>
 
           {/* ---------- Use: playing the protocol ---------- */}
           <section className="xp-half">
-            <div className="xp-half-head"><span className="xp-tag">Use</span><h2>Play the protocol</h2></div>
+            <div className="xp-half-head"><span className="xp-tag">Users</span><h2>Play the protocol</h2></div>
             <div className="xp-grid4">
               {USE_STATS.map(([l, v, s]) => <div key={l} className="xp-stat"><span className="xp-lbl">{l}</span><b>{v}</b><small>{s}</small></div>)}
             </div>
