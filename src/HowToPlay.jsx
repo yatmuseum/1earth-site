@@ -120,7 +120,7 @@ export default function HowToPlay() {
                 <div key={t} className="hp-card hp-step">
                   <div className="hp-step-head"><span className="hp-num">{i + 1}</span><h3>{t}</h3>{i < 2 && <em>once</em>}</div>
                   <ul>{items.map((x, k) => <li key={k}>{x}</li>)}</ul>
-                  {warn && <p className="hp-warn">{warn}</p>}
+                  {warn && <p className="hp-warn"><span>{warn}</span></p>}
                 </div>
               ))}
             </div>
