@@ -1,16 +1,20 @@
 // /demo/how-it-works: how the 1-Earth protocol works, in the Solana theme.
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-const EXAMPLE = [ // 1,000,000 entries, 10,000,000 USDC pool (format 5 of the payout tables)
-  ["1st", 1200000], ["2nd", 500000], ["3rd to 4th", 250000], ["5th to 10th", 100000], ["11th to 20th", 50000], ["21st to 40th", 25000],
-  ["41st to 100th", 10000], ["101st to 200th", 5000], ["201st to 400th", 2500], ["401 to 2500", 1000], ["2501 to 5000", 500], ["5001 to 10000", 250],
+// Three example drawings, with prizes from the payout tables (format 4 at 100,000 entries, format 5 above).
+const SCENARIOS = [
+  { label: "100,000 entries", pool: "1,000,000", rows: [
+    ["1st", 160000], ["2nd", 80000], ["3rd", 40000], ["4th", 32500], ["5th", 17500], ["6th to 10th", 13000],
+    ["11th to 20th", 6500], ["21st to 40th", 3250], ["41st to 100th", 1250], ["101st to 250th", 1000], ["251st to 500th", 500], ["501st to 1000th", 250]] },
+  { label: "1,000,000 entries", pool: "10,000,000", rows: [
+    ["1st", 1200000], ["2nd", 500000], ["3rd to 4th", 250000], ["5th to 10th", 100000], ["11th to 20th", 50000], ["21st to 40th", 25000],
+    ["41st to 100th", 10000], ["101st to 200th", 5000], ["201st to 400th", 2500], ["401 to 2500", 1000], ["2501 to 5000", 500], ["5001 to 10000", 250]] },
+  { label: "10,000,000 entries", pool: "100,000,000", rows: [
+    ["1st", 3000000], ["2nd to 10th", 1000000], ["11th to 20th", 500000], ["21st to 40th", 250000], ["41st to 100th", 100000], ["101st to 200th", 50000],
+    ["201st to 400th", 25000], ["401st to 1000th", 10000], ["1001 to 2000", 5000], ["2001 to 4000", 2500], ["4001 to 25000", 1000], ["25001 to 50000", 500], ["50001 to 100000", 250]] },
 ];
 const u = (v) => v.toLocaleString("en-US");
-// A typical national lottery: one recent drawing. Winners at each prize (base and multiplier prizes listed together), highest first.
-const LOTTERY = [
-  ["Jackpot", 0], ["$2,000,000", 0], ["$1,000,000", 0], ["$100,000", 6], ["$50,000", 12], ["$200", 243],
-  ["$100", 726], ["$14", 8695], ["$8", 117330], ["$7", 25556], ["$4", 345929],
-];
+
 
 const Coin = () => (
   <svg viewBox="0 0 200 110" className="hw-ill" aria-hidden="true">
@@ -66,7 +70,8 @@ const TRUST = [
 
 export default function HowItWorks() {
   useEffect(() => { document.title = "How it Works · 1-Earth"; }, []);
-  const max = EXAMPLE[0][1];
+  const [sc, setSc] = useState(1);
+  const S = SCENARIOS[sc], max = S.rows[0][1];
   return (
     <div className="hw">
       <div className="page"><header className="topbar">
@@ -126,24 +131,19 @@ export default function HowItWorks() {
             <div className="hw-facts">
               <div className="hw-fact"><b className="rp-grad">1 in 100</b><p><strong>entries wins a prize</strong>The top 1% of every draw.</p></div>
               <div className="hw-fact"><b className="rp-grad">250 USDC</b><p><strong>minimum prize</strong>From 1,000 entries up.</p></div>
-              <div className="hw-fact"><b className="rp-grad">1,000 USDC</b><p><strong>spending cap</strong>Per wallet, per draw.</p></div>
+              <div className="hw-fact"><b className="rp-grad">10 entries</b><p><strong>max per wallet</strong>100 USDC per draw.</p></div>
             </div>
             <div className="hw-card hw-ex">
-              <h3 className="hw-card-t">A typical lottery vs 1-Earth</h3>
-              <div className="hw-cmp">
-                <div className="hw-cmp-col">
-                  <div className="hw-cmp-head"><span>Typical lottery</span><small>Prize · winners</small></div>
-                  {LOTTERY.map(([pz, n]) => (
-                    <div key={pz} className="hw-cmp-row"><span>{pz}</span><b className={n ? "" : "hw-zero"}>{n ? u(n) : "0"}</b></div>
-                  ))}
-                  <div className="hw-cmp-row hw-cmp-note"><span>One recent drawing</span><b /></div>
+              <div className="hw-ex-top">
+                <h3 className="hw-card-t">Example: {S.label} – {S.pool} USDC pool</h3>
+                <div className="hw-ex-tabs" role="tablist" aria-label="Example drawing size">
+                  {SCENARIOS.map((x, i) => <button key={x.label} role="tab" aria-selected={i === sc} className={i === sc ? "on" : ""} onClick={() => setSc(i)}>{x.label.replace(" entries", "")}</button>)}
                 </div>
-                <div className="hw-cmp-col hw-cmp-col--us">
-                  <div className="hw-cmp-head"><span className="rp-grad">1-Earth</span><small>1,000,000 entries – 10,000,000 USDC pool</small></div>
-                  {EXAMPLE.map(([pl, v]) => (
-                    <div key={pl} className="hw-cmp-row"><span>{pl}</span><b>{u(v)} <small>USDC</small></b></div>
-                  ))}
-                </div>
+              </div>
+              <div className="hw-ex-rows">
+                {S.rows.map(([pl, v]) => (
+                  <div key={pl} className="hw-ex-row"><span>{pl}</span><i><em style={{ width: `${Math.max(1.2, (v / max) * 100)}%` }} /></i><b>{u(v)} <small>USDC</small></b></div>
+                ))}
               </div>
             </div>
           </div>

@@ -253,7 +253,7 @@ export default function Demo() {
         <section className="demo-card demo-enter">
           <h3>Enter</h3>
           <div className="demo-step">
-            <span className="demo-lbl">Entries (100 max)</span>
+            <span className="demo-lbl">Entries (10 max)</span>
             <div className="demo-step-row">
               <button disabled aria-label="Fewer">−</button>
               <b>{qty}</b>

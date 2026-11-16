@@ -1,4 +1,4 @@
-// 1-Earth server code (runs on Cloudflare).
+﻿// 1-Earth server code (runs on Cloudflare).
 // /api/... requests are handled here; everything else is the website.
 import { PublicKey } from "@solana/web3.js";
 import { MintGate } from "./gate.js";
@@ -18,7 +18,6 @@ function opensAtMs(env) {
 
 function phaseMax(env, now = Date.now()) {
   const hours = (now - opensAtMs(env)) / 36e5;
-  if (hours < 216) return 5;   // until Nov 20 @ 11:11 AM EST: max 5 per wallet
   if (hours < 336) return 10;  // until Nov 25 @ 11:11 AM EST: max 10 per wallet
   return 100;                  // after that: max 100 per wallet
 }
@@ -50,9 +49,9 @@ async function status(env) {
 
 async function mint(request, env) {
   if (request.method !== "POST") return json({ error: "Use POST" }, 405);
-  if (blocked(env, request)) return json({ error: "1-Earth isn’t available in your region." }, 403);
-  if (env.MINT_LIVE !== "true") return json({ error: "Minting isn’t live yet." }, 403);
-  if (Date.now() < opensAtMs(env)) return json({ error: "The mint hasn’t opened yet." }, 403);
+  if (blocked(env, request)) return json({ error: "1-Earth isnâ€™t available in your region." }, 403);
+  if (env.MINT_LIVE !== "true") return json({ error: "Minting isnâ€™t live yet." }, 403);
+  if (Date.now() < opensAtMs(env)) return json({ error: "The mint hasnâ€™t opened yet." }, 403);
 
   let body;
   try {
@@ -67,7 +66,7 @@ async function mint(request, env) {
 
   // During a rehearsal, only the listed test wallets can mint.
   const allow = (env.ALLOWLIST || "").split(",").map((a) => a.trim()).filter(Boolean);
-  if (allow.length && !allow.includes(buyer)) return json({ error: "Minting isn’t open yet." }, 403);
+  if (allow.length && !allow.includes(buyer)) return json({ error: "Minting isnâ€™t open yet." }, 403);
   const qty = Number(quantity);
   const max = phaseMax(env);
   if (!Number.isInteger(qty) || qty < 1 || qty > max) {
@@ -98,7 +97,7 @@ async function mint(request, env) {
           : `You can mint ${r.walletLeft} more right now (your last purchase is still settling).` }, 409);
       }
       return json({ error: r.walletLeft === 0
-        ? `You’ve reached the limit of ${max} for now.`
+        ? `Youâ€™ve reached the limit of ${max} for now.`
         : `You can mint ${r.walletLeft} more right now.` }, 409);
     }
     if (r.supplyLeft === 0 && r.pendingAll > 0) {
@@ -116,7 +115,7 @@ async function mint(request, env) {
   try { built = await buildMintTransactions(env, buyer, qty, bh, perTxMax); }
   catch (e) {
     if (e.message === "SIMULATION_FAILED") {
-      return json({ error: "Couldn’t prepare your mint. Check you have enough USDC and a little SOL, then try again." }, 400);
+      return json({ error: "Couldnâ€™t prepare your mint. Check you have enough USDC and a little SOL, then try again." }, 400);
     }
     throw e;
   }
@@ -157,11 +156,11 @@ async function nextTx(request, env) {
   try { built = await buildMintTransactions(env, t.b, t.n, bh, t.n); }
   catch (e) {
     if (e.message === "SIMULATION_FAILED") {
-      return json({ error: "Couldn’t prepare the next transaction. Check you have enough USDC and a little SOL." }, 400);
+      return json({ error: "Couldnâ€™t prepare the next transaction. Check you have enough USDC and a little SOL." }, 400);
     }
     throw e;
   }
-  if (built.transactions.length !== 1) return json({ error: "Couldn’t prepare the next transaction." }, 500);
+  if (built.transactions.length !== 1) return json({ error: "Couldnâ€™t prepare the next transaction." }, 500);
   const ticket = await makeTicket(minterSecret(env), { id: t.id, p: t.p, b: t.b, n: t.n, bh: built.blockhash });
   return json({ tx: built.transactions[0], ticket, lastValidBlockHeight: built.lastValidBlockHeight });
 }

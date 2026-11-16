@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import { VersionedTransaction } from "@solana/web3.js";
@@ -41,7 +41,7 @@ async function sendAndConfirm(connection, raw, lastValidBlockHeight) {
     if (i % 3 === 2) {
       try {
         const height = await connection.getBlockHeight("confirmed");
-        if (height > lastValidBlockHeight) throw new Error("It expired before confirming, so it wasn’t charged.");
+        if (height > lastValidBlockHeight) throw new Error("It expired before confirming, so it wasnâ€™t charged.");
         connection.sendRawTransaction(raw, { skipPreflight: true, maxRetries: 0 }).catch(() => {});
       } catch (e) { if (!isBusy(e)) throw e; }
     }
@@ -50,7 +50,7 @@ async function sendAndConfirm(connection, raw, lastValidBlockHeight) {
 
 // Opens X with a ready-to-post message (the buyer can edit it before posting).
 function shareUrl() {
-  const text = "I just minted my 1-Earth 🌍 Gold Frame 🖼️ and became a founding member of the @1earthh community. " +
+  const text = "I just minted my 1-Earth ðŸŒ Gold Frame ðŸ–¼ï¸ and became a founding member of the @1earthh community. " +
     "Join me in the 50/50 draw on November 27th @ 11:11 AM EST.";
   return `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent("https://1-earth.io")}`;
 }
@@ -90,7 +90,7 @@ export default function MintCard() {
     let done = 0;
     let perTx = [];
     setBusy(true);
-    setMessage({ kind: "info", text: "Preparing your Gold Frames…" });
+    setMessage({ kind: "info", text: "Preparing your Gold Framesâ€¦" });
     try {
       // If the server says it's busy, wait a moment and try again automatically.
       let r, data;
@@ -104,7 +104,7 @@ export default function MintCard() {
         });
         data = await r.json().catch(() => ({}));
         if (r.status !== 503 && r.status !== 429) break;
-        setMessage({ kind: "info", text: "The mint is busy. Retrying in a moment…" });
+        setMessage({ kind: "info", text: "The mint is busy. Retrying in a momentâ€¦" });
         await sleep(1500 * (i + 1) + Math.random() * 1500);
       }
       if (!r.ok) throw new Error(data.error || "The mint is very busy. Please try again in a few seconds.");
@@ -121,13 +121,13 @@ export default function MintCard() {
       // (Purchases of up to 5 are a single transaction, so still one approval.)
       const oneAtATime = Boolean(signTransaction);
       if (!signTransaction && !signAllTransactions) {
-        throw new Error("This wallet can’t sign transactions here. Try MetaMask, Phantom, Solflare or Backpack.");
+        throw new Error("This wallet canâ€™t sign transactions here. Try MetaMask, Phantom, Solflare or Backpack.");
       }
       let signedAll = null;
       if (!oneAtATime) {
         setMessage({ kind: "info", text: txs.length > 1
-          ? `Approve ${txs.length} transactions in your wallet…`
-          : "Approve the transaction in your wallet…" });
+          ? `Approve ${txs.length} transactions in your walletâ€¦`
+          : "Approve the transaction in your walletâ€¦" });
         signedAll = await signAllTransactions(txs);
       }
 
@@ -136,7 +136,7 @@ export default function MintCard() {
         if (oneAtATime) {
           if (i > 0) {
             // Get a fresh copy of the next transaction (they expire after about a minute).
-            setMessage({ kind: "info", text: `Preparing transaction ${i + 1} of ${txs.length}…` });
+            setMessage({ kind: "info", text: `Preparing transaction ${i + 1} of ${txs.length}â€¦` });
             const nx = await withRetry(async () => {
               const res = await fetch("/api/next", {
                 method: "POST",
@@ -147,7 +147,7 @@ export default function MintCard() {
               if (res.status === 429 || res.status === 503) throw new Error("busy");
               if (!res.ok) {
                 const through = perTx.slice(0, done).reduce((a, b) => a + b, 0);
-                throw new Error(`${out.error || "Couldn’t prepare the next transaction."} (${through} Gold Frame${through === 1 ? "" : "s"} already in your wallet.)`);
+                throw new Error(`${out.error || "Couldnâ€™t prepare the next transaction."} (${through} Gold Frame${through === 1 ? "" : "s"} already in your wallet.)`);
               }
               return out;
             });
@@ -156,20 +156,20 @@ export default function MintCard() {
             validUntil[i] = nx.lastValidBlockHeight;
           }
           setMessage({ kind: "info", text: txs.length > 1
-            ? `Approve transaction ${i + 1} of ${txs.length} in your wallet…`
-            : "Approve the transaction in your wallet…" });
+            ? `Approve transaction ${i + 1} of ${txs.length} in your walletâ€¦`
+            : "Approve the transaction in your walletâ€¦" });
           try { signedTx = await signTransaction(txs[i]); }
           catch (e) {
             if (done > 0) {
               const through = perTx.slice(0, done).reduce((a, b) => a + b, 0);
-              throw new Error(`Stopped after ${through} Gold Frame${through === 1 ? "" : "s"}; those are in your wallet and the rest weren’t charged.`);
+              throw new Error(`Stopped after ${through} Gold Frame${through === 1 ? "" : "s"}; those are in your wallet and the rest werenâ€™t charged.`);
             }
             throw e;
           }
         } else {
           signedTx = signedAll[i];
         }
-        setMessage({ kind: "info", text: `Confirming ${done + 1} of ${txs.length}…` });
+        setMessage({ kind: "info", text: `Confirming ${done + 1} of ${txs.length}â€¦` });
         try {
           // Your wallet signed first; now the server checks the transaction and
           // adds its own signature before it's sent.
@@ -182,7 +182,7 @@ export default function MintCard() {
             });
             const out = await res.json().catch(() => ({}));
             if (res.status === 429 || res.status === 503) throw new Error("busy");
-            if (!res.ok) throw new Error(out.error || "Couldn’t finish the transaction.");
+            if (!res.ok) throw new Error(out.error || "Couldnâ€™t finish the transaction.");
             return out;
           });
           await sendAndConfirm(connection, fromBase64(c.tx), validUntil[i]);
@@ -214,13 +214,13 @@ export default function MintCard() {
   } else if (!isOpen) {
     button = <button className="buy" disabled>Mint opens {MINT.opensLabel}</button>;
   } else if (!live) {
-    button = <button className="buy" disabled>Minting isn’t live yet</button>;
+    button = <button className="buy" disabled>Minting isnâ€™t live yet</button>;
   } else if (soldOut) {
     button = <button className="buy" disabled>Sold out</button>;
   } else {
     button = (
       <button className="buy buy--live" onClick={buy} disabled={!agreed || busy}>
-        {busy ? "Minting…" : `Buy ${qty} ${qty === 1 ? "Entry" : "Entries"}`}
+        {busy ? "Mintingâ€¦" : `Buy ${qty} ${qty === 1 ? "Entry" : "Entries"}`}
       </button>
     );
   }
@@ -241,13 +241,13 @@ export default function MintCard() {
         <div>
           <span className="mint__label">Entries</span>
           <p className="mint__rule">
-            Max 5 per wallet until Nov 20,
+            Max 10 per wallet until Nov 25,
             <br />
-            10 until Nov 25, 100 thereafter
+            100 thereafter
           </p>
         </div>
         <div className="stepper">
-          <button aria-label="Fewer entries" onClick={() => setQty((q) => Math.max(1, q - 1))} disabled={qty <= 1 || busy}>−</button>
+          <button aria-label="Fewer entries" onClick={() => setQty((q) => Math.max(1, q - 1))} disabled={qty <= 1 || busy}>âˆ’</button>
           <output aria-live="polite">{qty}</output>
           <button aria-label="More entries" onClick={() => setQty((q) => Math.min(max, q + 1))} disabled={qty >= max || busy}>+</button>
         </div>
@@ -262,8 +262,8 @@ export default function MintCard() {
         <label className="mint__terms">
           <input type="checkbox" checked={agreed} onChange={(e) => setAgreed(e.target.checked)} disabled={busy} />
           <span>
-            I confirm I’m 18 or older (or the age of majority where I live) and I’m not located in, or a
-            resident of, a restricted jurisdiction, and that I’m solely responsible for any taxes on
+            I confirm Iâ€™m 18 or older (or the age of majority where I live) and Iâ€™m not located in, or a
+            resident of, a restricted jurisdiction, and that Iâ€™m solely responsible for any taxes on
             winnings.
           </span>
         </label>
@@ -285,7 +285,7 @@ export default function MintCard() {
         </div>
       )}
 
-      <p className="mint__fine">Paid in USDC on Solana · Network fees not included · All sales final</p>
+      <p className="mint__fine">Paid in USDC on Solana Â· Network fees not included Â· All sales final</p>
     </div>
   );
 }

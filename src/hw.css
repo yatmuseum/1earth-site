@@ -285,3 +285,17 @@
   .hw-ex .hw-card-t { font-size: clamp(12px, 1.55vh, 17px) !important; }
 }
 @media (min-width: 1100px) { .hw-cmp-note { margin-top: 0 !important; } }
+
+/* example box with three drawing sizes */
+.hw-ex-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.hw-ex-tabs { display: inline-flex; padding: 3px; border-radius: 999px; background: color-mix(in srgb, var(--bg) 60%, var(--card)); border: 1px solid var(--line); }
+.hw-ex-tabs button { border: 0; background: none; color: var(--label); font: 700 13px var(--body); padding: 6px 12px; border-radius: 999px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.hw-ex-tabs button.on { background: linear-gradient(90deg, #9945FF, #14F195); color: #0c0b16; }
+.hw-ex-tabs button:focus { outline: none; }
+.hw-ex-row { grid-template-columns: 128px 1fr 140px; }
+@media (min-width: 1100px) {
+  .hw-ex-tabs button { font-size: clamp(10.5px, 1.25vh, 13px); padding: .45vh 11px; }
+  .hw-ex-rows { flex: 1; min-height: 0; display: grid !important; align-content: space-between; gap: 0 !important; margin-top: .8vh !important; }
+  .hw-ex-row { grid-template-columns: 124px 1fr 140px !important; font-size: clamp(10px, 1.22vh, 13.5px) !important; }
+}
+@media (min-width: 1100px) and (max-height: 760px) { .hw-ex { padding-top: .8vh !important; padding-bottom: .8vh !important; } .hw-ex-rows { margin-top: .4vh !important; } .hw-ex-row { line-height: 1.1 !important; } }

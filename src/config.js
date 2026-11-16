@@ -1,4 +1,4 @@
-// All the numbers and dates shown on the site live here, so they can be
+﻿// All the numbers and dates shown on the site live here, so they can be
 // changed in one place. Times are stored in UTC.
 // 11:11 EST = 16:11 UTC (US clocks are on standard time in November).
 
@@ -11,7 +11,6 @@ export const MINT = {
   drawingLabel: "November 27th @ 11:11 AM EST",
   // Per-wallet limits by phase, counted from the moment the mint opens.
   phases: [
-    { hours: 216, max: 5 },   // until Nov 20 @ 11:11 AM EST
     { hours: 336, max: 10 },  // until Nov 25 @ 11:11 AM EST
     { hours: Infinity, max: 100 },
   ],
