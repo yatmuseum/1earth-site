@@ -52,7 +52,7 @@ const STEPS = [
 ];
 const TRUST = [
   ["Provably fair", <>ORAO VRF proves every draw is random and untampered. <a href="/demo/provably-fair">See how to verify →</a></>],
-  ["On the public ledger", "Anyone can verify every entry, draw and payout on Solana."],
+  ["Public ledger", "Anyone can verify every entry, draw and payout on Solana."],
   ["Immutable", "Once audited, the contract’s upgrade authority is revoked. No one can change the rules, including us."],
   ["Non-custodial", "1-Earth never holds player funds. The prize pool sits in a vault the contract owns, and prizes go straight to winners."],
   ["Audited", "The smart contract and payout logic are independently audited before launch."],
@@ -72,7 +72,10 @@ export default function HowItWorks() {
       <main className="hw-main">
         <section className="hw-hero">
           <h1 className="rp-grad">How it works</h1>
-          <p>A global weekly draw. <b>10 USDC entries on Solana</b>, winners picked on-chain every Saturday, and <b>every entry goes back to players</b>.</p>
+          <div className="hw-hero-r">
+            <p>A global weekly draw. <b>10 USDC entries on Solana</b>, winners picked on-chain every Saturday, and <b>every entry goes back to players</b>.</p>
+            <a href="/demo" className="rp-btn hw-go hw-go-top">Enter the draw</a>
+          </div>
         </section>
 
         <section className="hw-sec">
@@ -105,6 +108,11 @@ export default function HowItWorks() {
                 <small>Share of ticket money paid back as prizes</small>
               </div>
             </div>
+            <div className="hw-bars hw-money-bars" style={{ display: "none" }}>
+              <div className="hw-bar"><span>1-Earth</span><i><em style={{ width: "100%" }} /></i><b>100%</b></div>
+              <div className="hw-bar hw-bar--dim"><span>Typical lottery</span><i><em style={{ width: "50%" }} /></i><b>~50%</b></div>
+              <small>Share of ticket money paid back as prizes</small>
+            </div>
             <div className="hw-logic">
               <p><b>Our own payout logic.</b> Winners are paid using 1-Earth’s open-source payout model, which spreads the pool so more players win meaningful prizes instead of one top-heavy jackpot.</p>
               <a href="/demo/payout-tables" className="hw-cta2">See how payouts are calculated →</a>
@@ -114,7 +122,7 @@ export default function HowItWorks() {
 
         <section className="hw-sec">
           <h2>Who wins</h2>
-          <p className="hw-lead">Instead of one giant jackpot and tiny leftovers, prizes are spread so more players win something meaningful.</p>
+          <p className="hw-lead">Instead of one giant jackpot, prizes are spread so more players win something meaningful.</p>
           <div className="hw-wins">
             <div className="hw-facts">
               <div className="hw-fact"><b className="rp-grad">1 in 100</b><p><strong>entries wins a prize</strong>The top 1% of every draw is paid.</p></div>
@@ -137,7 +145,7 @@ export default function HowItWorks() {
           <h2>Don’t trust us. Check it.</h2>
           <p className="hw-lead">Every rule is in public code, and every entry and payout is on Solana’s public ledger.</p>
           <div className="hw-trust">
-            {TRUST.map(([t, d]) => <div key={t} className="hw-tr"><span className="hw-dot" /><div><h3>{t}</h3><p>{d}</p></div></div>)}
+            {TRUST.map(([t, d]) => <div key={t} className="hw-tr" tabIndex={0}><span className="hw-dot" /><div><h3>{t}</h3><p>{d}</p></div></div>)}
           </div>
         </section>
 

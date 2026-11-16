@@ -63,3 +63,160 @@
   .hw-ex-row { grid-template-columns: 96px 1fr 104px; font-size: 13px; gap: 8px; } .hw-bar { grid-template-columns: 100px 1fr 44px; }
 }
 .hw-fact { grid-template-columns: 215px 1fr; } .hw-fact > b { font-size: 31px; } @media (max-width: 640px) { .hw-fact { grid-template-columns: 1fr; } }
+
+/* ==================================================================
+   One screen on computers (1100px and wider): a dashboard layout.
+   Row 1: title + summary. Row 2: the four steps.
+   Row 3: where the money goes | who wins | check it + call to action.
+   Everything sizes from the screen height.
+   ================================================================== */
+@media (min-width: 1100px) {
+  .hw { height: 100svh; display: flex; flex-direction: column; overflow: hidden; }
+  .hw-main { flex: 1; min-height: 0; width: 100%; max-width: 1500px; padding-top: .6vh; padding-bottom: 2vh;
+    display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr) minmax(0, .95fr); grid-template-rows: auto auto minmax(0, 1fr) auto;
+    grid-template-areas: "hero hero hero" "steps steps steps" "money wins trust" "money wins end"; column-gap: 18px; }
+  .hw-hero { grid-area: hero; align-items: center; padding-bottom: 0; }
+  .hw-hero h1 { font-size: clamp(30px, 5.4vh, 64px); }
+  .hw-hero p { align-self: center; justify-self: end; max-width: 620px; font-size: clamp(12.5px, 1.6vh, 17px); line-height: 1.5; }
+  .hw-sec { margin-top: 1.6vh; min-height: 0; display: flex; flex-direction: column; }
+  .hw-sec:nth-of-type(2) { grid-area: steps; }
+  .hw-sec:nth-of-type(3) { grid-area: money; }
+  .hw-sec:nth-of-type(4) { grid-area: wins; }
+  .hw-sec:nth-of-type(5) { grid-area: trust; }
+  .hw-end { grid-area: end; }
+  .hw-sec > h2 { font-size: clamp(16px, 2.4vh, 26px); }
+  .hw-lead { margin-top: .4vh; font-size: clamp(11.5px, 1.4vh, 15px); max-width: none; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  /* steps: four compact cards, picture on the left */
+  .hw-steps { margin-top: 1vh; gap: 14px; }
+  .hw-step { display: grid; grid-template-columns: 42% 1fr; grid-template-rows: auto auto 1fr; column-gap: 14px; padding: 1.2vh 14px; align-items: start; }
+  .hw-art { grid-row: 1 / 4; padding: .8vh 6px .6vh; align-self: stretch; display: flex; flex-direction: column; justify-content: center; }
+  .hw-ill { max-height: 11vh; }
+  .hw-art span { font-size: clamp(9.5px, 1.1vh, 12px); margin-top: .3vh; }
+  .hw-num { margin-top: 0; width: clamp(18px, 2.2vh, 24px); height: clamp(18px, 2.2vh, 24px); font-size: clamp(10px, 1.2vh, 12px); }
+  .hw-step h3 { margin-top: .5vh; font-size: clamp(15px, 2.2vh, 23px); }
+  .hw-step p { margin-top: .4vh; font-size: clamp(11px, 1.32vh, 14px); line-height: 1.45; }
+
+  /* where the money goes: compact card that fills the column */
+  .hw-sec:nth-of-type(3) .hw-card { flex: 1; min-height: 0; margin-top: 1vh; padding: 1.6vh 18px; display: flex; flex-direction: column; }
+  .hw-card-t { font-size: clamp(13px, 1.7vh, 18px); } .hw-card-s { font-size: clamp(11px, 1.3vh, 14px); margin-top: .3vh; }
+  .hw-flow { margin-top: 1.4vh; gap: 8px; flex-wrap: nowrap; }
+  .hw-box { flex: 1 1 0; height: clamp(64px, 10vh, 110px); gap: .4vh; padding: 0 4px; }
+  .hw-box b { font-size: clamp(14px, 2.2vh, 24px); } .hw-box--hi b { font-size: clamp(18px, 3vh, 32px); } .hw-box span { font-size: clamp(10px, 1.2vh, 13px); }
+  .hw-arr { font-size: 18px; }
+  .hw-flow .hw-bars { display: none; }
+  .hw-money-bars { display: flex !important; flex-direction: column; gap: 1vh; margin-top: 2vh; }
+  .hw-bar { grid-template-columns: 110px 1fr 46px; font-size: clamp(11.5px, 1.4vh, 15px); }
+  .hw-logic { margin-top: auto; padding-top: 1.4vh; flex-direction: column; align-items: flex-start; gap: 1.2vh; }
+  .hw-logic p { font-size: clamp(11px, 1.32vh, 14px); }
+  .hw-cta2 { padding: .9vh 14px; font-size: clamp(12px, 1.4vh, 15px); }
+
+  /* who wins: three facts as a strip, the example fills the rest */
+  .hw-wins { flex: 1; min-height: 0; margin-top: 1vh; grid-template-columns: 1fr; grid-template-rows: auto minmax(0, 1fr); gap: 1vh; }
+  .hw-facts { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .hw-fact { grid-template-columns: 1fr !important; gap: .2vh; padding: 1vh 10px; text-align: center; justify-items: center; }
+  .hw-fact > b { font-size: clamp(14px, 2.1vh, 24px); }
+  .hw-fact p { font-size: clamp(9.5px, 1.1vh, 12px); line-height: 1.35; } .hw-fact strong { font-size: clamp(10.5px, 1.25vh, 13.5px); }
+  .hw-fact p br, .hw-fact .hw-fact-more { display: none; }
+  .hw-ex { padding: 1.4vh 16px; display: flex; flex-direction: column; min-height: 0; }
+  .hw-ex-rows { flex: 1; min-height: 0; margin-top: .8vh; gap: 0; align-content: space-between; }
+  .hw-ex-row { grid-template-columns: 96px 1fr 104px; gap: 10px; font-size: clamp(10.5px, 1.3vh, 14px); }
+  .hw-ex-row i { height: clamp(5px, .8vh, 9px); }
+
+  /* check it: a compact list, then the call to action underneath */
+  .hw-trust { flex: 1; min-height: 0; margin-top: 1vh; grid-template-columns: 1fr; gap: .7vh; grid-auto-rows: 1fr; }
+  .hw-tr { padding: .8vh 12px; gap: 10px; align-items: center; border-radius: 14px; }
+  .hw-dot { width: clamp(20px, 2.6vh, 30px); height: clamp(20px, 2.6vh, 30px); border-radius: 8px; font-size: 12px; }
+  .hw-tr h3 { font-size: clamp(12px, 1.5vh, 16px); } .hw-tr p { margin-top: .2vh; font-size: clamp(10.5px, 1.22vh, 13.5px); line-height: 1.4; }
+  .hw-end { margin-top: 1.2vh; padding: 1.6vh 18px; flex-direction: column; align-items: stretch; gap: 1vh; border-radius: 18px; }
+  .hw-end h2 { font-size: clamp(16px, 2.3vh, 24px); } .hw-end p { margin-top: .3vh; font-size: clamp(11px, 1.3vh, 14px); }
+  .hw-go { justify-content: center; height: clamp(36px, 4.6vh, 50px) !important; font-size: clamp(13px, 1.6vh, 17px) !important; }
+}
+
+/* ---- revised one-screen layout: two wide columns so the section lines stay on one line ---- */
+@media (min-width: 1100px) {
+  .hw-main { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important; grid-template-rows: auto auto minmax(0, 1fr) auto !important;
+    grid-template-areas: "hero hero" "steps steps" "money wins" "trust end" !important; column-gap: 22px !important; }
+  .hw-lead { white-space: nowrap; overflow: visible; text-overflow: clip; font-size: clamp(11px, min(1.4vh, .85vw), 15px) !important; }
+  /* trust: six compact tiles (3 x 2); the description shows on hover or focus */
+  .hw-sec:nth-of-type(5) { margin-top: 1.4vh; }
+  .hw-sec:nth-of-type(5) .hw-lead { display: none; }
+  .hw-trust { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; grid-auto-rows: auto !important; gap: .8vh 10px !important; margin-top: .8vh !important; position: relative; }
+  .hw-tr { padding: .9vh 12px !important; position: relative; cursor: default; }
+  .hw-tr p { display: none; }
+  .hw-tr:hover p, .hw-tr:focus-within p, .hw-tr:focus p { display: block; position: absolute; left: 0; right: 0; bottom: calc(100% + 6px); z-index: 4; margin: 0;
+    padding: 10px 12px; border-radius: 12px; background: #23223a; border: 1px solid var(--line); color: var(--ink); box-shadow: 0 12px 30px rgba(0,0,0,.5); font-size: 13px; }
+  .hw-tr h3 { font-size: clamp(12px, 1.5vh, 16px) !important; white-space: nowrap; }
+  .hw-end { margin-top: 1.4vh !important; align-self: end; flex-direction: row !important; align-items: center !important; justify-content: space-between; padding: 1.8vh 22px !important; }
+  .hw-go { padding: 0 26px !important; }
+  /* money column: boxes and bars side by side again (the column is wide now) */
+  .hw-flow .hw-bars { display: none !important; }
+  .hw-money-bars { margin-top: 1.6vh !important; }
+  .hw-logic { flex-direction: row !important; align-items: center !important; }
+  .hw-wins { grid-template-rows: auto minmax(0, 1fr) !important; }
+  .hw-fact { padding: .9vh 10px !important; }
+  .hw-ex-row { grid-template-columns: 130px 1fr 120px !important; }
+  .hw-ex-row span { white-space: nowrap; }
+}
+
+/* hero: summary centered beside the title (and, on the one-screen layout, the Enter button) */
+.hw-hero-r { justify-self: end; display: flex; align-items: center; gap: 22px; }
+.hw-hero-r p { margin: 0; max-width: 470px; color: var(--label); font-size: 18px; line-height: 1.55; } .hw-hero-r p b { color: var(--ink); }
+.hw-go-top { display: none !important; }
+@media (max-width: 640px) { .hw-hero-r { justify-self: start; } }
+
+/* ---- final one-screen layout ---- */
+@media (min-width: 1100px) {
+  .hw-main { max-width: 1344px !important; padding-left: 2rem !important; padding-right: 2rem !important;
+    grid-template-areas: "hero hero" "steps steps" "money wins" "trust trust" !important; row-gap: 0; }
+  .hw-hero { grid-template-columns: auto 1fr; gap: 30px; }
+  .hw-hero-r { align-self: center; }
+  .hw-hero-r p { max-width: 560px; font-size: clamp(12px, 1.5vh, 16px); }
+  .hw-go-top { display: inline-flex !important; flex: none; height: clamp(36px, 4.6vh, 50px) !important; padding: 0 24px !important; font-size: clamp(13px, 1.6vh, 17px) !important; }
+  .hw-end { display: none !important; }
+  .hw-sec { margin-top: 1.3vh !important; }
+  .hw-sec:nth-of-type(2) .hw-lead { display: none; }
+  /* steps: wider text, smaller pictures */
+  .hw-step { grid-template-columns: 30% 1fr !important; padding: 1vh 12px !important; column-gap: 12px !important; }
+  .hw-ill { max-height: 7.5vh !important; }
+  .hw-step h3 { font-size: clamp(14px, 2vh, 21px) !important; margin-top: .3vh !important; }
+  .hw-step p { font-size: clamp(10.5px, 1.25vh, 13.5px) !important; line-height: 1.4 !important; margin-top: .3vh !important; }
+  /* money */
+  .hw-sec:nth-of-type(3) .hw-card { padding: 1.3vh 18px !important; }
+  .hw-card-s { display: none; }
+  .hw-flow { margin-top: 1vh !important; }
+  .hw-box { height: clamp(52px, 7.6vh, 88px) !important; }
+  .hw-money-bars { margin-top: 1.2vh !important; gap: .7vh !important; }
+  .hw-logic { padding-top: 1vh !important; gap: 14px !important; }
+  .hw-logic p { font-size: clamp(10.5px, 1.22vh, 13.5px) !important; line-height: 1.4 !important; }
+  /* wins */
+  .hw-ex { padding: 1.1vh 16px !important; }
+  .hw-ex .hw-card-s { display: none; }
+  .hw-ex-rows { margin-top: .6vh !important; }
+  .hw-ex-row { font-size: clamp(10px, 1.22vh, 13.5px) !important; line-height: 1.2; }
+  /* trust: one row of six tiles across the bottom */
+  .hw-sec:nth-of-type(5) { flex-direction: row !important; align-items: center; gap: 18px; margin-top: 1.4vh !important; }
+  .hw-sec:nth-of-type(5) > h2 { flex: none; font-size: clamp(14px, 2vh, 21px) !important; }
+  .hw-trust { flex: 1; grid-template-columns: repeat(6, minmax(0, 1fr)) !important; margin-top: 0 !important; gap: 8px !important; }
+  .hw-tr { padding: .8vh 10px !important; gap: 8px !important; }
+  .hw-tr h3 { font-size: clamp(11px, 1.35vh, 14.5px) !important; }
+}
+
+@media (min-width: 1100px) {
+  .hw-lead { font-size: clamp(10.5px, min(1.3vh, .74vw), 14px) !important; }
+  .hw-step { grid-template-columns: 34% 1fr !important; }
+  .hw-ill { max-height: 9vh !important; }
+  .hw-sec:nth-of-type(3) .hw-card { justify-content: space-between; }
+  .hw-box { height: clamp(60px, 11vh, 130px) !important; }
+  .hw-box b { font-size: clamp(15px, 2.6vh, 28px) !important; } .hw-box--hi b { font-size: clamp(20px, 3.6vh, 38px) !important; }
+  .hw-money-bars { margin-top: 0 !important; }
+  .hw-logic { margin-top: 0 !important; }
+}
+@media (min-width: 1100px) {
+  .hw-money-bars { margin-top: auto !important; margin-bottom: auto !important; }
+  .hw-step { grid-template-columns: 40% 1fr !important; }
+  .hw-ill { max-height: 10.5vh !important; }
+  .hw-tr { padding: .8vh 8px !important; gap: 7px !important; }
+  .hw-tr h3 { font-size: clamp(10.5px, min(1.35vh, .78vw), 14.5px) !important; }
+  .hw-dot { width: clamp(18px, 2.4vh, 26px) !important; height: clamp(18px, 2.4vh, 26px) !important; }
+}
