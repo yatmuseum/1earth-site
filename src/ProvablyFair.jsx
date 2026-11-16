@@ -9,11 +9,12 @@ const STEPS = [
   ["The contract picks the winners.", "A fixed, audited formula turns that randomness into the winners. Any entry can be checked to see exactly which prize place it won."],
   ["Prizes are paid from a vault no one controls.", "The prize pool sits in a vault owned by the program itself, not a person. Every payout is a public Solana transfer from the vault to the winning wallet."],
 ];
-// Buttons at the bottom. Collection, open-source code and prize vault are shown but not linked yet.
+// Buttons at the bottom: shown, not linked until the protocol's accounts exist.
 const LINKS = [
-  ["Collection", null],
-  ["Open-source code", null],
+  ["Entries (Merkle tree)", null],
+  ["Program", null],
   ["Prize vault", null],
+  ["Open-source code", null],
 ];
 
 export default function ProvablyFair() {
@@ -45,7 +46,6 @@ export default function ProvablyFair() {
           {LINKS.map(([l, u]) => u
             ? <a key={l} href={u} target="_blank" rel="noopener noreferrer">{l} ↗</a>
             : <span key={l} className="pf-chip" aria-disabled="true">{l}</span>)}
-          <a href="/PastDraws">Past Draws →</a>
           <a href="/demo/payout-tables">Payout Tables →</a>
         </section>
       </main>
