@@ -233,3 +233,10 @@
   .hw-step p { margin-top: .6vh !important; font-size: clamp(11.5px, 1.45vh, 15px) !important; line-height: 1.5 !important; max-width: 34ch; }
 }
 .hw-step { justify-content: flex-start !important; }
+/* money card: the 1-Earth vs typical lottery bars sit centered in the space between the boxes and the payout-logic line */
+@media (min-width: 1100px) {
+  .hw-money-bars { flex: 1 1 auto; justify-content: center; margin: 0 !important; padding: 1.8vh 4px 1.4vh; gap: 1.2vh !important; min-height: 0; }
+  .hw-money-bars small { margin-top: .2vh; font-size: clamp(10.5px, 1.25vh, 13px) !important; }
+  .hw-bar { font-size: clamp(12px, 1.5vh, 15.5px) !important; }
+  .hw-bar i { height: clamp(8px, 1.1vh, 12px) !important; }
+}
