@@ -220,3 +220,16 @@
   .hw-tr h3 { font-size: clamp(10.5px, min(1.35vh, .78vw), 14.5px) !important; }
   .hw-dot { width: clamp(18px, 2.4vh, 26px) !important; height: clamp(18px, 2.4vh, 26px) !important; }
 }
+
+/* steps without pictures: number, title and text centered in each card */
+.hw-step { display: flex !important; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 22px 20px !important; }
+.hw-step .hw-num { margin-top: 0 !important; width: 34px !important; height: 34px !important; font-size: 15px !important; }
+.hw-step h3 { margin-top: 10px !important; }
+.hw-step p { max-width: 30ch; }
+@media (min-width: 1100px) {
+  .hw-step { padding: 1.6vh 18px !important; }
+  .hw-step .hw-num { width: clamp(24px, 3vh, 34px) !important; height: clamp(24px, 3vh, 34px) !important; font-size: clamp(12px, 1.5vh, 15px) !important; }
+  .hw-step h3 { margin-top: .8vh !important; font-size: clamp(16px, 2.4vh, 24px) !important; }
+  .hw-step p { margin-top: .6vh !important; font-size: clamp(11.5px, 1.45vh, 15px) !important; line-height: 1.5 !important; max-width: 34ch; }
+}
+.hw-step { justify-content: flex-start !important; }

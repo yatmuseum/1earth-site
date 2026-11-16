@@ -60,7 +60,7 @@ const TRUST = [
 ];
 
 export default function HowItWorks() {
-  useEffect(() => { document.title = "How it works · 1-Earth"; }, []);
+  useEffect(() => { document.title = "How it Works · 1-Earth"; }, []);
   const max = EXAMPLE[0][1];
   return (
     <div className="hw">
@@ -71,7 +71,7 @@ export default function HowItWorks() {
 
       <main className="hw-main">
         <section className="hw-hero">
-          <h1 className="rp-grad">How it works</h1>
+          <h1 className="rp-grad">How it Works</h1>
           <div className="hw-hero-r">
             <p>A global weekly draw. <b>10 USDC entries on Solana</b>, winners picked on-chain every Saturday, and <b>every entry goes back to players</b>.</p>
             <a href="/demo" className="rp-btn hw-go hw-go-top">Enter the draw</a>
@@ -84,7 +84,6 @@ export default function HowItWorks() {
           <div className="hw-steps">
             {STEPS.map(([Ill, t, d, cap], i) => (
               <article key={t} className="hw-step">
-                <div className="hw-art"><Ill /><span>{cap}</span></div>
                 <span className="hw-num">{i + 1}</span>
                 <h3>{t}</h3><p>{d}</p>
               </article>
