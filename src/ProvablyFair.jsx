@@ -10,11 +10,12 @@ const STEPS = [
   ["Prizes are paid from a vault no one controls.", "The prize pool sits in a vault owned by the program itself, not a person. Every payout is a public Solana transfer from the vault to the winning wallet."],
 ];
 // Buttons at the bottom: shown, not linked until the protocol's accounts exist.
-const LINKS = [
-  ["Entries (Merkle tree)", null],
-  ["Immutable proof", null],
-  ["Prize vault", null],
-  ["Open-source code", null],
+const LINKS = [ // in the same order as the five steps above
+  ["Immutable proof", null],          // 1. no one can add entries or change the rules
+  ["Entries (Merkle tree)", null],    // 2. every entry and the list's fingerprint
+  ["Randomness (ORAO VRF)", null],    // 3. each drawing's randomness request and its proof
+  ["Open-source code", null],         // 4. the formula that picks the winners
+  ["Prize vault", null],              // 5. where prizes are held and paid from
 ];
 
 export default function ProvablyFair() {
