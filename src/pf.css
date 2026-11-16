@@ -1,0 +1,33 @@
+/* /demo/provably-fair, Solana theme, one screen on computers */
+.pf { color: var(--ink); font-family: var(--body); min-height: 100svh; }
+.pf > .page { width: 100%; box-sizing: border-box; }
+.pf-main { max-width: 1250px; margin: 0 auto; padding: 22px clamp(16px, 4vw, 40px) 40px; box-sizing: border-box; width: 100%; }
+.pf-head { display: flex; align-items: baseline; gap: 28px; flex-wrap: wrap; padding-bottom: 8px; }
+.pf-head h1 { margin: 0; display: inline-block; font-family: var(--display); font-weight: 800; font-size: clamp(36px, 5vw, 62px); line-height: 1.05; letter-spacing: -0.02em; white-space: nowrap; }
+.pf-head p { margin: 0; color: var(--label); font-size: 17px; }
+.pf-steps { list-style: none; margin: 22px 0 0; padding: 0; display: grid; gap: 14px; }
+.pf-step { display: flex; align-items: center; gap: 22px; padding: 18px 26px; border-radius: 18px; background: var(--card); border: 1.5px solid var(--line); }
+.pf-num { flex: none; width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; background: linear-gradient(135deg, #9945FF, #14F195); color: #0c0b16; font: 800 20px var(--display); }
+.pf-step h2 { margin: 0; font-family: var(--display); font-weight: 800; font-size: 21px; }
+.pf-step p { margin: 4px 0 0; color: var(--label); font-size: 16px; line-height: 1.55; }
+.pf-links { display: flex; align-items: center; flex-wrap: wrap; gap: 10px 12px; margin-top: 22px; }
+.pf-links-lbl { font-weight: 700; margin-right: 6px; }
+.pf-links a { display: inline-flex; align-items: center; height: 40px; padding: 0 16px; border-radius: 999px; border: 1.5px solid var(--line); background: var(--card); color: var(--ink); text-decoration: none; font-weight: 600; font-size: 15px; }
+.pf-links a:hover { border-color: #14F195; }
+@media (max-width: 900px) {
+  .pf-head { flex-direction: column; gap: 8px; } .pf-head h1 { white-space: normal; }
+  .pf-step { align-items: flex-start; padding: 16px 18px; gap: 14px; } .pf-num { width: 38px; height: 38px; font-size: 17px; }
+}
+@media (min-width: 901px) {
+  .pf { height: 100svh; display: flex; flex-direction: column; overflow: hidden; }
+  .pf-main { flex: 1; min-height: 0; display: flex; flex-direction: column; padding-top: 1.6vh; padding-bottom: 2.4vh; }
+  .pf-head h1 { font-size: clamp(32px, 5.4vh, 62px); }
+  .pf-head p { font-size: clamp(13px, 1.7vh, 17px); }
+  .pf-steps { flex: 1; min-height: 0; margin-top: 2vh; gap: 1.3vh; grid-auto-rows: 1fr; }
+  .pf-step { padding: 0 26px; }
+  .pf-num { width: clamp(34px, 4.4vh, 48px); height: clamp(34px, 4.4vh, 48px); font-size: clamp(15px, 1.9vh, 20px); }
+  .pf-step h2 { font-size: clamp(15px, 2vh, 21px); }
+  .pf-step p { font-size: clamp(12.5px, 1.55vh, 16px); line-height: 1.45; margin-top: .3vh; }
+  .pf-links { margin-top: 2vh; }
+  .pf-links a { height: clamp(32px, 3.8vh, 40px); font-size: clamp(12.5px, 1.4vh, 15px); }
+}

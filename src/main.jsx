@@ -10,6 +10,8 @@ import Frame from "./Frame.jsx";
 import Demo from "./Demo.jsx";
 import ResponsiblePlay from "./ResponsiblePlay.jsx";
 import Support from "./Support.jsx";
+import ProvablyFair from "./ProvablyFair.jsx";
+import "./pf.css";
 import "./sp.css";
 import "./rp.css";
 import "./demo.css";
@@ -23,6 +25,7 @@ const isFrame = /^\/frame\/?$/i.test(path);
 const isDemo = /^\/demo\/?$/i.test(path);
 const isRP = /^\/demo\/responsible-play\/?$/i.test(path);
 const isSupport = /^\/demo\/support\/?$/i.test(path);
+const isPF = /^\/demo\/provably-fair\/?$/i.test(path);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -36,6 +39,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <ResponsiblePlay />
     ) : isSupport ? (
       <Support />
+    ) : isPF ? (
+      <ProvablyFair />
     ) : (
       <WalletProviders>
         <App />
