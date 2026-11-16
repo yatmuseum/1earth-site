@@ -12,6 +12,8 @@ import ResponsiblePlay from "./ResponsiblePlay.jsx";
 import Support from "./Support.jsx";
 import ProvablyFair from "./ProvablyFair.jsx";
 import PayoutTables from "./PayoutTables.jsx";
+import HowItWorks from "./HowItWorks.jsx";
+import "./hw.css";
 import "./pt.css";
 import "./pf.css";
 import "./sp.css";
@@ -29,6 +31,7 @@ const isRP = /^\/demo\/responsible-play\/?$/i.test(path);
 const isSupport = /^\/demo\/support\/?$/i.test(path);
 const isPF = /^\/demo\/provably-fair\/?$/i.test(path);
 const isPT = /^\/demo\/payout-tables\/?$/i.test(path);
+const isHW = /^\/demo\/how-it-works\/?$/i.test(path);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -46,6 +49,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <ProvablyFair />
     ) : isPT ? (
       <PayoutTables />
+    ) : isHW ? (
+      <HowItWorks />
     ) : (
       <WalletProviders>
         <App />
