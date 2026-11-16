@@ -9,11 +9,11 @@ const STEPS = [
   ["The contract picks the winners.", "A fixed, audited formula turns that randomness into the winners. Any entry can be checked to see exactly which prize place it won."],
   ["Prizes are paid from a vault no one controls.", "The prize pool sits in a vault owned by the program itself, not a person. Every payout is a public Solana transfer from the vault to the winning wallet."],
 ];
-// Buttons at the bottom. Collection and open-source code are shown but not linked yet.
+// Buttons at the bottom. Collection, open-source code and prize vault are shown but not linked yet.
 const LINKS = [
   ["Collection", null],
   ["Open-source code", null],
-  ["Treasury on Solscan", "https://solscan.io/account/HvPMmCHju5niMUKkGhJNruY8fGbzHT1caELqSjefSBeM"],
+  ["Prize vault", null],
 ];
 
 export default function ProvablyFair() {
