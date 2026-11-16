@@ -133,8 +133,8 @@ export default function HowItWorks() {
           <div className="hw-wins">
             <div className="hw-facts">
               <div className="hw-fact"><b className="rp-grad">1 in 100</b><p><strong>entries wins a prize</strong>The top 1% of every draw.</p></div>
-              <div className="hw-fact"><b className="rp-grad">250 USDC</b><p><strong>minimum prize</strong>From 1,000 entries up.</p></div>
-              <div className="hw-fact"><b className="rp-grad">10 entries</b><p><strong>max per wallet</strong>100 USDC per draw.</p></div>
+              <div className="hw-fact"><b className="rp-grad">250 USDC</b><p><strong>minimum prize</strong>25x your entry.</p></div>
+              <div className="hw-fact"><b className="rp-grad">100 entries</b><p><strong>max per wallet</strong>1,000 USDC per draw.</p></div>
             </div>
             <div className="hw-card hw-ex">
               <div className="hw-ex-top">

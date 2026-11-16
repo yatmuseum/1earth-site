@@ -2,7 +2,7 @@
 // It's a preview: the limit and break tools are shown but not active yet, and say so clearly.
 import { useEffect, useState } from "react";
 
-const PRICE = 10, MAX = 10;
+const PRICE = 10, MAX = 100;
 const DURATIONS = ["7 days", "30 days", "90 days", "6 months", "1 year", "Permanent"];
 const SIGNS = [
   "Spending more than you planned, or more than you can afford",
@@ -14,7 +14,7 @@ const SIGNS = [
 ];
 
 export default function ResponsiblePlay() {
-  const [limit, setLimit] = useState(5);
+  const [limit, setLimit] = useState(10);
   const [wallet1, setWallet1] = useState("");
   const [wallet2, setWallet2] = useState("");
   const [dur, setDur] = useState("");
