@@ -71,3 +71,7 @@
   .pt-tabs button { padding-left: 10px; padding-right: 10px; }
 }
 @media (min-width: 901px) and (max-width: 1000px) { .pt-table { font-size: 10.5px; } .pt-table td { padding-top: 2px; padding-bottom: 2px; } .pt-table th { font-size: 9px; } .pt-notes li { font-size: 10.5px; } .pt-head h1 { font-size: 26px; } }
+/* no green focus ring on the format buttons after clicking; keyboard users still see a soft border */
+.pt-tabs button:focus, .pt-tabs button:focus-visible { outline: none; }
+.pt-tabs button:focus-visible:not(.on) { border-color: var(--ink); }
+.pt-tabs button { -webkit-tap-highlight-color: transparent; }
