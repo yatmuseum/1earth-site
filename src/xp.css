@@ -67,3 +67,5 @@
 .xp-stat .xp-tbd { font-size: inherit !important; }
 @media (min-width: 1100px) { .xp-stat .xp-tbd { font-size: clamp(17px, 2.7vh, 30px) !important; } }
 .xp-note { min-height: 2.9em; line-height: 1.45; }
+
+.xp-table td { white-space: nowrap; }

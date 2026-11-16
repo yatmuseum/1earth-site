@@ -7,6 +7,14 @@ const USE_STATS = [
   ["Value", "No cash value", "A non-transferable loyalty point"],
   ["In total", "250,000,000 XP", "Across all 25 weeks"],
 ];
+// Participants: XP for each Frame mint (250,000,000 in total).
+const PART_STATS = [
+  ["Gold Frame", "25,000,000 XP", "1,000 Frames · 25,000 XP each"],
+  ["Silver Frame", "100,000,000 XP", "Details coming soon"],
+  ["Bronze Frame", "100,000,000 XP", "Details coming soon"],
+  ["Surprise", "25,000,000 XP", "Details coming soon"],
+];
+const PART_ROWS = [["Gold Frame", "25,000"], ["Silver Frame", "Soon"], ["Bronze Frame", "Soon"], ["Surprise", "Soon"]];
 const WEEKS = [["10,000", "1,000"], ["100,000", "100"], ["1,000,000", "10"]];
 
 export default function XP() {
@@ -29,23 +37,21 @@ export default function XP() {
           <section className="xp-half">
             <div className="xp-half-head"><span className="xp-tag">Participants</span><h2>Frame mints</h2></div>
             <div className="xp-grid4">
-              {["Gold Frame", "Silver Frame", "Bronze Frame", "Surprise"].map((t) => (
-                <div key={t} className="xp-stat"><span className="xp-lbl">{t}</span><b className="xp-tbd">Details soon</b><small>XP for participants</small></div>
-              ))}
+              {PART_STATS.map(([l, v, sub]) => <div key={l} className="xp-stat"><span className="xp-lbl">{l}</span><b>{v}</b><small>{sub}</small></div>)}
             </div>
             <div className="xp-use-row">
               <div className="xp-card xp-formula">
                 <h3>How participants earn XP</h3>
-                <div className="xp-eq xp-eq-soon"><b>Details soon</b><em>XP for each Frame you mint</em></div>
-                <p><b>Every Frame counts.</b> Each Frame you mint earns XP for your wallet. The full breakdown for each mint is coming soon.</p>
+                <div className="xp-eq"><span>XP per Frame</span><i>=</i><div className="xp-frac"><b className="rp-grad">25,000,000</b><em>1,000 Gold Frames</em></div></div>
+                <p><b>Every Frame counts.</b> Each mint’s XP is split evenly across its Frames: the 1,000 Gold Frames earn 25,000 XP each.</p>
               </div>
               <div className="xp-card xp-table">
-                <h3>XP by Frame mint</h3>
+                <h3>XP per Frame, by mint</h3>
                 <table><thead><tr><th>Frame mint</th><th>XP per Frame</th></tr></thead>
-                  <tbody>{["Gold Frame", "Silver Frame", "Bronze Frame", "Surprise"].map((t) => <tr key={t}><td>{t}</td><td className="g xp-soon-v">Soon</td></tr>)}</tbody></table>
+                  <tbody>{PART_ROWS.map(([t, v]) => <tr key={t}><td>{t}</td><td className={v === "Soon" ? "g xp-soon-v" : "g"}>{v}</td></tr>)}</tbody></table>
               </div>
             </div>
-            <p className="xp-note">Participant XP details will be shared before each Frame mint opens.</p>
+            <p className="xp-note">250,000,000 XP in total for participants across all four mints. Details for the other mints are coming soon.</p>
           </section>
 
           {/* ---------- Use: playing the protocol ---------- */}
