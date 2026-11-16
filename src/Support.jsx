@@ -1,7 +1,18 @@
 // /demo/support: the help-center request form, in the Solana theme. A preview: requests aren't sent yet.
 import { useEffect, useRef, useState } from "react";
 
-const TOPICS = []; // to be filled in (the topic list is still being decided)
+const TOPICS = [
+  "Entries & purchases",
+  "Wallet & connecting",
+  "Drawings & results",
+  "Prize payouts",
+  "Frames",
+  "Limits & breaks",
+  "Report a scam or impersonation",
+  "Partnerships & press",
+  "Legal",
+  "Other",
+];
 const MAX_MB = 10;
 const OK_TYPES = /^(image\/|application\/pdf$|text\/)/;
 
@@ -56,9 +67,9 @@ export default function Support() {
               <select className="rp-input" value={topic} onChange={(e) => setTopic(e.target.value)}>
                 <option value="" disabled>Select a topic</option>
                 {TOPICS.map((t) => <option key={t} value={t}>{t}</option>)}
-                {!TOPICS.length && <option value="general">General question</option>}
               </select>
             </span>
+            <span className="sp-safe">We’ll never ask for your seed phrase or private key.</span>
           </label>
         </div>
 

@@ -51,3 +51,8 @@
 .sp-msg { min-height: 1.4em; margin: 10px 0 0; color: var(--label); font-size: 14px; text-align: right; }
 @media (min-width: 901px) { .sp-msg { font-size: clamp(12px, 1.4vh, 14px); margin-top: .8vh; } }
 @media (max-width: 900px) { .sp-msg { text-align: left; } }
+
+/* safety line under the topic menu */
+.sp-safe { margin-top: 8px; color: var(--label); font-size: 14px; }
+.sp-safe::before { content: ""; display: inline-block; width: 7px; height: 7px; margin: 0 8px 1px 2px; border-radius: 50%; background: #14F195; }
+@media (min-width: 901px) { .sp-safe { margin-top: .7vh; font-size: clamp(12px, 1.3vh, 14px); } }
