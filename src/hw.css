@@ -240,3 +240,26 @@
   .hw-bar { font-size: clamp(12px, 1.5vh, 15.5px) !important; }
   .hw-bar i { height: clamp(8px, 1.1vh, 12px) !important; }
 }
+
+/* ---- money section mirrors "Who wins": a strip of three tiles, then a card ---- */
+.hw-money { display: grid; gap: 16px; margin-top: 26px; }
+.hw-money .hw-facts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.hw-money .hw-fact, .hw-wins .hw-fact { grid-template-columns: 1fr !important; text-align: center; justify-items: center; gap: 4px; padding: 20px 14px; }
+.hw-money-card { margin-top: 0 !important; display: flex; flex-direction: column; }
+.hw-money-bars { display: flex; flex-direction: column; gap: 12px; }
+.hw-money-card .hw-logic { margin-top: 18px; }
+.hw-ex-row { grid-template-columns: 120px 1fr 130px; }
+@media (max-width: 640px) { .hw-money .hw-facts, .hw-wins .hw-facts { grid-template-columns: 1fr; } }
+@media (min-width: 1100px) {
+  .hw-money { flex: 1; min-height: 0; margin-top: 1vh; grid-template-rows: auto minmax(0, 1fr); gap: 1vh; }
+  .hw-money .hw-facts, .hw-wins .hw-facts { gap: 8px !important; }
+  .hw-money .hw-fact, .hw-wins .hw-fact { padding: 1vh 10px !important; gap: .2vh !important; height: 100%; box-sizing: border-box; align-content: center; }
+  .hw-money .hw-fact > b, .hw-wins .hw-fact > b { font-size: clamp(14px, 2.1vh, 24px) !important; }
+  .hw-money .hw-fact p, .hw-wins .hw-fact p { font-size: clamp(9.5px, 1.1vh, 12px) !important; line-height: 1.35 !important; }
+  .hw-money .hw-fact strong, .hw-wins .hw-fact strong { font-size: clamp(10.5px, 1.25vh, 13.5px) !important; }
+  .hw-money-card { min-height: 0; padding: 1.3vh 18px !important; justify-content: space-between; }
+  .hw-money-bars { flex: 1 1 auto; justify-content: center; padding: 1vh 4px; }
+  .hw-money-card .hw-logic { margin-top: 0 !important; }
+  .hw-ex-row { grid-template-columns: 112px 1fr 128px !important; }
+}
+@media (min-width: 1100px) { .hw-money .hw-facts, .hw-wins .hw-facts { height: clamp(70px, 10vh, 112px); } .hw-money .hw-fact, .hw-wins .hw-fact { height: auto; } .hw-wins { grid-template-rows: auto minmax(0, 1fr) !important; } }

@@ -1,9 +1,9 @@
 // /demo/how-it-works: how the 1-Earth protocol works, in the Solana theme.
 import { useEffect } from "react";
 
-const EXAMPLE = [ // 100,000 entries, 1,000,000 USDC pool (format 4 of the payout tables)
-  ["1st", 160000], ["2nd", 80000], ["3rd", 40000], ["4th", 32500], ["5th", 17500], ["6th to 10th", 13000],
-  ["11th to 20th", 6500], ["21st to 40th", 3250], ["41st to 100th", 1250], ["101st to 250th", 1000], ["251st to 500th", 500], ["501st to 1,000th", 250],
+const EXAMPLE = [ // 1,000,000 entries, 10,000,000 USDC pool (format 5 of the payout tables)
+  ["1st", 1200000], ["2nd", 500000], ["3rd to 4th", 250000], ["5th to 10th", 100000], ["11th to 20th", 50000], ["21st to 40th", 25000],
+  ["41st to 100th", 10000], ["101st to 200th", 5000], ["201st to 400th", 2500], ["401 to 2500", 1000], ["2501 to 5000", 500], ["5001 to 10000", 250],
 ];
 const u = (v) => v.toLocaleString("en-US");
 
@@ -94,27 +94,22 @@ export default function HowItWorks() {
         <section className="hw-sec">
           <h2>Where the money goes</h2>
           <p className="hw-lead">Nothing is taken out of the prize pool. Every USDC from every entry is paid back to players.</p>
-          <div className="hw-card">
-            <h3 className="hw-card-t">Your entry</h3>
-            <p className="hw-card-s">Nothing is taken out. The whole pool is paid to winners.</p>
-            <div className="hw-flow">
-              <div className="hw-box"><b>10 USDC</b><span>per entry</span></div><i className="hw-arr">→</i>
-              <div className="hw-box hw-box--hi"><b className="rp-grad">100%</b><span>to the prize pool</span></div><i className="hw-arr">→</i>
-              <div className="hw-box"><b>Top 1% paid</b><span>1 in 100 entries</span></div>
-              <div className="hw-bars">
-                <div className="hw-bar"><span>1-Earth</span><i><em style={{ width: "100%" }} /></i><b>100%</b></div>
-                <div className="hw-bar hw-bar--dim"><span>Typical lottery</span><i><em style={{ width: "50%" }} /></i><b>~50%</b></div>
-                <small>Share of ticket money paid back as prizes</small>
-              </div>
+          <div className="hw-money">
+            <div className="hw-facts">
+              <div className="hw-fact"><b className="rp-grad">10 USDC</b><p><strong>per entry</strong>Paid in USDC on Solana.</p></div>
+              <div className="hw-fact"><b className="rp-grad">100%</b><p><strong>to the prize pool</strong>Nothing is taken out.</p></div>
+              <div className="hw-fact"><b className="rp-grad">Top 1%</b><p><strong>paid</strong>1 in 100 entries wins.</p></div>
             </div>
-            <div className="hw-bars hw-money-bars" style={{ display: "none" }}>
+            <div className="hw-card hw-money-card">
+            <h3 className="hw-card-t">Share of ticket money paid back as prizes</h3>
+            <div className="hw-bars hw-money-bars">
               <div className="hw-bar"><span>1-Earth</span><i><em style={{ width: "100%" }} /></i><b>100%</b></div>
               <div className="hw-bar hw-bar--dim"><span>Typical lottery</span><i><em style={{ width: "50%" }} /></i><b>~50%</b></div>
-              <small>Share of ticket money paid back as prizes</small>
             </div>
             <div className="hw-logic">
               <p><b>Our own payout logic.</b> Winners are paid using 1-Earth’s open-source payout model, which spreads the pool so more players win meaningful prizes instead of one top-heavy jackpot.</p>
               <a href="/demo/payout-tables" className="hw-cta2">See how payouts are calculated →</a>
+            </div>
             </div>
           </div>
         </section>
@@ -124,12 +119,12 @@ export default function HowItWorks() {
           <p className="hw-lead">Instead of one giant jackpot, prizes are spread so more players win something meaningful.</p>
           <div className="hw-wins">
             <div className="hw-facts">
-              <div className="hw-fact"><b className="rp-grad">1 in 100</b><p><strong>entries wins a prize</strong>The top 1% of every draw is paid.</p></div>
-              <div className="hw-fact"><b className="rp-grad">250 USDC</b><p><strong>minimum prize</strong>From 1,000 entries up. Higher places stack bonus prizes on top.</p></div>
-              <div className="hw-fact"><b className="rp-grad">1,000 USDC</b><p><strong>spending cap</strong>Per wallet or device, per draw.</p></div>
+              <div className="hw-fact"><b className="rp-grad">1 in 100</b><p><strong>entries wins a prize</strong>The top 1% of every draw.</p></div>
+              <div className="hw-fact"><b className="rp-grad">250 USDC</b><p><strong>minimum prize</strong>From 1,000 entries up.</p></div>
+              <div className="hw-fact"><b className="rp-grad">1,000 USDC</b><p><strong>spending cap</strong>Per wallet, per draw.</p></div>
             </div>
             <div className="hw-card hw-ex">
-              <h3 className="hw-card-t">Example: 100,000 entries – 1,000,000 USDC pool</h3>
+              <h3 className="hw-card-t">Example: 1,000,000 entries – 10,000,000 USDC pool</h3>
               <p className="hw-card-s">Prizes grow as more people enter.</p>
               <div className="hw-ex-rows">
                 {EXAMPLE.map(([pl, v]) => (
