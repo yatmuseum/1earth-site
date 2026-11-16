@@ -6,6 +6,11 @@ const EXAMPLE = [ // 1,000,000 entries, 10,000,000 USDC pool (format 5 of the pa
   ["41st to 100th", 10000], ["101st to 200th", 5000], ["201st to 400th", 2500], ["401 to 2500", 1000], ["2501 to 5000", 500], ["5001 to 10000", 250],
 ];
 const u = (v) => v.toLocaleString("en-US");
+// A typical national lottery: one recent drawing. Winners at each prize (base and multiplier prizes listed together), highest first.
+const LOTTERY = [
+  ["Jackpot", 0], ["$2,000,000", 0], ["$1,000,000", 0], ["$100,000", 6], ["$50,000", 12], ["$200", 243],
+  ["$100", 726], ["$14", 8695], ["$8", 117330], ["$7", 25556], ["$4", 345929],
+];
 
 const Coin = () => (
   <svg viewBox="0 0 200 110" className="hw-ill" aria-hidden="true">
@@ -124,12 +129,21 @@ export default function HowItWorks() {
               <div className="hw-fact"><b className="rp-grad">1,000 USDC</b><p><strong>spending cap</strong>Per wallet, per draw.</p></div>
             </div>
             <div className="hw-card hw-ex">
-              <h3 className="hw-card-t">Example: 1,000,000 entries – 10,000,000 USDC pool</h3>
-              <p className="hw-card-s">Prizes grow as more people enter.</p>
-              <div className="hw-ex-rows">
-                {EXAMPLE.map(([pl, v]) => (
-                  <div key={pl} className="hw-ex-row"><span>{pl}</span><i><em style={{ width: `${Math.max(1.2, (v / max) * 100)}%` }} /></i><b>{u(v)} <small>USDC</small></b></div>
-                ))}
+              <h3 className="hw-card-t">A typical lottery vs 1-Earth</h3>
+              <div className="hw-cmp">
+                <div className="hw-cmp-col">
+                  <div className="hw-cmp-head"><span>Typical lottery</span><small>Prize · winners</small></div>
+                  {LOTTERY.map(([pz, n]) => (
+                    <div key={pz} className="hw-cmp-row"><span>{pz}</span><b className={n ? "" : "hw-zero"}>{n ? u(n) : "0"}</b></div>
+                  ))}
+                  <div className="hw-cmp-row hw-cmp-note"><span>One recent drawing</span><b /></div>
+                </div>
+                <div className="hw-cmp-col hw-cmp-col--us">
+                  <div className="hw-cmp-head"><span className="rp-grad">1-Earth</span><small>1,000,000 entries – 10,000,000 USDC pool</small></div>
+                  {EXAMPLE.map(([pl, v]) => (
+                    <div key={pl} className="hw-cmp-row"><span>{pl}</span><b>{u(v)} <small>USDC</small></b></div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>

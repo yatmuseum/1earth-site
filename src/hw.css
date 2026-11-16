@@ -263,3 +263,25 @@
   .hw-ex-row { grid-template-columns: 112px 1fr 128px !important; }
 }
 @media (min-width: 1100px) { .hw-money .hw-facts, .hw-wins .hw-facts { height: clamp(70px, 10vh, 112px); } .hw-money .hw-fact, .hw-wins .hw-fact { height: auto; } .hw-wins { grid-template-rows: auto minmax(0, 1fr) !important; } }
+
+/* comparison: a typical lottery on the left, 1-Earth on the right */
+.hw-cmp { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: 14px; margin-top: 14px; }
+.hw-cmp-col { display: flex; flex-direction: column; border-radius: 12px; background: color-mix(in srgb, var(--bg) 55%, var(--card)); border: 1px solid var(--line); padding: 10px 12px; }
+.hw-cmp-col--us { border-color: color-mix(in srgb, #14F195 45%, var(--line)); }
+.hw-cmp-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; padding-bottom: 6px; margin-bottom: 4px; border-bottom: 1px solid var(--line); }
+.hw-cmp-head span { font-weight: 800; font-size: 15px; display: inline-block; } .hw-cmp-head small { font-size: 11.5px; color: var(--label); letter-spacing: .04em; }
+.hw-cmp-row { display: flex; justify-content: space-between; gap: 8px; padding: 3px 0; font-size: 14px; font-variant-numeric: tabular-nums; }
+.hw-cmp-row span { white-space: nowrap; } .hw-cmp-row b { white-space: nowrap; }
+.hw-cmp-col--us .hw-cmp-row b { color: #14F195; font-family: var(--display); } .hw-cmp-row small { font-size: .65em; }
+.hw-zero { color: #ff6b8b; }
+.hw-cmp-note { margin-top: auto; padding-top: 6px; color: var(--label); font-size: 12px; font-style: italic; }
+@media (max-width: 640px) { .hw-cmp { grid-template-columns: 1fr; } }
+@media (min-width: 1100px) {
+  .hw-cmp { flex: 1; min-height: 0; margin-top: .8vh; gap: 10px; }
+  .hw-cmp-col { padding: .8vh 10px; min-height: 0; justify-content: space-between; }
+  .hw-cmp-head { padding-bottom: .4vh; margin-bottom: .2vh; } .hw-cmp-head span { font-size: clamp(11.5px, 1.45vh, 15px); } .hw-cmp-head small { font-size: clamp(9px, 1.05vh, 11.5px); }
+  .hw-cmp-row { padding: 0; font-size: clamp(10px, 1.24vh, 13.5px); line-height: 1.25; }
+  .hw-cmp-note { font-size: clamp(9px, 1.05vh, 12px); padding-top: .3vh; }
+  .hw-ex .hw-card-t { font-size: clamp(12px, 1.55vh, 17px) !important; }
+}
+@media (min-width: 1100px) { .hw-cmp-note { margin-top: 0 !important; } }
