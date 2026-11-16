@@ -13,14 +13,7 @@ export default function Terms() {
         <div className="tc-card">
           <span className="tc-badge">Coming soon</span>
           <h1 className="rp-grad">Terms &amp; Conditions</h1>
-          <p>Our full terms, including eligibility, the countries where 1-Earth is available, and how drawings and payouts work, are being finalized with our legal team.</p>
-          <p className="tc-sub">Check back soon. In the meantime, these pages explain how everything works:</p>
-          <div className="tc-links">
-            <a href="/demo/how-to-play">How to Play →</a>
-            <a href="/demo/how-it-works">How it Works →</a>
-            <a href="/demo/provably-fair">Provably Fair →</a>
-            <a href="/demo/support">Support →</a>
-          </div>
+          <p>Our full terms, including eligibility and the countries where 1-Earth is available, are being finalized with our legal team.</p>
         </div>
       </main>
     </div>
