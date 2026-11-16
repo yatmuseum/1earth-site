@@ -13,6 +13,8 @@ import Support from "./Support.jsx";
 import ProvablyFair from "./ProvablyFair.jsx";
 import PayoutTables from "./PayoutTables.jsx";
 import HowItWorks from "./HowItWorks.jsx";
+import HowToPlay from "./HowToPlay.jsx";
+import "./hp.css";
 import "./hw.css";
 import "./pt.css";
 import "./pf.css";
@@ -32,6 +34,7 @@ const isSupport = /^\/demo\/support\/?$/i.test(path);
 const isPF = /^\/demo\/provably-fair\/?$/i.test(path);
 const isPT = /^\/demo\/payout-tables\/?$/i.test(path);
 const isHW = /^\/demo\/how-it-works\/?$/i.test(path);
+const isHP = /^\/demo\/how-to-play\/?$/i.test(path);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -51,6 +54,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <PayoutTables />
     ) : isHW ? (
       <HowItWorks />
+    ) : isHP ? (
+      <HowToPlay />
     ) : (
       <WalletProviders>
         <App />
