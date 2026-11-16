@@ -15,6 +15,8 @@ import PayoutTables from "./PayoutTables.jsx";
 import HowItWorks from "./HowItWorks.jsx";
 import HowToPlay from "./HowToPlay.jsx";
 import Terms from "./Terms.jsx";
+import XP from "./XP.jsx";
+import "./xp.css";
 import "./tc.css";
 import "./hp.css";
 import "./hw.css";
@@ -38,6 +40,7 @@ const isPT = /^\/demo\/payout-tables\/?$/i.test(path);
 const isHW = /^\/demo\/how-it-works\/?$/i.test(path);
 const isHP = /^\/demo\/how-to-play\/?$/i.test(path);
 const isTC = /^\/demo\/terms\/?$/i.test(path);
+const isXP = /^\/demo\/xp\/?$/i.test(path);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -61,6 +64,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <HowToPlay />
     ) : isTC ? (
       <Terms />
+    ) : isXP ? (
+      <XP />
     ) : (
       <WalletProviders>
         <App />
