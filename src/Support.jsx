@@ -2,14 +2,14 @@
 import { useEffect, useRef, useState } from "react";
 
 const TOPICS = [
-  "Entries & purchases",
-  "Wallet & connecting",
-  "Drawings & results",
-  "Prize payouts",
+  "Entries & Purchases",
+  "Wallet & Connecting",
+  "Drawings & Results",
+  "Prize Payouts",
   "Frames",
-  "Limits & breaks",
-  "Report a scam or impersonation",
-  "Partnerships & press",
+  "Limits & Breaks",
+  "Report a Scam or Impersonation",
+  "Partnerships & Press",
   "Legal",
   "Other",
 ];
