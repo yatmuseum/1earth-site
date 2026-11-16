@@ -12,7 +12,7 @@ const STEPS = [
 // Buttons at the bottom: shown, not linked until the protocol's accounts exist.
 const LINKS = [
   ["Entries (Merkle tree)", null],
-  ["Program", null],
+  ["Immutable proof", null],
   ["Prize vault", null],
   ["Open-source code", null],
 ];
@@ -29,7 +29,7 @@ export default function ProvablyFair() {
       <main className="pf-main">
         <section className="pf-head">
           <h1 className="rp-grad">Provably fair</h1>
-          <p>Every drawing is run by an immutable contract on Solana. Here’s how to verify one yourself.</p>
+          <p>Every drawing is run by an immutable, decentralized smart contract on Solana. Here’s how to verify one yourself.</p>
         </section>
 
         <ol className="pf-steps">

@@ -35,3 +35,10 @@
 /* buttons shown without a link yet: same look, not clickable */
 .pf-chip { display: inline-flex; align-items: center; height: 40px; padding: 0 16px; border-radius: 999px; border: 1.5px solid var(--line); background: var(--card); color: var(--ink); font-weight: 600; font-size: 15px; cursor: default; user-select: none; }
 @media (min-width: 901px) { .pf-chip { height: clamp(32px, 3.8vh, 40px); font-size: clamp(12.5px, 1.4vh, 15px); } }
+/* title and intro sentence on one line on computers */
+@media (min-width: 901px) {
+  .pf-main { max-width: 1440px; }
+  .pf-head { flex-wrap: nowrap; }
+  .pf-head p { white-space: nowrap; font-size: clamp(11.5px, min(1.65vh, 1vw), 17px); }
+  .pf-head h1 { font-size: clamp(28px, min(5.4vh, 4.2vw), 62px); }
+}
