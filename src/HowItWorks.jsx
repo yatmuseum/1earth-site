@@ -129,7 +129,7 @@ export default function HowItWorks() {
               <div className="hw-fact"><b className="rp-grad">1,000 USDC</b><p><strong>spending cap</strong>Per wallet or device, per draw.</p></div>
             </div>
             <div className="hw-card hw-ex">
-              <h3 className="hw-card-t">Example: 100,000 entries, 1,000,000 USDC pool</h3>
+              <h3 className="hw-card-t">Example: 100,000 entries – 1,000,000 USDC pool</h3>
               <p className="hw-card-s">Prizes grow as more people enter.</p>
               <div className="hw-ex-rows">
                 {EXAMPLE.map(([pl, v]) => (
