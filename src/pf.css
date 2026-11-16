@@ -31,3 +31,7 @@
   .pf-links { margin-top: 2vh; }
   .pf-links a { height: clamp(32px, 3.8vh, 40px); font-size: clamp(12.5px, 1.4vh, 15px); }
 }
+
+/* buttons shown without a link yet: same look, not clickable */
+.pf-chip { display: inline-flex; align-items: center; height: 40px; padding: 0 16px; border-radius: 999px; border: 1.5px solid var(--line); background: var(--card); color: var(--ink); font-weight: 600; font-size: 15px; cursor: default; user-select: none; }
+@media (min-width: 901px) { .pf-chip { height: clamp(32px, 3.8vh, 40px); font-size: clamp(12.5px, 1.4vh, 15px); } }

@@ -1,17 +1,19 @@
 // /demo/provably-fair: how anyone can verify a 1-Earth drawing, in the Solana theme.
 import { useEffect } from "react";
 
+// How a drawing is verified once the protocol runs on an immutable contract with its upgrade authority revoked.
 const STEPS = [
-  ["Minting is sealed on-chain first.", "After the mint closes, the collection’s control key is handed to Solana’s incinerator address, so no entries can be added. Check the collection’s authority on any Solana explorer."],
-  ["The entry list is fingerprinted.", "Download the entry list and compute its SHA-256. It must match the fingerprint posted before the drawing."],
-  ["The randomness request is tied to that list.", "The ORAO VRF request seed is SHA-256 of “1-Earth 50/50 draw|collection|fingerprint”, so there’s exactly one possible drawing per entry list."],
-  ["Recompute the winners.", "Our open-source script reads the randomness from Solana and recomputes the winners."],
-  ["Check the payments.", "Each “Paid ✓” opens the transfer on Solana: the prize leaving our treasury and arriving in the winning wallet."],
+  ["Entries close on-chain at the deadline.", "The contract refuses new entries after each drawing’s cutoff, using Solana’s own clock. No one holds a key that could add entries: check that the program’s upgrade authority is revoked on any Solana explorer."],
+  ["The entry list is fingerprinted on-chain.", "Every entry updates an on-chain fingerprint of the full list, plus the entry count. At the cutoff it’s frozen for everyone to see, so no one has to post it."],
+  ["The contract requests its own randomness.", "Anyone can close the round. The contract then requests ORAO VRF randomness seeded with the round number and the frozen fingerprint, so there’s exactly one possible drawing per entry list."],
+  ["The contract picks the winners.", "A fixed, audited formula turns that randomness into the winners. Any entry can be checked to see exactly which prize place it won."],
+  ["Prizes are paid from a vault no one controls.", "The prize pool sits in a vault owned by the program itself, not a person. Every payout is a public Solana transfer from the vault to the winning wallet."],
 ];
+// Buttons at the bottom. Collection and open-source code are shown but not linked yet.
 const LINKS = [
-  ["Collection on Solscan", "https://solscan.io/account/97YiBMmoNDJrvqnCjjrwsbxR9bZxmdtrGNZtaW6dtR9C"],
+  ["Collection", null],
+  ["Open-source code", null],
   ["Treasury on Solscan", "https://solscan.io/account/HvPMmCHju5niMUKkGhJNruY8fGbzHT1caELqSjefSBeM"],
-  ["Open-source code on GitHub", "https://github.com/yatmuseum/1earth-site"],
 ];
 
 export default function ProvablyFair() {
@@ -26,7 +28,7 @@ export default function ProvablyFair() {
       <main className="pf-main">
         <section className="pf-head">
           <h1 className="rp-grad">Provably fair</h1>
-          <p>Every drawing can be checked by anyone, on Solana. Here’s how to verify one yourself.</p>
+          <p>Every drawing is run by an immutable contract on Solana. Here’s how to verify one yourself.</p>
         </section>
 
         <ol className="pf-steps">
@@ -40,8 +42,11 @@ export default function ProvablyFair() {
 
         <section className="pf-links">
           <span className="pf-links-lbl">Check it yourself</span>
-          {LINKS.map(([l, u]) => <a key={l} href={u} target="_blank" rel="noopener noreferrer">{l} ↗</a>)}
+          {LINKS.map(([l, u]) => u
+            ? <a key={l} href={u} target="_blank" rel="noopener noreferrer">{l} ↗</a>
+            : <span key={l} className="pf-chip" aria-disabled="true">{l}</span>)}
           <a href="/PastDraws">Past Draws →</a>
+          <a href="/demo/payout-tables">Payout Tables →</a>
         </section>
       </main>
     </div>
