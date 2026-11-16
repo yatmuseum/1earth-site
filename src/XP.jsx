@@ -14,7 +14,7 @@ const PART_STATS = [
   ["Bronze Frame", "100,000,000 XP", "Details coming soon"],
   ["Surprise", "25,000,000 XP", "Details coming soon"],
 ];
-const PART_ROWS = [["Gold Frame", "25,000"], ["Silver Frame", "Soon"], ["Bronze Frame", "Soon"], ["Surprise", "Soon"]];
+const PART_ROWS = [["Gold Frame", "25,000,000", "1,000", "25,000"], ["Silver Frame", "100,000,000", "Soon", "Soon"], ["Bronze Frame", "100,000,000", "Soon", "Soon"], ["Surprise", "25,000,000", "Soon", "Soon"]];
 const WEEKS = [["10,000", "1,000"], ["100,000", "100"], ["1,000,000", "10"]];
 
 export default function XP() {
@@ -39,16 +39,12 @@ export default function XP() {
             <div className="xp-grid4">
               {PART_STATS.map(([l, v, sub]) => <div key={l} className="xp-stat"><span className="xp-lbl">{l}</span><b>{v}</b><small>{sub}</small></div>)}
             </div>
-            <div className="xp-use-row">
-              <div className="xp-card xp-formula">
-                <h3>How participants earn XP</h3>
-                <div className="xp-eq"><span>XP per Frame</span><i>=</i><div className="xp-frac"><b className="rp-grad">25,000,000</b><em>1,000 Gold Frames</em></div></div>
-                <p><b>Every Frame counts.</b> Each mint’s XP is split evenly across its Frames: the 1,000 Gold Frames earn 25,000 XP each.</p>
-              </div>
+            <div className="xp-use-row xp-use-row--one">
               <div className="xp-card xp-table">
                 <h3>XP per Frame, by mint</h3>
-                <table><thead><tr><th>Frame mint</th><th>XP per Frame</th></tr></thead>
-                  <tbody>{PART_ROWS.map(([t, v]) => <tr key={t}><td>{t}</td><td className={v === "Soon" ? "g xp-soon-v" : "g"}>{v}</td></tr>)}</tbody></table>
+                <table><thead><tr><th>Frame mint</th><th>Total XP</th><th>Frames</th><th>XP per Frame</th></tr></thead>
+                  <tbody>{PART_ROWS.map(([t, total, n, v]) => <tr key={t}><td>{t}</td><td>{total}</td><td className={n === "Soon" ? "xp-soon-v" : ""}>{n}</td><td className={v === "Soon" ? "g xp-soon-v" : "g"}>{v}</td></tr>)}</tbody></table>
+                <p className="xp-table-foot"><b>Every Frame counts.</b> Each mint’s XP is split evenly across its Frames.</p>
               </div>
             </div>
             <p className="xp-note">250,000,000 XP in total for participants across all four mints. Details for the other mints are coming soon.</p>

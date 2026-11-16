@@ -69,3 +69,9 @@
 .xp-note { min-height: 2.9em; line-height: 1.45; }
 
 .xp-table td { white-space: nowrap; }
+
+/* participants: one wide table filling the row */
+.xp-use-row--one { grid-template-columns: 1fr !important; }
+.xp-table-foot { margin-top: auto !important; padding-top: 1vh; color: var(--label); }
+.xp-table-foot b { color: var(--ink); }
+@media (max-width: 640px) { .xp-table { overflow-x: auto; } .xp-table td, .xp-table th { white-space: normal; font-size: 13px !important; padding-left: 3px; padding-right: 3px; } }
