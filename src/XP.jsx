@@ -29,7 +29,7 @@ export default function XP() {
       <main className="xp-main">
         <section className="xp-head">
           <h1 className="rp-grad">XP: Participants &amp; Users</h1>
-          <p>Earn XP by joining the Frame mints and by playing.</p>
+          <p>Earn XP by Participating in the Frame Mints and Using the Protocol.</p>
         </section>
 
         <div className="xp-halves">
