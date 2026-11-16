@@ -8,6 +8,7 @@ const STEPS = [
   ["The contract gets a fair random number.", "When entries close, the drawing starts automatically. The contract asks ORAO for a random number that comes with proof it wasn’t chosen by anyone. That number is tied to the exact list of entries, so the drawing can’t be re-run or changed."],
   ["The contract picks the winners.", "A fixed, audited formula turns that randomness into the winners. Any entry can be checked to see exactly which prize place it won."],
   ["Prizes are paid from a vault no one controls.", "The prize pool sits in a vault owned by the program itself, not a person. Every payout is a public Solana transfer from the vault to the winning wallet."],
+  ["Prizes follow the payout tables.", "The smart contract automatically sets each winner’s prize using our own open-source payout logic: the same five formats shown in the payout tables, chosen by the total entries at the draw."],
 ];
 // Buttons at the bottom: shown, not linked until the protocol's accounts exist.
 const LINKS = [ // in the same order as the five steps above
