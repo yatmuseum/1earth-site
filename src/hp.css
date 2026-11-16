@@ -139,3 +139,8 @@
 .hp-need-card .hp-big { background: none !important; -webkit-background-clip: border-box !important; background-clip: border-box !important; color: var(--ink) !important; display: inline-flex; align-items: center; justify-content: center; }
 .hp-need-card .hp-big svg { display: block; }
 .hp-need-card .hp-big { height: 1.2em; }
+/* tabs: never a green edge, in any browser or state (hover, focus, pressed) */
+.hp .hp-tabs button, .hp .hp-tabs button:hover, .hp .hp-tabs button:focus, .hp .hp-tabs button:focus-visible, .hp .hp-tabs button:active {
+  outline: none !important; box-shadow: none !important; border-color: var(--line) !important; -webkit-tap-highlight-color: transparent; }
+.hp .hp-tabs button:hover:not(.on) { background: color-mix(in srgb, var(--card) 85%, var(--ink)); }
+.hp .hp-tabs button.on, .hp .hp-tabs button.on:hover, .hp .hp-tabs button.on:focus { border-color: transparent !important; background-clip: padding-box; }
