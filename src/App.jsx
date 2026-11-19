@@ -74,7 +74,7 @@ export default function App() {
                   <strong>10,000<small className="usdc">USDC</small></strong>
                 </div>
                 <div className="card mini-figure">
-                  <span className="label">Charity</span>
+                  <span className="label">Product Development</span>
                   <strong>10,000<small className="usdc">USDC</small></strong>
                 </div>
               </div>
