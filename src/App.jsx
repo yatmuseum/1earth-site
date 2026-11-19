@@ -99,6 +99,7 @@ export default function App() {
                     <span className="you-mint__equals" aria-hidden="true">=</span> 50/50 Entry
                   </span>
                 </div>
+                <p className="you-mint__xp"><span className="you-mint__xp-chip">+25,000 XP</span> with every Gold Frame</p>
                 <p className="you-mint__tags">Soulbound · Non-transferable · Mint # = Entry #</p>
                 <p className="you-mint__body">
                   More than an entry, each Gold Frame makes you a founding member of the{" "}
