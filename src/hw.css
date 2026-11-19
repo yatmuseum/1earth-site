@@ -352,3 +352,16 @@
   .hw2-rows { column-gap: 56px !important; }
   .hw2-rows .hw-ex-row { grid-template-columns: 112px minmax(0, 1fr) 118px !important; }
 }
+/* hero without the summary line: title left, button right */
+.hw2-hero { grid-template-columns: auto auto !important; justify-content: space-between !important; }
+/* three even tiles */
+.hw2-tiles { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+@media (max-width: 640px) { .hw2-tiles { grid-template-columns: 1fr !important; } }
+/* each bar is labelled with its share of the pool, just past the end of the fill */
+.hw-ex-row i { position: relative; overflow: visible !important; }
+.hw-pct { position: absolute; top: 50%; transform: translateY(-50%); font-style: normal; font-size: 11px; font-weight: 700; color: var(--label); white-space: nowrap; line-height: 1; pointer-events: none; }
+@media (min-width: 1100px) { .hw-pct { font-size: clamp(9.5px, 1.15vh, 12px); } }
+.hw2-logic p { font-weight: 400; }
+.hw-pct-m { display: none; font-style: normal; color: var(--label); font-size: 11px; }
+@media (max-width: 640px) { .hw-pct { display: none; } .hw-pct-m { display: inline; } }
+@media (max-width: 360px) { .hw-ex-row { grid-template-columns: minmax(0, 1fr) 46px auto !important; gap: 6px !important; font-size: 12px !important; } }

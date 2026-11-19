@@ -90,7 +90,6 @@ export default function HowItWorks() {
       <main className="hw-main hw2">
         <section className="hw-hero hw2-hero">
           <h1 className="rp-grad">How it Works</h1>
-          <p className="hw2-line"><b>10 USDC</b> weekly lottery on <b>Solana</b>, <b>100%</b> to the prize pool.</p>
           <a href="/demo" className="rp-btn hw-go hw2-go">Enter the draw</a>
         </section>
 
@@ -109,7 +108,6 @@ export default function HowItWorks() {
         <section className="hw2-sec hw2-dist">
           <h2 className="hw2-h">Where the money goes and how it’s distributed</h2>
           <div className="hw2-tiles">
-            <div className="hw-fact"><b className="rp-grad">10 USDC</b><p><strong>per entry</strong>Paid in USDC on Solana.</p></div>
             <div className="hw-fact"><b className="rp-grad">100%</b><p><strong>to the prize pool</strong>Nothing is taken out.</p></div>
             <div className="hw-fact"><b className="rp-grad">1 in 100</b><p><strong>entries wins a prize</strong>The top 1% of every draw.</p></div>
             <div className="hw-fact"><b className="rp-grad">250 USDC</b><p><strong>minimum prize</strong>25x your entry.</p></div>
@@ -125,12 +123,12 @@ export default function HowItWorks() {
               {S.rows.map(([pl, v]) => {
                 const share = (v * winnersIn(pl)) / Number(S.pool.replace(/,/g, "")) * 100; // this tier's share of the whole pool
                 return (
-                  <div key={pl} className="hw-ex-row" title={`${pl}: ${share.toFixed(1)}% of the prize pool`}><span>{pl}</span><i><em style={{ width: `${Math.max(0.8, share)}%` }} /></i><b>{u(v)} <small>USDC</small></b></div>
+                  <div key={pl} className="hw-ex-row" title={`${pl}: ${share.toFixed(1)}% of the prize pool`}><span>{pl}<span className="hw-pct-m"> · {share < 0.1 ? "<0.1" : share.toFixed(1)}%</span></span><i><em style={{ width: `${Math.max(0.8, share)}%` }} /><span className="hw-pct" style={{ left: `calc(${Math.max(0.8, share)}% + 8px)` }}>{share < 0.1 ? "<0.1" : share.toFixed(1)}%</span></i><b>{u(v)} <small>USDC</small></b></div>
                 );
               })}
             </div>
             <div className="hw2-logic">
-              <p><b>Our own payout logic.</b> Bar = that place’s share of the whole pool. Our open-source model spreads the pool so more players win meaningful prizes, not one top-heavy jackpot.</p>
+              <p>Our own open-source payout logic spreads the pool so more players win meaningful prizes, not one top-heavy jackpot or tiny, irrelevant wins. Each bar shows that place’s share of the whole pool.</p>
               <a href="/demo/payout-tables" className="hw-cta2">See how payouts are calculated →</a>
             </div>
           </div>
