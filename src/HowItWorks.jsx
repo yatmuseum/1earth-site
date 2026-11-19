@@ -20,6 +20,8 @@ const SCENARIOS = [
     ["2001 to 4000", 25000], ["4001 to 10000", 10000], ["10001 to 20000", 5000], ["20001 to 40000", 2500], ["40001 to 250000", 1000], ["250001 to 500000", 500], ["500001 to 1000000", 250]] },
 ];
 const u = (v) => v.toLocaleString("en-US");
+// How many winners a place label covers ("1st" = 1, "6th to 10th" = 5, "401 to 2500" = 2,100).
+const winnersIn = (label) => { const n = (label.match(/\d[\d,]*/g) || []).map((x) => Number(x.replace(/,/g, ""))); return n.length > 1 ? n[1] - n[0] + 1 : 1; };
 
 
 const Coin = () => (
@@ -147,9 +149,12 @@ export default function HowItWorks() {
                 </div>
               </div>
               <div className="hw-ex-rows">
-                {S.rows.map(([pl, v]) => (
-                  <div key={pl} className="hw-ex-row"><span>{pl}</span><i><em style={{ width: `${Math.max(1.2, (v / max) * 100)}%` }} /></i><b>{u(v)} <small>USDC</small></b></div>
-                ))}
+                {S.rows.map(([pl, v]) => {
+                  const share = (v * winnersIn(pl)) / Number(S.pool.replace(/,/g, "")) * 100; // this tier's share of the whole pool
+                  return (
+                  <div key={pl} className="hw-ex-row" title={`${pl}: ${share.toFixed(1)}% of the prize pool`}><span>{pl}</span><i><em style={{ width: `${Math.max(0.8, share)}%` }} /></i><b>{u(v)} <small>USDC</small></b></div>
+                  );
+                })}
               </div>
             </div>
           </div>
