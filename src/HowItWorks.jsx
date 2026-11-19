@@ -62,10 +62,10 @@ const Cycle = () => (
   </svg>);
 
 const STEPS = [
-  [Coin, "Enter", <>Pay <b>10 USDC</b> on Solana. Each entry mints a compressed, soulbound token, and its <b>edition number is your ticket number</b>.</>, "soulbound entry"],
-  [Clock, "Draw", <>Every <b>Saturday at 11:11 AM ET</b>, the contract gets verifiable randomness from ORAO VRF and picks the winners on-chain. Anyone can check the result.</>, "ORAO VRF"],
+  [Coin, "Enter", <><b>10 USDC</b> on <b>Solana</b>. Each entry mints a compressed, soulbound token, and its <b>edition number is your ticket number</b>.</>, "soulbound entry"],
+  [Clock, "Draw", <>Every <b>Saturday at 15:11 UTC</b>, the contract gets verifiable randomness from ORAO VRF and picks the winners on-chain. Anyone can check the result.</>, "ORAO VRF"],
   [Wallet, "Payout", <>Prizes go <b>straight to the winners’ wallets</b>, automatically. No claims process, no forms, no middleman.</>, "sent automatically"],
-  [Cycle, "Repeat", <>The draw <b>resets every week</b> and runs indefinitely. Enter again whenever you like.</>, "runs indefinitely"],
+  [Cycle, "Repeat", <>The draw <b>resets every week</b> and runs indefinitely.</>, "runs indefinitely"],
 ];
 const TRUST = [
   ["Provably fair", <>ORAO VRF proves every draw is random and untampered. <a href="/demo/provably-fair">See how to verify →</a></>],
@@ -87,20 +87,17 @@ export default function HowItWorks() {
         <a href="/demo" className="rp-back">← Back to demo</a>
       </header></div>
 
-      <main className="hw-main">
-        <section className="hw-hero">
+      <main className="hw-main hw2">
+        <section className="hw-hero hw2-hero">
           <h1 className="rp-grad">How it Works</h1>
-          <div className="hw-hero-r">
-            <p>A global weekly draw. <b>10 USDC entries on Solana</b>, winners picked on-chain every Saturday, and <b>every entry goes back to players</b>.</p>
-            <a href="/demo" className="rp-btn hw-go hw-go-top">Enter the draw</a>
-          </div>
+          <p className="hw2-line"><b>10 USDC</b> weekly lottery on <b>Solana</b>, <b>100%</b> to the prize pool.</p>
+          <a href="/demo" className="rp-btn hw-go hw2-go">Enter the draw</a>
         </section>
 
-        <section className="hw-sec">
-          <h2>Four steps, every week</h2>
-          <p className="hw-lead">From entry to payout, everything happens on-chain. There’s nothing to claim and no one in the middle.</p>
+        <section className="hw2-sec">
+          <h2 className="hw2-h">Four steps, every week</h2>
           <div className="hw-steps">
-            {STEPS.map(([Ill, t, d, cap], i) => (
+            {STEPS.map(([Ill, t, d], i) => (
               <article key={t} className="hw-step">
                 <span className="hw-num">{i + 1}</span>
                 <h3>{t}</h3><p>{d}</p>
@@ -109,60 +106,38 @@ export default function HowItWorks() {
           </div>
         </section>
 
-        <section className="hw-sec">
-          <h2>Where the money goes</h2>
-          <p className="hw-lead">Nothing is taken out of the prize pool. Every USDC from every entry is paid back to players.</p>
-          <div className="hw-money">
-            <div className="hw-facts">
-              <div className="hw-fact"><b className="rp-grad">10 USDC</b><p><strong>per entry</strong>Paid in USDC on Solana.</p></div>
-              <div className="hw-fact"><b className="rp-grad">100%</b><p><strong>to the prize pool</strong>Nothing is taken out.</p></div>
-              <div className="hw-fact"><b className="rp-grad">Top 1%</b><p><strong>paid</strong>1 in 100 entries wins.</p></div>
+        <section className="hw2-sec hw2-dist">
+          <h2 className="hw2-h">Where the money goes and how it’s distributed</h2>
+          <div className="hw2-tiles">
+            <div className="hw-fact"><b className="rp-grad">10 USDC</b><p><strong>per entry</strong>Paid in USDC on Solana.</p></div>
+            <div className="hw-fact"><b className="rp-grad">100%</b><p><strong>to the prize pool</strong>Nothing is taken out.</p></div>
+            <div className="hw-fact"><b className="rp-grad">1 in 100</b><p><strong>entries wins a prize</strong>The top 1% of every draw.</p></div>
+            <div className="hw-fact"><b className="rp-grad">250 USDC</b><p><strong>minimum prize</strong>25x your entry.</p></div>
+          </div>
+          <div className="hw-card hw-ex hw2-ex">
+            <div className="hw2-ex-top">
+              <h3 className="hw-card-t">Example payouts per {S.label} <span className="hw-pool">· {S.pool} USDC pool</span></h3>
+              <div className="hw-ex-tabs" role="tablist" aria-label="Example drawing size">
+                {SCENARIOS.map((x, i) => <button key={x.label} role="tab" aria-selected={i === sc} className={i === sc ? "on" : ""} onClick={() => setSc(i)}>{x.label.replace(" entries", "")}</button>)}
+              </div>
             </div>
-            <div className="hw-card hw-money-card">
-            <h3 className="hw-card-t">Share of ticket money paid back as prizes</h3>
-            <div className="hw-bars hw-money-bars">
-              <div className="hw-bar"><span>1-Earth</span><i><em style={{ width: "100%" }} /></i><b>100%</b></div>
-              <div className="hw-bar hw-bar--dim"><span>Typical lottery</span><i><em style={{ width: "50%" }} /></i><b>~50%</b></div>
+            <div className="hw-ex-rows hw2-rows" style={{ "--half": Math.ceil(S.rows.length / 2) }}>
+              {S.rows.map(([pl, v]) => {
+                const share = (v * winnersIn(pl)) / Number(S.pool.replace(/,/g, "")) * 100; // this tier's share of the whole pool
+                return (
+                  <div key={pl} className="hw-ex-row" title={`${pl}: ${share.toFixed(1)}% of the prize pool`}><span>{pl}</span><i><em style={{ width: `${Math.max(0.8, share)}%` }} /></i><b>{u(v)} <small>USDC</small></b></div>
+                );
+              })}
             </div>
-            <div className="hw-logic">
-              <p><b>Our own payout logic.</b> Winners are paid using 1-Earth’s open-source payout model, which spreads the pool so more players win meaningful prizes instead of one top-heavy jackpot.</p>
+            <div className="hw2-logic">
+              <p><b>Our own payout logic.</b> Bar = that place’s share of the whole pool. Our open-source model spreads the pool so more players win meaningful prizes, not one top-heavy jackpot.</p>
               <a href="/demo/payout-tables" className="hw-cta2">See how payouts are calculated →</a>
             </div>
-            </div>
           </div>
         </section>
 
-        <section className="hw-sec">
-          <h2>Who wins</h2>
-          <p className="hw-lead">Instead of one giant jackpot, prizes are spread so more players win something meaningful.</p>
-          <div className="hw-wins">
-            <div className="hw-facts">
-              <div className="hw-fact"><b className="rp-grad">1 in 100</b><p><strong>entries wins a prize</strong>The top 1% of every draw.</p></div>
-              <div className="hw-fact"><b className="rp-grad">250 USDC</b><p><strong>minimum prize</strong>25x your entry.</p></div>
-              <div className="hw-fact"><b className="rp-grad">100 entries</b><p><strong>max per wallet</strong>1,000 USDC per draw.</p></div>
-            </div>
-            <div className="hw-card hw-ex">
-              <div className="hw-ex-top">
-                <h3 className="hw-card-t">Example payouts per {S.label} <span className="hw-pool">· {S.pool} USDC pool</span></h3>
-                <div className="hw-ex-tabs" role="tablist" aria-label="Example drawing size">
-                  {SCENARIOS.map((x, i) => <button key={x.label} role="tab" aria-selected={i === sc} className={i === sc ? "on" : ""} onClick={() => setSc(i)}>{x.label.replace(" entries", "")}</button>)}
-                </div>
-              </div>
-              <div className="hw-ex-rows">
-                {S.rows.map(([pl, v]) => {
-                  const share = (v * winnersIn(pl)) / Number(S.pool.replace(/,/g, "")) * 100; // this tier's share of the whole pool
-                  return (
-                  <div key={pl} className="hw-ex-row" title={`${pl}: ${share.toFixed(1)}% of the prize pool`}><span>{pl}</span><i><em style={{ width: `${Math.max(0.8, share)}%` }} /></i><b>{u(v)} <small>USDC</small></b></div>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="hw-sec">
+        <section className="hw2-trust">
           <h2>Don’t trust us. Check it.</h2>
-          <p className="hw-lead">Every rule is in public code, and every entry and payout is on Solana’s public ledger.</p>
           <div className="hw-trust">
             {TRUST.map(([t, d]) => <div key={t} className="hw-tr" tabIndex={0}><span className="hw-dot" /><div><h3>{t}</h3><p>{d}</p></div></div>)}
           </div>
