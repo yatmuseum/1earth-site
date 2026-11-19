@@ -332,3 +332,6 @@ a.demo-x:hover, a.demo-x:focus-visible { border-color: #14F195; }
   .demo-hero { padding-top: 1.3vh; }
   .demo-entries { margin-top: 1.9vh !important; }
 }
+/* glow evenly all the way around the globe (it used to sit only below it) */
+.demo-globe img { box-shadow: 0 0 46px 6px rgba(153, 69, 255, .32); }
+@keyframes demoGlow { 0% { box-shadow: 0 0 46px 6px rgba(153,69,255,.32); } 30% { box-shadow: 0 0 60px 18px rgba(20,241,149,.55); } 100% { box-shadow: 0 0 46px 6px rgba(153,69,255,.32); } }
