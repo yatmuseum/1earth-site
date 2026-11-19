@@ -198,6 +198,7 @@ export default function MintCard() {
       setMessage({ kind: "success", count: qty, text: `Done! ${qty} Gold Frame${qty === 1 ? "" : "s"} minted to your wallet.` });
       setStatusLocally((s) => ({ ...s, minted: (s.minted ?? 0) + qty })); // show it right away
       setTimeout(refreshStatus, 16000); // then confirm from the chain
+      window.dispatchEvent(new Event("frames-minted")); // the XP pill refreshes
     } catch (e) {
       const text = /reject|cancel/i.test(e.message) ? "You cancelled in your wallet. Nothing was charged." : e.message;
       setMessage({ kind: "error", text });

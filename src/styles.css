@@ -895,3 +895,9 @@ button { font: inherit; color: inherit; }
 @media (max-width: 600px) { .site-brand .rp-preview, .site-brand .demo-flag { display: none; } }
 .rp > .page { width: 100%; box-sizing: border-box; }
 @media (min-width: 561px) and (max-width: 960px) { .page > .topbar { min-height: 56px; } }
+
+/* XP pill beside the wallet button (shows once a wallet is connected) */
+.top-actions { display: flex; align-items: center; gap: 10px; }
+.xp-pill { display: inline-flex; align-items: center; gap: 6px; height: 42px; padding: 0 16px; border-radius: 999px; background: var(--card); border: 1.5px solid var(--line); color: var(--ink); font-weight: 700; font-size: 15px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.xp-pill small { font-size: 11px; letter-spacing: .08em; color: var(--label); }
+@media (max-width: 560px) { .top-actions { gap: 6px; } .xp-pill { height: 36px; padding: 0 10px; font-size: 13px; } }

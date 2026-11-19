@@ -197,6 +197,16 @@ const RPC_ALLOWED = new Set([
   "sendTransaction", "getSignatureStatuses", "getBlockHeight", "getLatestBlockhash",
 ]);
 
+// XP shown on the site: 25,000 XP per Gold Frame held by the wallet. Read-only; it only counts
+// the wallet's Gold Frames in the collection (cached ~20 s by ownedBy). XP has no cash value.
+const XP_PER_FRAME = 25000;
+async function xpFor(request, env) {
+  const owner = new URL(request.url).searchParams.get("owner") || "";
+  try { new PublicKey(owner); } catch { return json({ error: "Invalid wallet address" }, 400); }
+  const frames = await ownedBy(env, owner);
+  return json({ frames, xp: frames * XP_PER_FRAME, xpPerFrame: XP_PER_FRAME });
+}
+
 async function rpcRelay(request, env) {
   if (request.method !== "POST") return json({ error: "Use POST" }, 405);
   const origin = request.headers.get("origin");
@@ -234,6 +244,7 @@ export default {
         });
       }
       if (url.pathname === "/api/status") return json(await status(env));
+      if (url.pathname === "/api/xp") return await xpFor(request, env);
       if (url.pathname === "/api/mint") return await mint(request, env);
       if (url.pathname === "/api/rpc") return await rpcRelay(request, env);
       if (url.pathname === "/api/cosign") return await cosign(request, env);

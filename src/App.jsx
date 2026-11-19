@@ -1,5 +1,6 @@
 import { useStatus } from "./status.js";
 import ConnectButton from "./ConnectButton.jsx";
+import XpPill from "./XpPill.jsx";
 import MintCard from "./MintCard.jsx";
 import { MINT, PRIZES } from "./config.js";
 
@@ -18,7 +19,10 @@ export default function App() {
             <img src="/globe.webp" alt="" width="46" height="46" />
             <span>1-Earth</span>
           </a>
-          <ConnectButton />
+          <div className="top-actions">
+            <XpPill />
+            <ConnectButton />
+          </div>
         </header>
 
         <main id="top">
