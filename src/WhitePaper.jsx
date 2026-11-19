@@ -13,7 +13,7 @@ export default function WhitePaper() {
         <div className="tc-card">
           <span className="tc-badge">Coming soon</span>
           <h1 className="rp-grad">White Paper</h1>
-          <p>The 1-Earth white paper, covering how the protocol, drawings and payouts work, is being written.</p>
+          <p>Our full white paper, including how the protocol, drawings and payouts work, is being finalized with our team.</p>
         </div>
       </main>
     </div>

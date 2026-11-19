@@ -11,3 +11,4 @@
 .tc-links a { display: inline-flex; align-items: center; height: 42px; padding: 0 16px; border-radius: 999px; border: 1.5px solid var(--line); background: color-mix(in srgb, var(--bg) 55%, var(--card)); color: var(--ink); text-decoration: none; font-weight: 600; font-size: 15px; }
 .tc-links a:hover { background: color-mix(in srgb, var(--card) 85%, var(--ink)); }
 @media (min-width: 901px) { .tc { height: 100svh; overflow: hidden; } }
+.tc-card h1 { display: table !important; margin: 18px auto 0 !important; }
