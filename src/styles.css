@@ -901,3 +901,8 @@ button { font: inherit; color: inherit; }
 .xp-pill { display: inline-flex; align-items: center; gap: 6px; height: 42px; padding: 0 16px; border-radius: 999px; background: var(--card); border: 1.5px solid var(--line); color: var(--ink); font-weight: 700; font-size: 15px; white-space: nowrap; font-variant-numeric: tabular-nums; }
 .xp-pill small { font-size: 11px; letter-spacing: .08em; color: var(--label); }
 @media (max-width: 560px) { .top-actions { gap: 6px; } .xp-pill { height: 36px; padding: 0 10px; font-size: 13px; } }
+
+/* X (Twitter) link in the header, same pill style as the XP pill */
+.x-link { display: inline-grid; place-items: center; width: 42px; height: 42px; border-radius: 999px; background: var(--card); border: 1.5px solid var(--line); color: var(--ink); font-size: 18px; text-decoration: none; flex: none; }
+.x-link:hover, .x-link:focus-visible { border-color: #14F195; }
+@media (max-width: 560px) { .x-link { width: 36px; height: 36px; font-size: 16px; } }

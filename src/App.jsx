@@ -20,6 +20,7 @@ export default function App() {
             <span>1-Earth</span>
           </a>
           <div className="top-actions">
+            <a className="x-link" href="https://x.com/1earthh" target="_blank" rel="noopener noreferrer" aria-label="1-Earth on X">𝕏</a>
             <XpPill />
             <ConnectButton />
           </div>
