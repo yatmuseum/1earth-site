@@ -233,3 +233,8 @@ body .pd-empty h2, body .pd-draw h2, body .pd-how h2 { font-family: var(--displa
   .rp-head-r p { text-align: center !important; max-width: 46ch !important; font-size: clamp(12.5px, 1.6vh, 16.5px) !important; }
 }
 @media (min-width: 901px) { .rp-head-r p { white-space: normal !important; } }
+/* "How long?" buttons: no green edge after clicking, in any browser or state */
+.rp .rp-durs button, .rp .rp-durs button:focus, .rp .rp-durs button:focus-visible, .rp .rp-durs button:active {
+  outline: none !important; box-shadow: none !important; -webkit-tap-highlight-color: transparent; }
+.rp .rp-durs button.on, .rp .rp-durs button.on:focus, .rp .rp-durs button.on:active { border-color: transparent !important; background-clip: padding-box; }
+.rp .rp-durs button:not(.on):focus-visible { border-color: var(--ink) !important; }
