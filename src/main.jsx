@@ -16,6 +16,7 @@ import HowItWorks from "./HowItWorks.jsx";
 import HowToPlay from "./HowToPlay.jsx";
 import Terms from "./Terms.jsx";
 import WhitePaper from "./WhitePaper.jsx";
+import "./wp.css";
 import XP from "./XP.jsx";
 import "./xp.css";
 import "./tc.css";

@@ -1,0 +1,51 @@
+/* /demo/whitepaper: a paper "cover" on the left, contents and actions on the right */
+.wp { color: var(--ink); font-family: var(--body); min-height: 100svh; }
+.wp > .page { width: 100%; box-sizing: border-box; }
+.wp-main { max-width: 1344px; margin: 0 auto; padding: 24px 2rem 48px; box-sizing: border-box; display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: clamp(28px, 5vw, 80px); align-items: center; }
+
+/* the cover: a stack of sheets, the top one light like printed paper */
+.wp-cover { position: relative; display: block; justify-self: center; width: min(400px, 100%); aspect-ratio: 8.5 / 11; text-decoration: none; color: #15132b; }
+.wp-sheet { position: absolute; inset: 0; border-radius: 10px; background: #f6f5fb; box-shadow: 0 30px 70px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.06); display: flex; flex-direction: column; padding: 11% 10% 8%; box-sizing: border-box; z-index: 3; transition: transform .25s ease; }
+.wp-sheet::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 8px; border-radius: 10px 10px 0 0; background: linear-gradient(90deg, #9945FF, #14F195); }
+.wp-sheet--back { z-index: 2; transform: rotate(-4deg) translate(-14px, 8px); background: #d9d7e8; box-shadow: 0 20px 50px rgba(0,0,0,.45); }
+.wp-sheet--back::before, .wp-sheet--back2::before { display: none; }
+.wp-sheet--back2 { z-index: 1; transform: rotate(3deg) translate(14px, 10px); background: #bdbad3; box-shadow: 0 20px 50px rgba(0,0,0,.4); }
+.wp-cover:hover .wp-sheet:not(.wp-sheet--back):not(.wp-sheet--back2), .wp-cover:focus-visible .wp-sheet:not(.wp-sheet--back):not(.wp-sheet--back2) { transform: translateY(-6px); }
+.wp-globe { width: 22%; border-radius: 50%; box-shadow: 0 6px 18px rgba(20,19,43,.25); }
+.wp-kicker { margin: 14% 0 0; font-weight: 700; font-size: clamp(13px, 1.5vw, 16px); color: #5b5878; }
+.wp-sheet h2 { margin: 4px 0 0; font-family: var(--display); font-weight: 800; font-size: clamp(34px, 4.4vw, 54px); line-height: 1; letter-spacing: -0.02em; color: #15132b; }
+.wp-sub { margin: 7% 0 0; font-size: clamp(13px, 1.35vw, 16px); line-height: 1.5; color: #3f3c5c; max-width: 26ch; }
+.wp-sheet-foot { margin-top: auto; display: flex; justify-content: space-between; padding-top: 12px; border-top: 1px solid #dddbe9; font-size: 13px; font-weight: 600; color: #6d6a8a; }
+
+/* right column */
+.wp-info h1 { margin: 0; display: inline-block; font-family: var(--display); font-weight: 800; font-size: clamp(40px, 5.2vw, 68px); line-height: 1.05; letter-spacing: -0.02em; }
+.wp-lead { margin: 14px 0 0; max-width: 60ch; color: var(--label); font-size: 17px; line-height: 1.6; }
+.wp-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 16px; margin-top: 24px; }
+.wp-btn { display: inline-flex !important; align-items: center; margin: 0 !important; text-decoration: none; padding: 0 26px !important; }
+.wp-btn2 { display: inline-flex; align-items: center; height: 54px; padding: 0 22px; border-radius: 12px; border: 1.5px solid var(--line); color: var(--ink); text-decoration: none; font-weight: 700; font-size: 16px; }
+.wp-btn2:hover { border-color: var(--ink); }
+.wp-meta { color: var(--label); font-size: 14px; }
+.wp-toc { margin-top: 30px; padding-top: 22px; border-top: 1px solid var(--line); }
+.wp-toc h3 { margin: 0 0 12px; font-family: var(--display); font-weight: 800; font-size: 20px; }
+.wp-toc ol { margin: 0; padding-left: 1.6em; columns: 2; column-gap: 40px; color: var(--label); font-size: 15px; line-height: 1.85; }
+.wp-toc li::marker { color: #14F195; font-weight: 700; }
+.wp-toc .wp-apx { margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--line); }
+
+@media (max-width: 900px) {
+  .wp-main { grid-template-columns: 1fr; gap: 36px; padding-top: 12px; }
+  .wp-cover { width: min(300px, 78%); }
+  .wp-toc ol { columns: 1; }
+}
+@media (min-width: 901px) {
+  .wp { height: 100svh; display: flex; flex-direction: column; overflow: hidden; }
+  .wp-main { flex: 1; min-height: 0; width: 100%; padding-top: 1vh; padding-bottom: 3vh; }
+  .wp-cover { width: auto; height: min(74vh, 560px); max-width: 100%; }
+  .wp-info h1 { font-size: clamp(34px, 6vh, 68px); }
+  .wp-lead { font-size: clamp(13.5px, 1.7vh, 17px); margin-top: 1.4vh; }
+  .wp-actions { margin-top: 2.4vh; }
+  .wp-btn, .wp-btn2 { height: clamp(42px, 5.4vh, 56px) !important; }
+  .wp-toc { margin-top: 3vh; padding-top: 2.2vh; }
+  .wp-toc h3 { font-size: clamp(15px, 2vh, 20px); margin-bottom: 1.2vh; }
+  .wp-toc ol { font-size: clamp(12px, 1.5vh, 15.5px); line-height: 1.75; }
+}
+@media (prefers-reduced-motion: reduce) { .wp-sheet { transition: none; } }
