@@ -37,7 +37,6 @@ export default function WhitePaper() {
           <p className="wp-lead">How the 1-Earth protocol works: the weekly draw, the payout model, how anyone can verify a result, and the low-cost technology behind it. This is a working draft; the audit and legal review are still to come.</p>
           <div className="wp-actions">
             <a className="rp-btn wp-btn" href={PDF} target="_blank" rel="noopener noreferrer">Read the white paper</a>
-            <a className="wp-btn2" href={PDF} download="1-Earth-White-Paper.pdf">Download PDF</a>
             <span className="wp-meta">PDF, 21 pages</span>
           </div>
 
