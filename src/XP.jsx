@@ -36,7 +36,7 @@ export default function XP() {
         <div className="xp-halves">
           {/* ---------- Participate: Frame mint participants (details to come) ---------- */}
           <section className="xp-half">
-            <div className="xp-half-head"><span className="xp-tag">Participants</span><h2>Frame mints</h2></div>
+            <div className="xp-half-head"><h2>Frame Mint</h2><span className="xp-tag">Participants</span></div>
             <div className="xp-grid4">
               {PART_STATS.map(([l, v, sub]) => <div key={l} className="xp-stat"><span className="xp-lbl">{l}</span><b>{v}</b><small>{sub}</small></div>)}
             </div>
@@ -53,14 +53,14 @@ export default function XP() {
 
           {/* ---------- Use: playing the protocol ---------- */}
           <section className="xp-half">
-            <div className="xp-half-head"><span className="xp-tag">Users</span><h2>Play the protocol</h2></div>
+            <div className="xp-half-head"><h2>Protocol</h2><span className="xp-tag">Users</span></div>
             <div className="xp-grid4">
               {USE_STATS.map(([l, v, s]) => <div key={l} className="xp-stat"><span className="xp-lbl">{l}</span><b>{v}</b><small>{s}</small></div>)}
             </div>
             <div className="xp-use-row">
               <div className="xp-card xp-formula">
                 <h3>How much XP each entry earns</h3>
-                <div className="xp-eq"><span>XP per entry</span><i>=</i><div className="xp-frac"><b className="rp-grad">10,000,000</b><em>entries that week</em></div></div>
+                <div className="xp-eq"><span>XP per entry</span><i>=</i><div className="xp-frac"><b className="xp-white">10,000,000</b><em>entries that week</em></div></div>
                 <p><b>Fewer entries, bigger share.</b> The 10,000,000 XP is the same every week, so earlier weeks pay more XP per entry.</p>
               </div>
               <div className="xp-card xp-table">
