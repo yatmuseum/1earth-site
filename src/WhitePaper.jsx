@@ -8,7 +8,7 @@ const SECTIONS = [
   "Responsible play and player protection", "XP loyalty program", "Sustainability and operations",
   "Legal and regulatory considerations", "Risks and disclosures", "Roadmap", "Conclusion",
 ];
-const APPENDICES = ["Full payout tables", "Glossary", "Contract addresses", "Audit reports"];
+const APPENDICES = ["Glossary", "Contract addresses", "Audit reports"];
 
 export default function WhitePaper() {
   useEffect(() => { document.title = "White Paper · 1-Earth"; }, []);
