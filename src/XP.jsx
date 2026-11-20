@@ -30,6 +30,7 @@ export default function XP() {
         <section className="xp-head">
           <h1 className="rp-grad">XP: Participants &amp; Users</h1>
           <p>Earn XP by Participating in the Frame Mints and Using the Protocol.</p>
+          <span className="xp-supply"><b>Fixed supply:</b> 500,000,000 XP total, forever</span>
         </section>
 
         <div className="xp-halves">

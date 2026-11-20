@@ -75,3 +75,12 @@
 .xp-table-foot { margin-top: auto !important; padding-top: 1vh; color: var(--label); }
 .xp-table-foot b { color: var(--ink); }
 @media (max-width: 640px) { .xp-table { overflow-x: auto; } .xp-table td, .xp-table th { white-space: normal; font-size: 13px !important; padding-left: 3px; padding-right: 3px; } }
+
+/* fixed-supply badge in the header */
+.xp-supply { margin-left: auto; display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: 999px; border: 1.5px solid rgba(20,241,149,.45); background: rgba(20,241,149,.08); color: var(--label); font-size: 14px; white-space: nowrap; }
+.xp-supply b { color: #14F195; }
+@media (min-width: 1100px) { .xp-head { flex-wrap: nowrap; align-items: center; } .xp-supply { font-size: clamp(11px, 1.4vh, 14.5px); padding: .6vh 14px; } }
+@media (max-width: 1099px) { .xp-supply { margin-left: 0; white-space: normal; } }
+.xp-head h1 { white-space: nowrap; }
+@media (min-width: 1100px) { .xp-head p { flex: 1 1 auto; min-width: 0; } }
+@media (max-width: 1099px) { .xp-head h1 { white-space: normal; } }
