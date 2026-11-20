@@ -115,7 +115,7 @@ export default function ResponsiblePlay() {
           </div>
         </section>
 
-        <p className="rp-foot">Limits and breaks apply to entries made through the official 1-Earth site. You must be 18 or older, or the legal age where you live, to play.</p>
+        <p className="rp-onchain"><b>Recorded on Solana.</b> Your limit or break is saved on-chain and checked by the 1-Earth contract on every entry, on any website, so it can’t be bypassed. Saving it costs a small network fee in SOL: a fraction of a cent, plus a small one-time deposit. You must be 18 or older, or the legal age where you live, to play.</p>
       </main>
     </div>
   );
