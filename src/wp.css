@@ -49,3 +49,8 @@
   .wp-toc ol { font-size: clamp(12px, 1.5vh, 15.5px); line-height: 1.75; }
 }
 @media (prefers-reduced-motion: reduce) { .wp-sheet { transition: none; } }
+
+/* "Appendices" label after the dashed line, matching the Contents heading */
+.wp-apx-h { margin: 12px 0 6px; padding-top: 12px; border-top: 1px dashed var(--line); font-family: var(--display); font-weight: 800; font-size: 15px; color: var(--ink); }
+.wp-toc .wp-apx { margin-top: 0 !important; padding-top: 0 !important; border-top: 0 !important; }
+@media (min-width: 901px) { .wp-apx-h { margin: 1.2vh 0 .6vh; padding-top: 1.2vh; font-size: clamp(12.5px, 1.6vh, 16px); } }
