@@ -42,7 +42,7 @@ const isPT = /^\/demo\/payout-tables\/?$/i.test(path);
 const isHW = /^\/demo\/how-it-works\/?$/i.test(path);
 const isHP = /^\/demo\/how-to-play\/?$/i.test(path);
 const isTC = /^\/demo\/terms\/?$/i.test(path);
-const isWP = /^\/demo\/whitepaper\/?$/i.test(path);
+const isWP = /^\/(demo\/whitepaper|white-paper)\/?$/i.test(path);
 const isXP = /^\/demo\/xp\/?$/i.test(path);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

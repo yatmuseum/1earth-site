@@ -257,6 +257,30 @@ export default {
       console.error(e);
       return json({ error: "Something went wrong. Please try again." }, 500);
     }
+    if (url.pathname === "/white-paper" || url.pathname === "/demo/whitepaper") return whitePaperPage(request, env, url);
     return env.ASSETS.fetch(request);
   },
 };
+
+// The white paper page with its own link preview, so it looks good when shared on X, iMessage and others.
+// Link-preview robots don't run the site's JavaScript, so the preview tags are written into the page here.
+async function whitePaperPage(request, env, url) {
+  const page = await env.ASSETS.fetch(new Request(new URL("/", url).toString(), request));
+  const title = "1-Earth White Paper";
+  const text = "The weekly, verifiable lottery on Solana. 100% of every entry goes to the prize pool.";
+  const image = "https://1-earth.io/og-whitepaper.png";
+  const link = "https://1-earth.io/white-paper";
+  const set = (value) => ({ element(el) { el.setAttribute("content", value); } });
+  return new HTMLRewriter()
+    .on("title", { element(el) { el.setInnerContent(title); } })
+    .on('meta[name="description"]', set(text))
+    .on('meta[property="og:title"]', set(title))
+    .on('meta[property="og:description"]', set(text))
+    .on('meta[property="og:image"]', set(image))
+    .on('meta[property="og:url"]', set(link))
+    .on('meta[property="og:type"]', set("article"))
+    .on('meta[name="twitter:title"]', set(title))
+    .on('meta[name="twitter:description"]', set(text))
+    .on('meta[name="twitter:image"]', set(image))
+    .transform(page);
+}
