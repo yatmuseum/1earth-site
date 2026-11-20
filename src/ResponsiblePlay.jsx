@@ -24,7 +24,7 @@ export default function ResponsiblePlay() {
   const [note1, setNote1] = useState("");
   const [note2, setNote2] = useState("");
 
-  useEffect(() => { document.title = "Responsible play · 1-Earth"; }, []);
+  useEffect(() => { document.title = "Responsible Play · 1-Earth"; }, []);
 
   const preview = "Demo only: limits and breaks aren’t active yet. They’ll work when the protocol launches.";
   const saveLimit = () => {
@@ -48,7 +48,7 @@ export default function ResponsiblePlay() {
 
       <main className="rp-main">
         <section className="rp-head">
-          <h1 className="rp-grad">Responsible play</h1>
+          <h1 className="rp-grad">Responsible Play</h1>
           <div className="rp-head-r">
             <p>Play for fun, within limits you choose. Set a cap on your entries or take a break whenever you need to.</p>
           </div>
