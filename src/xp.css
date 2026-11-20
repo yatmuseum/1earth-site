@@ -111,3 +111,11 @@
   .xp-head { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important; column-gap: 22px !important; align-items: baseline !important; }
   .xp-mid { justify-self: stretch; align-self: baseline !important; }
 }
+/* top of the intro text level with the top of the title's letters; both lines centered over the right box */
+@media (min-width: 1100px) {
+  .xp-head { --f1: clamp(28px, 4.8vh, 56px); --fp: clamp(11.5px, min(1.5vh, 0.95vw), 15.5px); align-items: start !important; }
+  .xp-head h1 { font-size: var(--f1) !important; }
+  .xp-mid p { font-size: var(--fp) !important; }
+  .xp-mid { align-self: start !important; margin-top: calc(var(--f1) * var(--a, 0.2) - var(--fp) * var(--b, 0.3)); }
+}
+@media (min-width: 1100px) { .xp-head .xp-mid { margin-top: 1px !important; } }
