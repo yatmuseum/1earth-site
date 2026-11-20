@@ -22,7 +22,7 @@ export default function XP() {
   return (
     <div className="xp">
       <div className="page"><header className="topbar">
-        <div className="site-brand"><a href="/" className="brand"><img src="/globe.webp" alt="" width="46" height="46" /><span>1-Earth</span></a><span className="rp-preview">Demo · details may change</span></div>
+        <div className="site-brand"><a href="/" className="brand"><img src="/globe.webp" alt="" width="46" height="46" /><span>1-Earth</span></a></div>
         <a href="/demo" className="rp-back">← Back to demo</a>
       </header></div>
 
