@@ -101,3 +101,13 @@
   .xp-mid .xp-supply2 { position: absolute; left: 0; right: 0; top: calc(100% + 4px); }
   .xp-head { padding-bottom: clamp(16px, 2.2vh, 26px); }
 }
+/* the two header lines sit centered over the right-hand (Protocol) box: same columns as the boxes below */
+@media (min-width: 1100px) {
+  .xp-head { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important; gap: 22px !important; }
+  .xp-mid { justify-self: stretch; }
+}
+/* header lines centered over the right-hand box, sitting on the same baseline as the title */
+@media (min-width: 1100px) {
+  .xp-head { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important; column-gap: 22px !important; align-items: baseline !important; }
+  .xp-mid { justify-self: stretch; align-self: baseline !important; }
+}
