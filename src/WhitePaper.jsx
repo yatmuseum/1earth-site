@@ -42,7 +42,7 @@ export default function WhitePaper() {
           <div className="wp-toc">
             <h3>Contents</h3>
             <ol>{SECTIONS.map((t) => <li key={t}>{t}</li>)}</ol>
-            <h4 className="wp-apx-h">Appendices</h4>
+            <h3 className="wp-apx-h">Appendices</h3>
             <ol className="wp-apx" type="A">{APPENDICES.map((t) => <li key={t}>{t}</li>)}</ol>
           </div>
         </section>
