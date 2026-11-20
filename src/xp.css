@@ -95,3 +95,9 @@
   .xp-mid p { white-space: nowrap; font-size: clamp(11.5px, min(1.5vh, 0.95vw), 15.5px) !important; }
 }
 @media (max-width: 1099px) { .xp-mid { align-items: flex-start; text-align: left; } }
+/* the intro line sits level with the title; the fixed-supply line hangs just below it */
+@media (min-width: 1100px) {
+  .xp-mid { position: relative; }
+  .xp-mid .xp-supply2 { position: absolute; left: 0; right: 0; top: calc(100% + 4px); }
+  .xp-head { padding-bottom: clamp(16px, 2.2vh, 26px); }
+}
