@@ -12,9 +12,10 @@ const STEPS = [
     <>Write your <b>recovery phrase</b> (12 or 24 words) on paper and keep it somewhere safe.</>,
   ], <>Never share your recovery phrase. Anyone who has it can take everything. 1-Earth will never ask for it.</>],
   ["Add USDC and SOL", [
-    <>You need <b>10 USDC per entry</b> (up to 100 per draw) and a little <b>SOL</b>, about 1 USDC worth, for network fees.</>,
+    <>You need <b>10 USDC per entry</b> (up to 100 per draw) and a little <b>SOL</b>, about $1 worth, for network fees.</>,
     <><b>In your wallet:</b> tap <b>Buy</b>, choose <b>USDC (Solana)</b> and pay by card or bank. Buy SOL the same way.</>,
     <><b>Or from an exchange:</b> withdraw USDC and SOL to your wallet’s Solana address. Send a small test first.</>,
+    <><b>Fees vary:</b> some apps and exchanges charge to buy or send USDC. Paying by bank transfer is usually cheapest, but the funds may be held for a few days before you can send them.</>,
   ], <>Always pick the <b>Solana</b> network. Sending on another network can lose the money for good.</>],
   ["Connect", [
     <>Go to <b>1-earth.io</b>. Type it yourself or use a bookmark, never a link from a message.</>,
@@ -82,7 +83,7 @@ export default function HowToPlay() {
             <div className="hp-steps">
               {STEPS.map(([t, items, warn], i) => (
                 <div key={t} className="hp-card hp-step">
-                  <div className="hp-step-head"><span className="hp-num">{i + 1}</span><h3>{t}</h3>{i < 2 && <em>once</em>}</div>
+                  <div className="hp-step-head"><span className="hp-num">{i + 1}</span><h3>{t}</h3>{i === 0 && <em>once</em>}</div>
                   <ul>{items.map((x, k) => <li key={k}>{x}</li>)}</ul>
                   {warn && <p className="hp-warn"><span>{warn}</span></p>}
                 </div>
