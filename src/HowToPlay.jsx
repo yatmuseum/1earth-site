@@ -2,14 +2,8 @@
 // Four tabs keep the whole guide on one screen on computers.
 import { useEffect, useState } from "react";
 
-const TABS = ["What you need", "Step by step", "Send and receive", "Safety and security"];
+const TABS = ["Step by step", "Safety and security"];
 
-const NEED = [
-  ["wallet", "A Solana wallet", "A free app like MetaMask, Phantom, Solflare or Backpack."],
-  ["10 USDC", "USDC on Solana", "10 USDC per entry. Up to 100 entries (1,000 USDC) per draw."],
-  ["~1 USDC", "A little SOL", "Pays the network fee, a fraction of a cent per entry. About 1 USDC worth lasts a long time."],
-  ["18+", "An eligible country", <>You must be of legal age and live where 1-Earth is available. See the <a href="/demo/terms">Terms &amp; Conditions</a>.</>],
-];
 
 const STEPS = [
   ["Get a wallet", [
@@ -18,47 +12,32 @@ const STEPS = [
     <>Write your <b>recovery phrase</b> (12 or 24 words) on paper and keep it somewhere safe.</>,
   ], <>Never share your recovery phrase. Anyone who has it can take everything. 1-Earth will never ask for it.</>],
   ["Add USDC and SOL", [
-    <><b>In your wallet:</b> tap <b>Buy</b>, choose <b>USDC (Solana)</b> and pay with a card or bank. Buy a little <b>SOL</b> the same way.</>,
-    <><b>Or on an exchange:</b> buy USDC and a little SOL, tap <b>Withdraw</b>, paste your wallet’s Solana address and pick the <b>Solana</b> network.</>,
-    <>Send a small test amount first, then the rest.</>,
+    <>You need <b>10 USDC per entry</b> (up to 100 per draw) and a little <b>SOL</b>, about 1 USDC worth, for network fees.</>,
+    <><b>In your wallet:</b> tap <b>Buy</b>, choose <b>USDC (Solana)</b> and pay by card or bank. Buy SOL the same way.</>,
+    <><b>Or from an exchange:</b> withdraw USDC and SOL to your wallet’s Solana address. Send a small test first.</>,
   ], <>Always pick the <b>Solana</b> network. Sending on another network can lose the money for good.</>],
   ["Connect", [
     <>Go to <b>1-earth.io</b>. Type it yourself or use a bookmark, never a link from a message.</>,
     <>Tap <b>Connect wallet</b> and choose your wallet.</>,
     <>Approve the connection in your wallet.</>,
   ]],
-  ["Pick your entries", [
-    <>Choose how many entries you want: <b>10 USDC</b> each, up to <b>100 per draw</b>.</>,
+  ["Mint your entries", [
+    <>Choose how many entries to mint: <b>10 USDC</b> each, up to <b>100 per draw</b>.</>,
     <>Tap <b>Play</b>, check the total and approve it in your wallet.</>,
-    <>Each entry arrives as a soulbound token. Its <b>edition number is your ticket number</b>.</>,
+    <>Each entry is minted to your wallet as a soulbound token. Its <b>edition number is your ticket number</b>.</>,
   ]],
   ["Wait for the draw", [
-    <>The draw happens every <b>Saturday at 11:11 AM ET</b>.</>,
+    <>The draw happens every <b>Saturday at 15:11 UTC</b>.</>,
     <>Winners are picked on-chain with verifiable randomness from ORAO VRF.</>,
-    <>Entries close before the draw. Anything after goes into next week’s.</>,
+    <>Entries close before the draw. Anything minted after goes into next week’s.</>,
   ]],
-  ["Get paid", [
-    <>If you win, your prize is sent <b>straight to your wallet</b> in USDC. There’s nothing to claim.</>,
-    <>Check results anytime on <a href="/PastDraws">Past Draws</a>.</>,
-    <>To cash out, send USDC to an exchange and withdraw to your bank.</>,
+  ["Get paid and cash out", [
+    <>If you win, your prize is sent <b>straight to your wallet</b> in USDC. There’s nothing to claim. Check results on <a href="/PastDraws">Past Draws</a>.</>,
+    <><b>To cash out:</b> on your exchange, tap <b>Deposit</b>, pick <b>USDC on Solana</b> and copy the address. Send your USDC there, then sell and withdraw to your bank.</>,
+    <>Prize winnings may be taxable where you live. Keep a record of what you win.</>,
   ]],
 ];
 
-const MONEY = [
-  ["Receive", ["Open your wallet and tap Receive.", "Pick USDC on Solana.", "Share your address or QR code with whoever is sending. It’s safe to share: it only lets people send to you."]],
-  ["Send", ["Tap Send and choose USDC.", "Paste the address and check that the whole address matches.", "Enter the amount and confirm the network is Solana.", "New address? Send a small test first, then the rest."]],
-  ["Cash out", ["On your exchange, tap Deposit, pick USDC on the Solana network and copy the address.", "Send your USDC there from your wallet.", "Sell for your local currency and withdraw to your bank."]],
-];
-const ADDR_TIPS = [
-  [true, "Copy and paste or scan the QR code. Never type an address by hand."],
-  [true, "Check the whole address, every character, against the one you meant to send to."],
-  [true, "Save trusted addresses in your wallet’s address book."],
-  [true, "A Solana address is 32 to 44 letters and numbers. One starting with 0x is a different network."],
-  [true, "Send a small test to any new address and confirm it arrived."],
-  [true, "Verify on the blockchain: open the transaction in Solscan or Solana Explorer."],
-  [false, "Don’t copy from your transaction history. Scammers send tiny amounts from look-alike addresses."],
-  [false, "Re-check after pasting. Some malware swaps the address in your clipboard."],
-];
 
 const HABITS = [
   [true, "Check the URL", "The only official site is 1-earth.io. Bookmark it."],
@@ -100,21 +79,6 @@ export default function HowToPlay() {
 
         <div className="hp-panel">
           {tab === 0 && (
-            <div className="hp-need">
-              <p className="hp-lead">Check you have everything before you start.</p>
-              <div className="hp-need-grid">
-                {NEED.map(([big, t, d], i) => <div key={t} className="hp-card hp-need-card"><span className="hp-num">{i + 1}</span><b className="hp-big">{big === "wallet"
-                  ? <svg viewBox="0 0 48 40" width="1.25em" height="1.05em" aria-label="Wallet" role="img" fill="none" stroke="currentColor" strokeWidth="3.4" strokeLinejoin="round"><path d="M6 10h32a4 4 0 0 1 4 4v20a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V8a4 4 0 0 1 4-4h26v6"/><path d="M42 20H33a4 4 0 0 0 0 8h9"/><circle cx="34" cy="24" r="1.6" fill="currentColor" stroke="none"/></svg>
-                  : big}</b><h3>{t}</h3><p>{d}</p></div>)}
-              </div>
-              <div className="hp-card hp-next">
-                <p><b>Got everything?</b> Head to <b>Step by step</b>. Steps 1 and 2 are once only; after that, every entry is steps 3 to 6.</p>
-                <button className="hp-link" onClick={() => setTab(1)}>Step by step →</button>
-              </div>
-            </div>
-          )}
-
-          {tab === 1 && (
             <div className="hp-steps">
               {STEPS.map(([t, items, warn], i) => (
                 <div key={t} className="hp-card hp-step">
@@ -126,30 +90,7 @@ export default function HowToPlay() {
             </div>
           )}
 
-          {tab === 2 && (
-            <div className="hp-money">
-              <p className="hp-lead">Your wallet works like a bank account only you control. Crypto transfers can’t be reversed, so a few seconds of checking matters.</p>
-              <div className="hp-money-grid">
-                {MONEY.map(([t, steps]) => (
-                  <div key={t} className="hp-card hp-mcard"><h3>{t}</h3><ol>{steps.map((x) => <li key={x}>{x}</li>)}</ol>
-                    {t === "Cash out" && <p className="hp-note">Prize winnings may be taxable where you live. Keep a record of what you win.</p>}
-                  </div>
-                ))}
-              </div>
-              <div className="hp-card hp-addr">
-                <div className="hp-addr-l">
-                  <h3>Check the address before you send</h3>
-                  <div className="hp-cmp"><span>Should be</span><code>9xQeWvG816bUx9EPjHmaT23yvVM2ZWbrrpZb9PusVFin</code></div>
-                  <div className="hp-cmp ok"><span>Pasted</span><code>9xQeWvG816bUx9EPjHmaT23yvVM2ZWbrrpZb9PusVFin</code><i>✓</i></div>
-                  <div className="hp-cmp bad"><span>Look-alike</span><code>9xQeWv<mark>a3Kp71TzLq4dRw9nB8cYh2mXs</mark>PusVFin</code><i>✕</i></div>
-                  <small>Scammers create addresses that start and end the same way. Always check the whole address.</small>
-                </div>
-                <ul className="hp-tips">{ADDR_TIPS.map(([ok, t]) => <li key={t} className={ok ? "ok" : "bad"}>{t}</li>)}</ul>
-              </div>
-            </div>
-          )}
-
-          {tab === 3 && (
+          {tab === 1 && (
             <div className="hp-safe">
               <p className="hp-lead">Scammers copy popular sites and pretend to be support. These habits keep your money where it belongs.</p>
               <div className="hp-habits">
