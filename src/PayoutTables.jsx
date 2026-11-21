@@ -84,7 +84,7 @@ export default function PayoutTables() {
         <section className="pt-notes">
           <h2>Notes</h2>
           <div className="pt-note-grid">
-            <div className="pt-note"><h3>Prizes stack</h3><p>Each prize is the base, plus every bonus your rank reaches, plus your place’s jackpot share. In a 100,000-entry draw, rank #250 wins 1,000 USDC (base + bonuses 1 and 2), and rank #10 wins 13,000 USDC (base + bonuses 1 to 5 + a 3,000 USDC jackpot share).</p></div>
+            <div className="pt-note"><h3>How your prize adds up</h3><p>Every winner gets the 250 USDC base prize. The higher you finish, the more bonuses you add on top, and the top places also get a share of the jackpot. For example, in a 100,000-entry draw, 250th place wins 1,000 USDC (the base plus 2 bonuses), and 10th place wins 13,000 USDC (the base plus 5 bonuses, plus 3,000 USDC from the jackpot).</p></div>
             <div className="pt-note"><h3>When a bonus doesn’t divide evenly</h3><p>Each bonus is paid in full to the top places, one winner at a time, and any amount left over goes to the next place. For example, with 12,500 entries there’s enough for 2.5 Bonus 4 prizes (2,500 USDC each). So 1st and 2nd place each get the full 2,500 USDC, and 3rd place gets the remaining 1,250 USDC, half the bonus.</p></div>
           </div>
         </section>
