@@ -85,7 +85,6 @@ export default function PayoutTables() {
           <h2>Notes</h2>
           <ul>
             <li>One winner for every 100 entries. The smart contract uses format 1, 2, 3, 4 or 5, chosen by the total number of entries at the draw.</li>
-            <li>Every winner receives at least 250 USDC, 25 times the entry, in any draw of 25 entries or more.</li>
             <li>Each prize is base + bonuses + jackpot share, and bonuses stack: the closer to 1st place, the more bonuses a winner collects and the bigger their jackpot share. In a 100,000-entry draw, rank #250 gets the base + bonuses 1 and 2 (1,000 USDC), and rank #10 gets the base + bonuses 1 to 5 (10,000 USDC) plus a 3,000 USDC jackpot share, for 13,000 USDC.</li>
             <li>The odds match the prize in large draws: 1 in 10,000 to win at least 10,000 USDC, 1 in 100,000 for 100,000, and 1 in 1,000,000 for 1,000,000. Only 1st place can win more than 1,000,000 USDC.</li>
             <li>Bonuses are filled from the top rank down. If a bonus covers part of a winner, the last winner gets that part: with 12,500 entries, bonus 4 covers 2.5 winners, so ranks 1 and 2 get it in full and rank 3 gets exactly half.</li>
