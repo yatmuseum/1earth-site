@@ -98,3 +98,8 @@
   .pt-note h3 { font-size: clamp(11.5px, 1.5vh, 15px); }
   .pt-note p { margin-top: .4vh; font-size: clamp(10px, 1.24vh, 13.5px); line-height: 1.42; }
 }
+
+/* three note cards, evenly across */
+.pt-note-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+@media (max-width: 1100px) { .pt-note-grid { grid-template-columns: 1fr 1fr 1fr !important; } }
+@media (max-width: 760px) { .pt-note-grid { grid-template-columns: 1fr !important; } }
