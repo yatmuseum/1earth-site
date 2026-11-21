@@ -75,3 +75,12 @@
 .pt-tabs button:focus, .pt-tabs button:focus-visible { outline: none; }
 .pt-tabs button:focus-visible:not(.on) { border-color: var(--ink); }
 .pt-tabs button { -webkit-tap-highlight-color: transparent; }
+
+/* format buttons: no green edge on hover or after clicking */
+.pt .pt-tabs button, .pt .pt-tabs button:hover, .pt .pt-tabs button:focus, .pt .pt-tabs button:active { outline: none !important; box-shadow: none !important; border-color: var(--line) !important; }
+.pt .pt-tabs button:hover:not(.on) { background: color-mix(in srgb, var(--card) 85%, var(--ink)); }
+.pt .pt-tabs button.on, .pt .pt-tabs button.on:hover, .pt .pt-tabs button.on:focus { border-color: transparent !important; background-clip: padding-box; }
+.pt .pt-tabs button:focus-visible:not(.on) { border-color: var(--ink) !important; }
+
+/* line the content up with the logo, like the other pages */
+.pt-main { max-width: 1344px !important; padding-left: clamp(1rem, 4vw, 2rem) !important; padding-right: clamp(1rem, 4vw, 2rem) !important; }

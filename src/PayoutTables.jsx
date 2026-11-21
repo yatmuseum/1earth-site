@@ -29,7 +29,7 @@ const pct = (v) => `${+v.toFixed(3)}%`;
 
 export default function PayoutTables() {
   const [f, setF] = useState(2); // opens on format 3
-  useEffect(() => { document.title = "Payout tables · 1-Earth"; }, []);
+  useEffect(() => { document.title = "Payout Tables · 1-Earth"; }, []);
   const F = FORMATS[f];
   const rows = BONUSES.slice(0, F.bonuses);
   const bonusPct = rows.reduce((s, r) => s + r[3], 0);
@@ -44,7 +44,7 @@ export default function PayoutTables() {
 
       <main className="pt-main">
         <section className="pt-head">
-          <h1 className="rp-grad">Payout tables</h1>
+          <h1 className="rp-grad">Payout Tables</h1>
           <p>The contract picks one of five formats from the total entries at the draw. 1 in 100 entries wins.</p>
         </section>
 
@@ -58,12 +58,12 @@ export default function PayoutTables() {
 
         <div className="pt-grid">
           <section className="pt-card">
-            <div className="pt-card-head"><h2>Bonuses</h2><span className="pt-share">{pct(bonusPct)} of the pool</span></div>
+            <div className="pt-card-head"><h2>Base + Bonuses</h2><span className="pt-share">{pct(bonusPct)} of the pool</span></div>
             {rows.length ? (
               <table className="pt-table">
-                <thead><tr><th>Tier</th><th>Adds</th><th>Who gets it</th><th>Pool</th><th>Running total</th></tr></thead>
+                <thead><tr><th>Tier</th><th>Adds</th><th>Odds</th><th>Pool</th><th>Running total</th></tr></thead>
                 <tbody>{rows.map(([name, amt, odds, p, cum]) => (
-                  <tr key={name}><td>{name}</td><td>+{usdc(amt)}</td><td>top 1 in {usdc(odds)}</td><td>{pct(p)}</td><td className="pt-cum">{usdc(cum)} <small>USDC</small></td></tr>
+                  <tr key={name}><td>{name}</td><td>+{usdc(amt)}</td><td>1 in {usdc(odds)}</td><td>{pct(p)}</td><td className="pt-cum">{usdc(cum)} <small>USDC</small></td></tr>
                 ))}</tbody>
               </table>
             ) : <p className="pt-empty">No bonuses in format 1. With under 1,000 entries, the whole pool goes to the jackpot places.</p>}
@@ -77,19 +77,19 @@ export default function PayoutTables() {
                 <tr key={pl}><td>{pl}</td><td>{pct(each)} of pool</td><td>{n}</td><td className="pt-cum">{pct(each * n)}</td></tr>
               ))}</tbody>
             </table>
-            <p className="pt-sum">Bonuses {pct(bonusPct)} + jackpot {pct(jackPct)} = <b>{pct(bonusPct + jackPct)}</b> of the prize pool</p>
+            <p className="pt-sum">Base + bonuses {pct(bonusPct)} + jackpot {pct(jackPct)} = <b>{pct(bonusPct + jackPct)}</b> of the prize pool</p>
           </section>
         </div>
 
         <section className="pt-notes">
           <h2>Notes</h2>
           <ul>
-            <li>The smart contract uses format 1, 2, 3, 4 or 5 based on the total number of entries at the draw. 1 in 100 entries wins.</li>
-            <li>From format 2 up (1,000+ entries), every winner receives at least 250 USDC.</li>
-            <li>Bonuses are cumulative: higher-ranked winners receive every bonus they qualify for. In a 100,000-entry drawing, rank #250 gets the base + bonuses 1 and 2 (1,000 USDC), and rank #10 gets the base + bonuses 1 to 5 (10,000 USDC) plus a 3,000 USDC jackpot share, for 13,000 USDC.</li>
+            <li>One winner for every 100 entries. The smart contract uses format 1, 2, 3, 4 or 5, chosen by the total number of entries at the draw.</li>
+            <li>Every winner receives at least 250 USDC, 25 times the entry, in any draw of 25 entries or more.</li>
+            <li>Each prize is base + bonuses + jackpot share, and bonuses stack: the closer to 1st place, the more bonuses a winner collects and the bigger their jackpot share. In a 100,000-entry draw, rank #250 gets the base + bonuses 1 and 2 (1,000 USDC), and rank #10 gets the base + bonuses 1 to 5 (10,000 USDC) plus a 3,000 USDC jackpot share, for 13,000 USDC.</li>
+            <li>The odds match the prize in large draws: 1 in 10,000 to win at least 10,000 USDC, 1 in 100,000 for 100,000, and 1 in 1,000,000 for 1,000,000. Only 1st place can win more than 1,000,000 USDC.</li>
             <li>Bonuses are filled from the top rank down. If a bonus covers part of a winner, the last winner gets that part: with 12,500 entries, bonus 4 covers 2.5 winners, so ranks 1 and 2 get it in full and rank 3 gets exactly half.</li>
-            <li>The base + bonus + jackpot system sets exactly what share of the pool each tier receives, so prizes are spread as fairly as possible.</li>
-            <li>It scales: the more entries, the smaller the top prizes’ share of the pool. Only first place can win more than 1,000,000 USDC, and in large drawings the odds match the prize: 1 in 10,000 to win at least 10,000 USDC, 1 in 100,000 for 100,000, and 1 in 1,000,000 for 1,000,000.</li>
+            <li>In small draws (format 1, under 1,000 entries), there is one winner per full 100 entries, and jackpot shares for places without a winner are split among the winners.</li>
           </ul>
         </section>
       </main>
