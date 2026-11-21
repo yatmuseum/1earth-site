@@ -242,7 +242,7 @@ export default function MintCard() {
         <div>
           <span className="mint__label">Entries</span>
           <p className="mint__rule">
-            Max 10 per wallet until Nov 25,
+            Max 10 per wallet until Nov 27,
             <br />
             100 thereafter
           </p>
