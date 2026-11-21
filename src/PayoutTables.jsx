@@ -45,7 +45,7 @@ export default function PayoutTables() {
       <main className="pt-main">
         <section className="pt-head">
           <h1 className="rp-grad">Payout Tables</h1>
-          <p>The contract picks one of five formats from the total entries at the draw. 1 in 100 entries wins.</p>
+          <p>The contract picks one of five formats based off of the total entries at the draw. 1 in 100 entries wins.</p>
         </section>
 
         <div className="pt-tabs" role="tablist" aria-label="Payout format">
@@ -83,13 +83,12 @@ export default function PayoutTables() {
 
         <section className="pt-notes">
           <h2>Notes</h2>
-          <ul>
-            <li>One winner for every 100 entries. The smart contract uses format 1, 2, 3, 4 or 5, chosen by the total number of entries at the draw.</li>
-            <li>Each prize is base + bonuses + jackpot share, and bonuses stack: the closer to 1st place, the more bonuses a winner collects and the bigger their jackpot share. In a 100,000-entry draw, rank #250 gets the base + bonuses 1 and 2 (1,000 USDC), and rank #10 gets the base + bonuses 1 to 5 (10,000 USDC) plus a 3,000 USDC jackpot share, for 13,000 USDC.</li>
-            <li>The odds match the prize in large draws: 1 in 10,000 to win at least 10,000 USDC, 1 in 100,000 for 100,000, and 1 in 1,000,000 for 1,000,000. Only 1st place can win more than 1,000,000 USDC.</li>
-            <li>Bonuses are filled from the top rank down. If a bonus covers part of a winner, the last winner gets that part: with 12,500 entries, bonus 4 covers 2.5 winners, so ranks 1 and 2 get it in full and rank 3 gets exactly half.</li>
-            <li>In small draws (format 1, under 1,000 entries), there is one winner per full 100 entries, and jackpot shares for places without a winner are split among the winners.</li>
-          </ul>
+          <div className="pt-note-grid">
+            <div className="pt-note"><h3>Prizes stack</h3><p>Each prize is the base, plus every bonus your rank reaches, plus your place’s jackpot share. In a 100,000-entry draw, rank #250 wins 1,000 USDC (base + bonuses 1 and 2), and rank #10 wins 13,000 USDC (base + bonuses 1 to 5 + a 3,000 USDC jackpot share).</p></div>
+            <div className="pt-note"><h3>Odds match the prize</h3><p>In large draws, the odds are 1 in 10,000 to win at least 10,000 USDC, 1 in 100,000 for 100,000 USDC, and 1 in 1,000,000 for 1,000,000 USDC. Only 1st place can win more than 1,000,000 USDC.</p></div>
+            <div className="pt-note"><h3>Partial bonuses</h3><p>Bonuses fill from the top rank down. When a bonus covers part of a winner, that winner gets the part: with 12,500 entries, bonus 4 covers 2.5 winners, so ranks 1 and 2 get it in full and rank 3 gets half.</p></div>
+            <div className="pt-note"><h3>Small draws</h3><p>Under 1,000 entries (format 1), there is one winner per full 100 entries, and the jackpot shares for empty places are split among the winners.</p></div>
+          </div>
         </section>
       </main>
     </div>
