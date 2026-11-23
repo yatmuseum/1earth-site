@@ -18,8 +18,8 @@ function opensAtMs(env) {
 
 function phaseMax(env, now = Date.now()) {
   const hours = (now - opensAtMs(env)) / 36e5;
-  if (hours < 384) return 10;  // until Nov 27 @ 11:11 AM EST: max 10 per wallet
-  return 100;                  // after that: max 100 per wallet
+  if (hours < 528) return 10;  // until Dec 3 @ 11:11 AM EST: max 10 per wallet
+  return 50;                   // after that: max 50 per wallet
 }
 
 function blocked(env, request) {
