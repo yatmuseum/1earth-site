@@ -70,6 +70,7 @@ export default function App() {
               <div className="card grand">
                 <span className="label">Grand prize</span>
                 <strong>10,000<small className="usdc">USDC</small></strong>
+                <span className="grand__note">Winner takes all</span>
               </div>
 
               <div className="mini-split">

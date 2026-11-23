@@ -986,3 +986,7 @@ button { font: inherit; color: inherit; }
 @media (max-width: 960px) { .my-entries { max-width: 220px; } }
 @media (min-width: 961px) and (max-width: 1100px) { .my-entries { max-width: 150px; } }
 @media (max-width: 400px) { .my-entries { max-width: 170px; } }
+
+/* Grand Prize: "Winner takes all" under the amount */
+.grand__note { display: block; margin-top: 4px; font-size: 0.85rem; font-weight: 600; color: var(--label); letter-spacing: .02em; }
+@media (min-width: 961px) { .onescreen .grand__note { margin-top: 0.2vh; font-size: clamp(0.68rem, 1.35vh, 0.9rem); } }
