@@ -2,7 +2,7 @@
 // /api/... requests are handled here; everything else is the website.
 import { PublicKey } from "@solana/web3.js";
 import { MintGate } from "./gate.js";
-import { BusyError, buildMintTransactions, expectedFor, latestBlockhash, mintedSoFar, minterSecret, ownedBy, usdcBalance, rpcUrl } from "./solana.js";
+import { BusyError, buildMintTransactions, expectedFor, latestBlockhash, mintedSoFar, minterSecret, ownedBy, entriesOf, usdcBalance, rpcUrl } from "./solana.js";
 import { makeTicket, readTicket, validateAndCosign } from "./cosign.js";
 
 export { MintGate };
@@ -203,8 +203,9 @@ const XP_PER_FRAME = 25000;
 async function xpFor(request, env) {
   const owner = new URL(request.url).searchParams.get("owner") || "";
   try { new PublicKey(owner); } catch { return json({ error: "Invalid wallet address" }, 400); }
-  const frames = await ownedBy(env, owner);
-  return json({ frames, xp: frames * XP_PER_FRAME, xpPerFrame: XP_PER_FRAME });
+  const entries = await entriesOf(env, owner);
+  const frames = entries.length;
+  return json({ frames, entries, xp: frames * XP_PER_FRAME, xpPerFrame: XP_PER_FRAME });
 }
 
 async function rpcRelay(request, env) {

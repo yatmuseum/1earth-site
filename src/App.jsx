@@ -1,6 +1,7 @@
 import { useStatus } from "./status.js";
 import ConnectButton from "./ConnectButton.jsx";
 import XpPill from "./XpPill.jsx";
+import MyEntries from "./MyEntries.jsx";
 import MintCard from "./MintCard.jsx";
 import { MINT, PRIZES } from "./config.js";
 
@@ -22,7 +23,10 @@ export default function App() {
           <div className="top-actions">
             <a className="x-link" href="https://x.com/1earthh" target="_blank" rel="noopener noreferrer" aria-label="1-Earth on X">𝕏</a>
             <XpPill />
-            <ConnectButton />
+            <div className="wallet-wrap">
+              <ConnectButton />
+              <MyEntries />
+            </div>
           </div>
         </header>
 

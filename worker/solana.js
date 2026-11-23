@@ -117,6 +117,27 @@ async function ownedByUncached(env, owner) {
   return res.items?.length ?? 0;
 }
 
+// The entry numbers of the Gold Frames a wallet holds (entry # = position in the tree + 1),
+// for showing players their own entries. Read-only; remembered for 20 seconds per wallet.
+const entriesCache = new Map();
+export async function entriesOf(env, owner) {
+  const hit = entriesCache.get(owner);
+  if (hit && Date.now() - hit.at < 20_000) return hit.value;
+  const res = await rpc(env, "searchAssets", {
+    ownerAddress: owner,
+    grouping: ["collection", env.COLLECTION],
+    page: 1,
+    limit: 1000,
+  });
+  const value = (res.items || [])
+    .map((a) => (a.compression && Number.isInteger(a.compression.leaf_id) ? a.compression.leaf_id + 1 : null))
+    .filter((n) => n !== null)
+    .sort((x, y) => x - y);
+  entriesCache.set(owner, { at: Date.now(), value });
+  if (entriesCache.size > 5000) entriesCache.clear();
+  return value;
+}
+
 // The buyer's USDC balance, in whole USDC.
 export async function usdcBalance(env, owner) {
   const acct = ata(new PublicKey(owner), new PublicKey(env.USDC_MINT));
