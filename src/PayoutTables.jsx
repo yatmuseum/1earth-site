@@ -18,11 +18,11 @@ const BONUSES = [ // name, amount (USDC), odds (1 in N entries), pool %, cumulat
 ];
 // each format: entry range, how many bonus rows apply, jackpot split [place, % of pool each, places]
 const FORMATS = [
-  { n: 1, range: "0 to 999", bonuses: 0, jackpot: [["1st", 40, 1], ["2nd", 20, 1], ["3rd", 10, 1], ["4th to 5th", 5, 2], ["6th to 10th", 4, 5]] },
-  { n: 2, range: "1,000 to 9,999", bonuses: 3, jackpot: [["1st", 20, 1], ["2nd", 10, 1], ["3rd", 5, 1], ["4th to 5th", 2.5, 2], ["6th to 10th", 2, 5]] },
-  { n: 3, range: "10,000 to 99,999", bonuses: 6, jackpot: [["1st", 10, 1], ["2nd", 5, 1], ["3rd", 2.5, 1], ["4th to 5th", 1.25, 2], ["6th to 10th", 0.5, 5], ["11th to 20th", 0.25, 10], ["21st to 40th", 0.15, 20], ["41st to 100th", 0.1, 60]] },
-  { n: 4, range: "100,000 to 999,999", bonuses: 9, jackpot: [["1st", 6, 1], ["2nd", 3, 1], ["3rd", 1.5, 1], ["4th to 5th", 0.75, 2], ["6th to 10th", 0.3, 5], ["11th to 20th", 0.15, 10], ["21st to 40th", 0.075, 20], ["41st to 100th", 0.025, 60]] },
-  { n: 5, range: "1,000,000+", bonuses: 12, jackpot: [["1st", 2, 1]] },
+  { n: 1, short: "0–999", range: "0 to 999", bonuses: 0, jackpot: [["1st", 40, 1], ["2nd", 20, 1], ["3rd", 10, 1], ["4th to 5th", 5, 2], ["6th to 10th", 4, 5]] },
+  { n: 2, short: "1K–9.9K", range: "1,000 to 9,999", bonuses: 3, jackpot: [["1st", 20, 1], ["2nd", 10, 1], ["3rd", 5, 1], ["4th to 5th", 2.5, 2], ["6th to 10th", 2, 5]] },
+  { n: 3, short: "10K–99K", range: "10,000 to 99,999", bonuses: 6, jackpot: [["1st", 10, 1], ["2nd", 5, 1], ["3rd", 2.5, 1], ["4th to 5th", 1.25, 2], ["6th to 10th", 0.5, 5], ["11th to 20th", 0.25, 10], ["21st to 40th", 0.15, 20], ["41st to 100th", 0.1, 60]] },
+  { n: 4, short: "100K–999K", range: "100,000 to 999,999", bonuses: 9, jackpot: [["1st", 6, 1], ["2nd", 3, 1], ["3rd", 1.5, 1], ["4th to 5th", 0.75, 2], ["6th to 10th", 0.3, 5], ["11th to 20th", 0.15, 10], ["21st to 40th", 0.075, 20], ["41st to 100th", 0.025, 60]] },
+  { n: 5, short: "1M+", range: "1,000,000+", bonuses: 12, jackpot: [["1st", 2, 1]] },
 ];
 const usdc = (v) => v.toLocaleString("en-US");
 const pct = (v) => `${+v.toFixed(3)}%`;
@@ -51,7 +51,7 @@ export default function PayoutTables() {
         <div className="pt-tabs" role="tablist" aria-label="Payout format">
           {FORMATS.map((x, i) => (
             <button key={x.n} role="tab" aria-selected={i === f} className={i === f ? "on" : ""} onClick={() => setF(i)}>
-              <b>Format {x.n}</b><span>{x.range} entries</span>
+              <b>Format {x.n}</b><span className="pt-long">{x.range} entries</span><span className="pt-short">{x.short}</span>
             </button>
           ))}
         </div>

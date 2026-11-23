@@ -90,7 +90,6 @@ export default function HowItWorks() {
       <main className="hw-main hw2">
         <section className="hw-hero hw2-hero">
           <h1 className="rp-grad">How it Works</h1>
-          <a href="/demo" className="rp-btn hw-go hw2-go">Enter the draw</a>
         </section>
 
         <section className="hw2-sec">
@@ -141,10 +140,6 @@ export default function HowItWorks() {
           </div>
         </section>
 
-        <section className="hw-end">
-          <div><h2>Ready for Saturday’s draw?</h2><p>Connect your wallet, pick how many entries, and you’re in.</p></div>
-          <a href="/demo" className="rp-btn hw-go">Enter the draw</a>
-        </section>
       </main>
     </div>
   );

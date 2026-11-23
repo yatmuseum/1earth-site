@@ -107,3 +107,13 @@
 /* two note cards, side by side */
 .pt-note-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
 @media (max-width: 760px) { .pt-note-grid { grid-template-columns: 1fr !important; } }
+/* format buttons: long ranges on computers, short ranges on phones */
+.pt-short { display: none !important; }
+@media (max-width: 760px) {
+  .pt-long { display: none !important; }
+  .pt-short { display: block !important; }
+  .pt-tabs { grid-template-columns: repeat(5, minmax(0, 1fr)) !important; gap: 6px !important; }
+  .pt-tabs button { grid-column: auto !important; align-items: center !important; text-align: center; padding: 10px 4px !important; border-radius: 12px; }
+  .pt-tabs button b { font-size: 12px; white-space: nowrap; }
+  .pt-tabs button span { font-size: 10.5px; white-space: nowrap; }
+}

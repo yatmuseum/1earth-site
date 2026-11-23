@@ -161,3 +161,8 @@
   .hp-step { padding: 1.5vh 20px !important; }
   .hp-step h3 { font-size: clamp(14px, 2.1vh, 22px) !important; }
 }
+/* phones: warnings in steps 1 and 2 sit evenly between the text and the bottom of the card */
+@media (max-width: 1099px) {
+  .hp-step .hp-warn { margin-top: 18px !important; min-height: 0 !important; }
+  .hp-step { padding-bottom: 18px !important; }
+}

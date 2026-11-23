@@ -42,3 +42,16 @@
   .pf-head p { white-space: nowrap; font-size: clamp(11.5px, min(1.65vh, 1vw), 17px); }
   .pf-head h1 { font-size: clamp(28px, min(5.4vh, 4.2vw), 62px); }
 }
+/* phones: "Check it yourself" on its own line, then the buttons in a tidy two-column grid */
+@media (max-width: 900px) {
+  .pf-links { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .pf-links-lbl { grid-column: 1 / -1; margin: 0 0 2px; }
+  .pf-links a, .pf-links .pf-chip { justify-content: center; text-align: center; height: auto; min-height: 42px; padding: 8px 10px; font-size: 13.5px; line-height: 1.25; }
+  .pf-links > :last-child { grid-column: 1 / -1; }
+}
+@media (max-width: 900px) {
+  .pf-links { grid-auto-rows: 1fr; }
+  .pf-links-lbl { align-self: end; }
+  .pf-links > :last-child { grid-column: auto; }
+  .pf-links a, .pf-links .pf-chip { height: 100%; box-sizing: border-box; display: flex; align-items: center; }
+}

@@ -70,7 +70,6 @@ export default function HowToPlay() {
           </div>
           <div className="hp-hero-r">
             <p>A step-by-step guide from zero to your first entry: what you need, how to get it, and what happens after you enter.</p>
-            <a href="/demo" className="rp-btn hp-go">Enter the draw</a>
           </div>
         </section>
 
