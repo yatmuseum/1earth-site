@@ -978,3 +978,11 @@ button { font: inherit; color: inherit; }
   .my-entries { position: static; margin-top: 4px; }
 }
 @media (max-width: 400px) { .my-entries { white-space: normal; text-align: right; max-width: 200px; } }
+
+/* all entries: label on its own line, numbers wrap neatly, right-aligned under the wallet button */
+.my-entries { white-space: normal !important; text-align: right; width: max-content; max-width: 200px; line-height: 1.35; }
+.my-entries__lbl { display: block; font-size: 0.72rem; letter-spacing: .04em; color: var(--label); }
+.my-entries b { font-size: 0.82rem; }
+@media (max-width: 960px) { .my-entries { max-width: 220px; } }
+@media (min-width: 961px) and (max-width: 1100px) { .my-entries { max-width: 150px; } }
+@media (max-width: 400px) { .my-entries { max-width: 170px; } }

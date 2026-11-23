@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 
-const SHOW = 3; // list this many, then "+N more"
+
 
 export default function MyEntries() {
   const { publicKey } = useWallet();
@@ -24,12 +24,23 @@ export default function MyEntries() {
   }, [owner]);
 
   if (!owner || !entries || entries.length === 0) return null;
-  const shown = entries.slice(0, SHOW).map((n) => `#${n.toLocaleString("en-US")}`).join(", ");
-  const more = entries.length - SHOW;
   return (
-    <p className="my-entries" title={entries.map((n) => `#${n}`).join(", ")}>
-      {entries.length === 1 ? "Your entry: " : "Your entries: "}
-      <b>{shown}</b>{more > 0 ? ` +${more} more` : ""}
+    <p className="my-entries">
+      <span className="my-entries__lbl">{entries.length === 1 ? "Your entry" : `Your ${entries.length} entries`}</span>
+      <b>{ranges(entries)}</b>
     </p>
   );
+}
+
+// Group consecutive numbers into ranges: [48, 49, 50, 52] -> "#48–50, #52"
+function ranges(list) {
+  const out = [];
+  for (let i = 0; i < list.length; i++) {
+    let j = i;
+    while (j + 1 < list.length && list[j + 1] === list[j] + 1) j++;
+    const a = list[i].toLocaleString("en-US"), b = list[j].toLocaleString("en-US");
+    out.push(j > i ? `#${a}–${b}` : `#${a}`);
+    i = j;
+  }
+  return out.join(", ");
 }
