@@ -64,3 +64,7 @@ body {
 .pd-links a { border-color: var(--line); }
 .fr-zoom input { accent-color: var(--sol-green); }
 @media (max-width: 960px) { body { background-attachment: scroll; } }
+
+/* Gradient buttons: start the gradient at the outer edge so it doesn't wrap around
+   and leave a thin green line on the left (and purple on the right) */
+.buy:hover:not(:disabled), .buy--live, .fr-primary { background-origin: border-box; background-repeat: no-repeat; }
